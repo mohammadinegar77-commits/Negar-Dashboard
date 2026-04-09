@@ -89,6 +89,11 @@ document.addEventListener('DOMContentLoaded', function () {
         titleEl.textContent = titles[section];
       }
 
+      document.querySelectorAll('.dashboard-section').forEach(function(s){ s.classList.add('hidden'); });
+      var sectionMap = { overview:'section-overview', content:'section-content', calendar:'section-calendar', team:'section-team', analytics:'section-analytics', brand:'section-brand' };
+      var target = document.getElementById(sectionMap[section]);
+      if (target) target.classList.remove('hidden');
+
       // Close mobile sidebar
       var sidebar = document.querySelector('.sidebar');
       var overlay = document.querySelector('.sidebar-overlay');
