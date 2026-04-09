@@ -13,6 +13,8 @@ a:hover{color:#ffcc00;}
 button{cursor:pointer;font-family:inherit;}
 input,select{font-family:inherit;}
 .hidden{display:none!important;}
+.dashboard-section{display:block;}
+.dashboard-section.hidden{display:none!important;}
 
 /* ===== AUTH PAGES ===== */
 .auth-page{
@@ -259,6 +261,12 @@ input,select{font-family:inherit;}
 .check-item{display:flex;align-items:center;gap:8px;font-size:.86rem;font-weight:500;}
 .check-item.pass{color:#1dfd3d;}
 .check-item.warn{color:#ffcc00;}
+
+/* Coming Soon placeholders */
+.coming-soon-body{display:flex;flex-direction:column;align-items:center;padding:48px 20px;gap:12px;text-align:center;}
+.coming-soon-icon{width:56px;height:56px;border-radius:16px;background:rgba(0,77,250,0.12);color:#1d79fd;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+.coming-soon-label{font-size:1rem;font-weight:700;color:#fff;}
+.coming-soon-text{font-size:.85rem;color:rgba(255,255,255,0.4);max-width:280px;line-height:1.5;}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:1100px){
