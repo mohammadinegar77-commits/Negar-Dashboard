@@ -294,3 +294,108 @@ input,select{font-family:inherit;}
   background:rgba(5,20,41,0.7);z-index:90;
 }
 .sidebar-overlay.show{display:block;}
+
+/* ===== STUDIO NAV LINK ===== */
+.studio-nav-link{color:#9b59b6 !important;}
+.studio-nav-link.active{background:rgba(155,89,182,0.2) !important;}
+
+/* ===== FILTER PILLS ===== */
+.filter-pill{
+  padding:5px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-weight:600;
+  border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);
+  transition:all .2s;font-family:inherit;
+}
+.filter-pill:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.filter-pill.active{background:#004dfa;color:#fff;border-color:#004dfa;}
+
+/* ===== QUEUE TABLE ===== */
+.queue-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.queue-table th{text-align:left;padding:8px 12px;color:rgba(255,255,255,0.4);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid rgba(255,255,255,0.08);}
+.queue-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.queue-table tr:last-child td{border-bottom:none;}
+.queue-table tr:hover td{background:rgba(255,255,255,0.02);}
+
+/* ===== TYPE PILL ===== */
+.type-pill{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(29,121,253,0.15);color:#1d79fd;}
+
+/* ===== BRIEF TEXTAREA ===== */
+.brief-textarea{
+  width:100%;padding:10px 12px;min-height:80px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;color:#fff;font-size:.85rem;font-family:inherit;
+  resize:vertical;line-height:1.5;transition:border .2s;
+}
+.brief-textarea:focus{outline:none;border-color:#004dfa;box-shadow:0 0 0 2px rgba(0,77,250,0.15);}
+.brief-textarea::placeholder{color:rgba(255,255,255,0.25);}
+
+/* ===== CALENDAR ===== */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-day-header{text-align:center;font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);padding:8px 4px;text-transform:uppercase;letter-spacing:.04em;}
+.cal-cell{min-height:60px;padding:6px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);transition:background .2s;cursor:pointer;}
+.cal-cell:hover{background:rgba(255,255,255,0.05);}
+.cal-cell.empty{background:transparent;border-color:transparent;}
+.cal-cell.today{background:rgba(0,77,250,0.12);border-color:rgba(0,77,250,0.3);}
+.cal-num{font-size:.82rem;font-weight:700;display:block;margin-bottom:4px;}
+.cal-dots{display:flex;gap:3px;flex-wrap:wrap;}
+.cal-dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+
+/* ===== APPROVAL CARDS ===== */
+.approval-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-bottom:12px;transition:border-color .2s;}
+.approval-card:hover{border-color:rgba(255,255,255,0.14);}
+.action-btn{padding:8px 18px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;background:transparent;font-family:inherit;transition:all .2s;}
+.btn-approve{border:1px solid #1dfd3d;color:#1dfd3d;}
+.btn-approve:hover{background:rgba(29,253,61,0.1);}
+.btn-sendback{border:1px solid #ffcc00;color:#ffcc00;}
+.btn-sendback:hover{background:rgba(255,204,0,0.1);}
+.notes-area{margin-top:12px;}
+
+/* ===== KANBAN ===== */
+.kanban-board{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px;}
+.kanban-col{min-width:160px;flex:1;background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;}
+.kanban-col-title{font-size:.78rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.kanban-card{background:rgba(255,255,255,0.07);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:grab;font-size:.82rem;transition:background .2s;border:1px solid transparent;}
+.kanban-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.08);}
+.kanban-card.dragging{opacity:0.45;cursor:grabbing;}
+
+/* ===== SWATCH ===== */
+.swatch-card{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:8px;border-radius:10px;transition:background .2s;}
+.swatch-card:hover{background:rgba(255,255,255,0.05);}
+.swatch{width:56px;height:56px;border-radius:10px;}
+.swatch-label{font-size:.72rem;font-weight:700;font-family:monospace;color:rgba(255,255,255,0.7);}
+.swatch-name{font-size:.68rem;color:rgba(255,255,255,0.4);}
+
+/* ===== STUDIO ===== */
+.studio-tabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap;}
+.studio-tab{padding:8px 16px;border-radius:20px;cursor:pointer;font-size:.85rem;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);transition:all .2s;font-family:inherit;}
+.studio-tab:hover{color:#fff;border-color:rgba(155,89,182,0.4);}
+.studio-tab.active{background:#9b59b6;color:#fff;border-color:#9b59b6;}
+.studio-panel{display:none;}
+.studio-panel.active{display:block;}
+
+/* ===== SHOT TABLE ===== */
+.shot-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+.shot-table th{text-align:left;padding:8px 10px;color:rgba(255,255,255,0.4);font-size:.72rem;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.08);}
+.shot-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.shot-table tr:last-child td{border-bottom:none;}
+
+/* ===== CHECKLIST ===== */
+.checklist-section{margin-bottom:16px;}
+.checklist-title{font-size:.78rem;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.check-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:.85rem;cursor:pointer;}
+.check-row input[type="checkbox"]{width:15px;height:15px;cursor:pointer;accent-color:#9b59b6;}
+
+/* ===== INPUT GROUP INSIDE CARDS ===== */
+.input-group input,.input-group select{
+  width:100%;padding:10px 12px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;color:#fff;font-size:.88rem;
+  font-family:inherit;
+  transition:border .2s;
+}
+.input-group input:focus,.input-group select:focus{
+  outline:none;border-color:#004dfa;
+  box-shadow:0 0 0 2px rgba(0,77,250,0.15);
+}
+.input-group input::placeholder{color:rgba(255,255,255,0.25);}
+.input-group label{display:block;font-size:.78rem;color:rgba(255,255,255,0.5);margin-bottom:5px;font-weight:500;}
