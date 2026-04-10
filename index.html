@@ -83,6 +83,26 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
           Brand Guidelines
         </a>
+        <a href="#" class="nav-link" data-section="approvals">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          Approval Inbox
+        </a>
+        <a href="#" class="nav-link" data-section="campaigns">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/><path d="M12 2l3 7H9l3-7z"/></svg>
+          Campaigns
+        </a>
+        <a href="#" class="nav-link" data-section="kpi">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="8" width="4" height="12"/><rect x="17" y="4" width="4" height="16"/></svg>
+          KPI Scorecard
+        </a>
+        <a href="#" class="nav-link" data-section="arabic">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          Arabic Oversight
+        </a>
+        <a href="#" class="nav-link studio-nav-link" data-section="studio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>
+          Studio
+        </a>
       </nav>
       <div class="sidebar-bottom">
         <a href="#" class="nav-link" onclick="handleLogout()">
@@ -400,29 +420,130 @@
 
         <!-- ====== CONTENT PLANNER ====== -->
         <div id="section-content" class="dashboard-section hidden">
-          <div class="grid-2">
-            <div class="card">
-              <div class="card-header">
-                <h3>Posts Queue</h3>
+          <div class="card" style="margin-bottom:18px;">
+            <div class="card-header">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                <span style="font-size:.78rem;color:rgba(255,255,255,0.4);margin-right:4px;">Platform:</span>
+                <button class="filter-pill active" onclick="filterContent(this,'platform','all')">All</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','igfa')">Instagram FA</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','igen')">Instagram EN</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','igar')">Instagram AR</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','li')">LinkedIn</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','tg')">Telegram</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','yt')">YouTube</button>
+                <button class="filter-pill" onclick="filterContent(this,'platform','tw')">Twitter</button>
               </div>
-              <div class="coming-soon-body">
-                <div class="coming-soon-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                </div>
-                <p class="coming-soon-label">Coming Soon</p>
-                <p class="coming-soon-text">Your scheduled posts will appear here once the queue system is active.</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;">
+                <span style="font-size:.78rem;color:rgba(255,255,255,0.4);margin-right:4px;">Type:</span>
+                <button class="filter-pill active" onclick="filterContent(this,'type','all')">All</button>
+                <button class="filter-pill" onclick="filterContent(this,'type','reel')">Reel</button>
+                <button class="filter-pill" onclick="filterContent(this,'type','carousel')">Carousel</button>
+                <button class="filter-pill" onclick="filterContent(this,'type','post')">Post</button>
+                <button class="filter-pill" onclick="filterContent(this,'type','video')">Video</button>
+                <button class="filter-pill" onclick="filterContent(this,'type','story')">Story</button>
               </div>
             </div>
-            <div class="card">
-              <div class="card-header">
-                <h3>Brief Generator</h3>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Posts Queue</h3>
+              <button class="btn-small" onclick="toggleBriefForm()">+ New Brief</button>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="queue-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Platform</th>
+                    <th>Type</th>
+                    <th>Assignee</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Apr 10</td>
+                    <td>Forex Market Weekly Recap — بازار فارکس</td>
+                    <td><span class="tag tag-instagram">Inst FA</span> <span class="tag tag-youtube">YT</span></td>
+                    <td><span class="type-pill">Reel</span></td>
+                    <td>Reza</td>
+                    <td><span class="content-status status-review">In Review</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 11</td>
+                    <td>Gold Trading Tips — نکات طلا</td>
+                    <td><span class="tag tag-instagram">Inst FA</span> <span class="tag tag-telegram">TG</span></td>
+                    <td><span class="type-pill">Carousel</span></td>
+                    <td>Ali</td>
+                    <td><span class="content-status status-ready">Approved</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 12</td>
+                    <td>Opofinance Academy — Platform Guide</td>
+                    <td><span class="tag tag-youtube">YT</span> <span class="tag tag-linkedin">LI</span></td>
+                    <td><span class="type-pill">Video</span></td>
+                    <td>Sara</td>
+                    <td><span class="content-status status-progress">Scheduled</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 12</td>
+                    <td>عرض تداول العملات الأجنبية — AR Post</td>
+                    <td><span class="tag tag-instagram">Inst AR</span></td>
+                    <td><span class="type-pill">Post</span></td>
+                    <td>Maryam</td>
+                    <td><span class="content-status status-draft">Draft</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 13</td>
+                    <td>Copy Trading Feature Spotlight</td>
+                    <td><span class="tag tag-linkedin">LI</span> <span class="tag tag-telegram">TG</span></td>
+                    <td><span class="type-pill">Post</span></td>
+                    <td>Maryam</td>
+                    <td><span class="content-status status-ready">Published</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 14</td>
+                    <td>Ramadan Trading Guide — راهنمای رمضان</td>
+                    <td><span class="tag tag-instagram">Inst FA</span> <span class="tag tag-instagram">Inst AR</span></td>
+                    <td><span class="type-pill">Carousel</span></td>
+                    <td>Ali</td>
+                    <td><span class="content-status status-review">In Review</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 15</td>
+                    <td>نصائح الذهب للمبتدئين — Beginner Gold</td>
+                    <td><span class="tag tag-instagram">Inst AR</span> <span class="tag tag-telegram">TG</span></td>
+                    <td><span class="type-pill">Reel</span></td>
+                    <td>Reza</td>
+                    <td><span class="content-status status-draft">Draft</span></td>
+                  </tr>
+                  <tr>
+                    <td>Apr 16</td>
+                    <td>CFD Trading Explained in 60s</td>
+                    <td><span class="tag tag-youtube">YT</span> <span class="tag tag-instagram">Inst EN</span></td>
+                    <td><span class="type-pill">Reel</span></td>
+                    <td>Sara</td>
+                    <td><span class="content-status status-progress">Scheduled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Brief Form -->
+            <div id="brief-form" style="display:none;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);">
+              <h4 style="margin-bottom:16px;font-size:.95rem;">New Content Brief</h4>
+              <div class="grid-2" style="gap:12px;margin-bottom:12px;">
+                <div class="input-group"><label>Title</label><input type="text" placeholder="Content title..."></div>
+                <div class="input-group"><label>Content Type</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Reel</option><option>Carousel</option><option>Post</option><option>Video</option><option>Story</option></select></div>
+                <div class="input-group"><label>Platform</label><select class="card-select" style="width:100%;padding:12px 14px;" multiple><option>Instagram FA</option><option>Instagram EN</option><option>Instagram AR</option><option>LinkedIn</option><option>Telegram</option><option>YouTube</option><option>Twitter</option></select></div>
+                <div class="input-group"><label>Assigned To</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Ali</option><option>Sara</option><option>Reza</option><option>Maryam</option></select></div>
+                <div class="input-group"><label>Target Audience</label><input type="text" placeholder="e.g. Retail traders 25-45"></div>
+                <div class="input-group"><label>Deadline</label><input type="date"></div>
               </div>
-              <div class="coming-soon-body">
-                <div class="coming-soon-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                </div>
-                <p class="coming-soon-label">Coming Soon</p>
-                <p class="coming-soon-text">AI-powered content brief generation for your team will be available here.</p>
+              <div class="input-group"><label>Key Message</label><textarea class="brief-textarea" placeholder="What is the core message of this content?"></textarea></div>
+              <div style="display:flex;gap:10px;margin-top:12px;">
+                <button class="btn-small" onclick="toggleBriefForm()">Save Brief</button>
+                <button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);cursor:pointer;" onclick="toggleBriefForm()">Cancel</button>
               </div>
             </div>
           </div>
@@ -430,48 +551,213 @@
 
         <!-- ====== CALENDAR ====== -->
         <div id="section-calendar" class="dashboard-section hidden">
+          <!-- Delivery Rate -->
+          <div class="card" style="margin-bottom:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+              <div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+                  <span style="font-size:1.5rem;font-weight:800;color:#1dfd3d;">82%</span>
+                  <div>
+                    <div style="font-size:.9rem;font-weight:700;">Delivery Rate</div>
+                    <div style="font-size:.78rem;color:rgba(255,255,255,0.45);">18 of 22 slots published on time this month</div>
+                  </div>
+                </div>
+                <div style="width:280px;height:7px;background:rgba(255,255,255,0.08);border-radius:4px;"><div style="width:82%;height:100%;background:linear-gradient(90deg,#1dfd3d,#004dfa);border-radius:4px;"></div></div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="filter-pill active" id="dr-this">This Month</button>
+                <button class="filter-pill" id="dr-last">Last Month</button>
+              </div>
+            </div>
+          </div>
           <div class="card">
             <div class="card-header">
-              <h3>Content Calendar</h3>
-            </div>
-            <div class="coming-soon-body">
-              <div class="coming-soon-icon">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <h3>April 2026</h3>
+              <div style="display:flex;gap:8px;">
+                <button class="filter-pill active">Month</button>
+                <button class="filter-pill">Week</button>
               </div>
-              <p class="coming-soon-label">Coming Soon</p>
-              <p class="coming-soon-text">Full calendar view with drag-and-drop scheduling across all platforms.</p>
+            </div>
+            <!-- Calendar Grid -->
+            <div class="cal-grid">
+              <div class="cal-day-header">Mon</div><div class="cal-day-header">Tue</div><div class="cal-day-header">Wed</div><div class="cal-day-header">Thu</div><div class="cal-day-header">Fri</div><div class="cal-day-header">Sat</div><div class="cal-day-header">Sun</div>
+              <!-- Week 1: Apr starts on Wed -->
+              <div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+              <div class="cal-cell"><span class="cal-num">1</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;" title="Instagram FA"></span><span class="cal-dot" style="background:#ffcc00;" title="Instagram AR"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">2</span><div class="cal-dots"><span class="cal-dot" style="background:#29b6f6;" title="Telegram"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">3</span><div class="cal-dots"><span class="cal-dot" style="background:#1d79fd;" title="Instagram EN"></span><span class="cal-dot" style="background:#0077b5;" title="LinkedIn"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">4</span></div>
+              <div class="cal-cell"><span class="cal-num">5</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span></div></div>
+              <!-- Week 2 -->
+              <div class="cal-cell"><span class="cal-num">6</span><div class="cal-dots"><span class="cal-dot" style="background:#ff0000;" title="YouTube"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">7</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#ffcc00;"></span></div></div>
+              <div class="cal-cell today"><span class="cal-num">8</span><div class="cal-dots"><span class="cal-dot" style="background:#1d79fd;"></span><span class="cal-dot" style="background:#29b6f6;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">9</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#0077b5;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">10</span><div class="cal-dots"><span class="cal-dot" style="background:#ff0000;"></span><span class="cal-dot" style="background:#1d79fd;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">11</span></div>
+              <div class="cal-cell"><span class="cal-num">12</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span></div></div>
+              <!-- Week 3 -->
+              <div class="cal-cell"><span class="cal-num">13</span><div class="cal-dots"><span class="cal-dot" style="background:#29b6f6;"></span><span class="cal-dot" style="background:#ffcc00;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">14</span><div class="cal-dots"><span class="cal-dot" style="background:#0077b5;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">15</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#ff0000;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">16</span><div class="cal-dots"><span class="cal-dot" style="background:#1d79fd;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">17</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#ffcc00;"></span><span class="cal-dot" style="background:#29b6f6;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">18</span></div>
+              <div class="cal-cell"><span class="cal-num">19</span><div class="cal-dots"><span class="cal-dot" style="background:#ff0000;"></span></div></div>
+              <!-- Week 4 -->
+              <div class="cal-cell"><span class="cal-num">20</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#0077b5;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">21</span><div class="cal-dots"><span class="cal-dot" style="background:#1d79fd;"></span><span class="cal-dot" style="background:#ffcc00;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">22</span><div class="cal-dots"><span class="cal-dot" style="background:#29b6f6;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">23</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">24</span><div class="cal-dots"><span class="cal-dot" style="background:#ff0000;"></span><span class="cal-dot" style="background:#0077b5;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">25</span></div>
+              <div class="cal-cell"><span class="cal-num">26</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#ffcc00;"></span></div></div>
+              <!-- Week 5 -->
+              <div class="cal-cell"><span class="cal-num">27</span><div class="cal-dots"><span class="cal-dot" style="background:#1d79fd;"></span><span class="cal-dot" style="background:#29b6f6;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">28</span><div class="cal-dots"><span class="cal-dot" style="background:#0077b5;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">29</span><div class="cal-dots"><span class="cal-dot" style="background:#ff0000;"></span><span class="cal-dot" style="background:#004dfa;"></span></div></div>
+              <div class="cal-cell"><span class="cal-num">30</span><div class="cal-dots"><span class="cal-dot" style="background:#004dfa;"></span><span class="cal-dot" style="background:#ffcc00;"></span><span class="cal-dot" style="background:#29b6f6;"></span></div></div>
+              <div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+            </div>
+            <!-- Legend -->
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#004dfa;display:inline-block;"></span>Instagram FA</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#1d79fd;display:inline-block;"></span>Instagram EN</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#ffcc00;display:inline-block;"></span>Instagram AR</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#0077b5;display:inline-block;"></span>LinkedIn</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#29b6f6;display:inline-block;"></span>Telegram</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#ff0000;display:inline-block;"></span>YouTube</div>
             </div>
           </div>
         </div>
 
         <!-- ====== TEAM ====== -->
         <div id="section-team" class="dashboard-section hidden">
-          <div class="card">
-            <div class="card-header">
-              <h3>Team Management</h3>
-            </div>
-            <div class="coming-soon-body">
-              <div class="coming-soon-icon">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          <div class="card" style="margin-bottom:18px;">
+            <div class="card-header"><h3>Production Pipeline</h3><span style="font-size:.8rem;color:rgba(255,255,255,0.4);">Drag cards between columns</span></div>
+            <div class="kanban-board" id="kanban-main">
+              <div class="kanban-col" data-col="script">
+                <div class="kanban-col-title">Script</div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Ramadan Trading Guide</div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#1dfd3d;color:#051429;width:24px;height:24px;font-size:.7rem;">M</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 14</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">CFD Explained 60s</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#1dfd3d;color:#051429;width:24px;height:24px;font-size:.7rem;">M</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 16</span></div></div>
               </div>
-              <p class="coming-soon-label">Coming Soon</p>
-              <p class="coming-soon-text">Manage team members, assign tasks, and track progress on content projects.</p>
+              <div class="kanban-col" data-col="design">
+                <div class="kanban-col-title">Design</div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Gold Trading Tips</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#004dfa;width:24px;height:24px;font-size:.7rem;">A</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 11</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">نصائح الذهب Carousel</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#004dfa;width:24px;height:24px;font-size:.7rem;">A</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 15</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Copy Trading Post</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-linkedin" style="font-size:.65rem;">LI</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#004dfa;width:24px;height:24px;font-size:.7rem;">A</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 13</span></div></div>
+              </div>
+              <div class="kanban-col" data-col="filming">
+                <div class="kanban-col-title">Filming</div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Opofinance Academy</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-youtube" style="font-size:.65rem;">YT</span><span class="tag tag-linkedin" style="font-size:.65rem;">LI</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#1d79fd;width:24px;height:24px;font-size:.7rem;">S</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 12</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Gold Market Weekly</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#1d79fd;width:24px;height:24px;font-size:.7rem;">S</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 17</span></div></div>
+              </div>
+              <div class="kanban-col" data-col="editing">
+                <div class="kanban-col-title">Editing</div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Forex Weekly Recap</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#ffcc00;color:#051429;width:24px;height:24px;font-size:.7rem;">R</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 10</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">عرض تداول العملات</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#ffcc00;color:#051429;width:24px;height:24px;font-size:.7rem;">R</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 12</span></div></div>
+              </div>
+              <div class="kanban-col" data-col="review">
+                <div class="kanban-col-title">Review</div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Gold Tips Carousel</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#004dfa;width:24px;height:24px;font-size:.7rem;">A</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 11</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Ramadan FA Series</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#1dfd3d;color:#051429;width:24px;height:24px;font-size:.7rem;">M</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 14</span></div></div>
+              </div>
+              <div class="kanban-col" data-col="published">
+                <div class="kanban-col-title">Published</div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">Copy Trading Spotlight</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-linkedin" style="font-size:.65rem;">LI</span><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#004dfa;width:24px;height:24px;font-size:.7rem;">A</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 13</span></div></div>
+                <div class="kanban-card" draggable="true"><div style="font-size:.82rem;font-weight:600;margin-bottom:6px;">OpoTrade April Launch</div><div style="display:flex;gap:4px;margin-bottom:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div><div style="display:flex;align-items:center;justify-content:space-between;"><div class="avatar-sm" style="background:#1d79fd;width:24px;height:24px;font-size:.7rem;">S</div><span style="font-size:.7rem;color:rgba(255,255,255,0.35);">Apr 8</span></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Team Workload -->
+          <div class="card">
+            <div class="card-header"><h3>Team Workload</h3></div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avatar-sm" style="background:#004dfa;flex-shrink:0;">A</div>
+                <div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.85rem;font-weight:600;">Ali — Designer</span><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">4 active</span></div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:80%;height:100%;background:#004dfa;border-radius:3px;"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avatar-sm" style="background:#1d79fd;flex-shrink:0;">S</div>
+                <div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.85rem;font-weight:600;">Sara — Videographer</span><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">3 active</span></div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:60%;height:100%;background:#1d79fd;border-radius:3px;"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avatar-sm" style="background:#ffcc00;color:#051429;flex-shrink:0;">R</div>
+                <div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.85rem;font-weight:600;">Reza — Editor</span><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">3 active</span></div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:60%;height:100%;background:#ffcc00;border-radius:3px;"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avatar-sm" style="background:#1dfd3d;color:#051429;flex-shrink:0;">M</div>
+                <div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.85rem;font-weight:600;">Maryam — Copywriter</span><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">4 active</span></div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:80%;height:100%;background:#1dfd3d;border-radius:3px;"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avatar-sm" style="background:#9b59b6;flex-shrink:0;">F</div>
+                <div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.85rem;font-weight:600;">Fatima — AR Copywriter</span><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">2 active</span></div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:40%;height:100%;background:#9b59b6;border-radius:3px;"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avatar-sm" style="background:#e67e22;flex-shrink:0;">K</div>
+                <div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.85rem;font-weight:600;">Khalid — AR Designer</span><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">2 active</span></div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:40%;height:100%;background:#e67e22;border-radius:3px;"></div></div></div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- ====== ANALYTICS ====== -->
         <div id="section-analytics" class="dashboard-section hidden">
-          <div class="card">
-            <div class="card-header">
-              <h3>Analytics</h3>
+          <!-- Platform selector -->
+          <div class="card" style="margin-bottom:18px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+              <span style="font-size:.78rem;color:rgba(255,255,255,0.4);margin-right:4px;">Platform:</span>
+              <button class="filter-pill active" onclick="filterAnalytics(this,'all')">All</button>
+              <button class="filter-pill" onclick="filterAnalytics(this,'igfa')">Instagram FA</button>
+              <button class="filter-pill" onclick="filterAnalytics(this,'igen')">Instagram EN</button>
+              <button class="filter-pill" onclick="filterAnalytics(this,'igar')">Instagram AR</button>
+              <button class="filter-pill" onclick="filterAnalytics(this,'li')">LinkedIn</button>
+              <button class="filter-pill" onclick="filterAnalytics(this,'tg')">Telegram</button>
+              <button class="filter-pill" onclick="filterAnalytics(this,'yt')">YouTube</button>
             </div>
-            <div class="coming-soon-body">
-              <div class="coming-soon-icon">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <!-- Stat cards -->
+          <div class="stats-row" style="margin-bottom:18px;">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(0,77,250,0.15);color:#004dfa;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-info"><span class="stat-value" id="an-reach">1.2M</span><span class="stat-label">Total Reach</span></div><span class="stat-change positive">+18.7%</span></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="stat-info"><span class="stat-value" id="an-eng">4.8%</span><span class="stat-label">Engagement Rate</span></div><span class="stat-change positive">+0.6%</span></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-info"><span class="stat-value" id="an-growth">+3.2K</span><span class="stat-label">Follower Growth</span></div><span class="stat-change positive">+12.3%</span></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(29,121,253,0.15);color:#1d79fd;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="8" width="4" height="12"/><rect x="17" y="4" width="4" height="16"/></svg></div><div class="stat-info"><span class="stat-value" id="an-posts">47</span><span class="stat-label">Posts Published</span></div><span class="stat-change neutral">This month</span></div>
+          </div>
+          <div class="grid-2">
+            <!-- Platform Breakdown -->
+            <div class="card">
+              <div class="card-header"><h3>Platform Breakdown</h3></div>
+              <div style="overflow-x:auto;">
+                <table class="queue-table">
+                  <thead><tr><th>Platform</th><th>Followers</th><th>Reach</th><th>Engagement</th><th>Posts</th><th>Growth</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="tag tag-instagram">Inst FA</span></td><td>68K</td><td>420K</td><td>5.2%</td><td>18</td><td style="color:#1dfd3d;">+8.4%</td></tr>
+                    <tr><td><span class="tag tag-instagram">Inst EN</span></td><td>46K</td><td>310K</td><td>4.6%</td><td>14</td><td style="color:#1dfd3d;">+6.1%</td></tr>
+                    <tr><td><span class="tag tag-instagram">Inst AR</span></td><td>28K</td><td>180K</td><td>3.9%</td><td>10</td><td style="color:#1dfd3d;">+14.2%</td></tr>
+                    <tr><td><span class="tag tag-linkedin">LinkedIn</span></td><td>10K</td><td>95K</td><td>3.1%</td><td>8</td><td style="color:#1dfd3d;">+4.5%</td></tr>
+                    <tr><td><span class="tag tag-telegram">Telegram</span></td><td>68K</td><td>140K</td><td>6.8%</td><td>22</td><td style="color:#1dfd3d;">+9.3%</td></tr>
+                    <tr><td><span class="tag tag-youtube">YouTube</span></td><td>28.5K</td><td>55K</td><td>4.2%</td><td>5</td><td style="color:#1dfd3d;">+11.7%</td></tr>
+                  </tbody>
+                </table>
               </div>
-              <p class="coming-soon-label">Coming Soon</p>
-              <p class="coming-soon-text">Deep-dive analytics for all platforms with custom date ranges and export options.</p>
+            </div>
+            <!-- Best Performing -->
+            <div class="card">
+              <div class="card-header"><h3>Best Performing Content</h3></div>
+              <div style="display:flex;flex-direction:column;gap:16px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.86rem;font-weight:600;">Gold Trading Tips Carousel</span><span style="font-size:.78rem;color:#1dfd3d;">42.3K eng.</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:100%;height:100%;background:linear-gradient(90deg,#004dfa,#1dfd3d);border-radius:3px;"></div></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.86rem;font-weight:600;">Forex Weekly Recap Reel</span><span style="font-size:.78rem;color:#1dfd3d;">38.1K eng.</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:90%;height:100%;background:linear-gradient(90deg,#004dfa,#1dfd3d);border-radius:3px;"></div></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.86rem;font-weight:600;">عرض تداول العملات Post</span><span style="font-size:.78rem;color:#1dfd3d;">21.6K eng.</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:51%;height:100%;background:linear-gradient(90deg,#ffcc00,#004dfa);border-radius:3px;"></div></div></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -479,52 +765,619 @@
         <!-- ====== BRAND GUIDELINES ====== -->
         <div id="section-brand" class="dashboard-section hidden">
           <div class="grid-2">
+            <!-- Color Palette -->
             <div class="card">
-              <div class="card-header">
-                <h3>Color Palette</h3>
-              </div>
-              <div class="coming-soon-body">
-                <div class="coming-soon-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-                </div>
-                <p class="coming-soon-label">Coming Soon</p>
-                <p class="coming-soon-text">Primary and secondary brand colors with hex values and usage examples.</p>
+              <div class="card-header"><h3>Color Palette</h3><span style="font-size:.78rem;color:rgba(255,255,255,0.4);">Click to copy</span></div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <div class="swatch-card" onclick="copyColor('#051429',this)"><div class="swatch" style="background:#051429;border:1px solid rgba(255,255,255,0.15);"></div><span class="swatch-label">#051429</span><span class="swatch-name">Navy BG</span></div>
+                <div class="swatch-card" onclick="copyColor('#004dfa',this)"><div class="swatch" style="background:#004dfa;"></div><span class="swatch-label">#004dfa</span><span class="swatch-name">Primary Blue</span></div>
+                <div class="swatch-card" onclick="copyColor('#ffcc00',this)"><div class="swatch" style="background:#ffcc00;"></div><span class="swatch-label">#ffcc00</span><span class="swatch-name">Yellow</span></div>
+                <div class="swatch-card" onclick="copyColor('#1dfd3d',this)"><div class="swatch" style="background:#1dfd3d;"></div><span class="swatch-label">#1dfd3d</span><span class="swatch-name">Bright Green</span></div>
+                <div class="swatch-card" onclick="copyColor('#ffffff',this)"><div class="swatch" style="background:#ffffff;"></div><span class="swatch-label">#ffffff</span><span class="swatch-name">White</span></div>
               </div>
             </div>
+            <!-- Typography -->
             <div class="card">
-              <div class="card-header">
-                <h3>Typography</h3>
-              </div>
-              <div class="coming-soon-body">
-                <div class="coming-soon-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-                </div>
-                <p class="coming-soon-label">Coming Soon</p>
-                <p class="coming-soon-text">Font families, weights, and sizing scale for all brand communications.</p>
+              <div class="card-header"><h3>Typography</h3></div>
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div style="border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div style="font-size:1.6rem;font-weight:800;margin-bottom:2px;">Display — 800</div><div style="font-size:.75rem;color:rgba(255,255,255,0.4);">Segoe UI — 1.5rem–2rem — Headers, KPIs</div></div>
+                <div style="border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div style="font-size:1.1rem;font-weight:700;margin-bottom:2px;">Heading — 700</div><div style="font-size:.75rem;color:rgba(255,255,255,0.4);">Segoe UI — 1rem–1.25rem — Card titles</div></div>
+                <div style="border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div style="font-size:.92rem;font-weight:500;margin-bottom:2px;">Body — 500</div><div style="font-size:.75rem;color:rgba(255,255,255,0.4);">Segoe UI — 0.88rem–0.95rem — Body text</div></div>
+                <div><div style="font-size:.78rem;font-weight:400;color:rgba(255,255,255,0.45);margin-bottom:2px;">Caption — 400</div><div style="font-size:.75rem;color:rgba(255,255,255,0.4);">Segoe UI — 0.72rem–0.82rem — Labels, tags</div></div>
               </div>
             </div>
+            <!-- Logo Usage -->
             <div class="card">
-              <div class="card-header">
-                <h3>Logo Usage</h3>
-              </div>
-              <div class="coming-soon-body">
-                <div class="coming-soon-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                </div>
-                <p class="coming-soon-label">Coming Soon</p>
-                <p class="coming-soon-text">Logo variants, clear space rules, and placement guidelines across platforms.</p>
+              <div class="card-header"><h3>Logo Usage</h3></div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#1dfd3d;font-weight:700;font-size:1.1rem;flex-shrink:0;">✓</span><div><div style="font-size:.86rem;font-weight:600;margin-bottom:2px;">Use on dark navy backgrounds only</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">The wordmark is optimised for #051429 or darker surfaces.</div></div></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#1dfd3d;font-weight:700;font-size:1.1rem;flex-shrink:0;">✓</span><div><div style="font-size:.86rem;font-weight:600;margin-bottom:2px;">Maintain minimum clear space = 1× logo height</div></div></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#1dfd3d;font-weight:700;font-size:1.1rem;flex-shrink:0;">✓</span><div><div style="font-size:.86rem;font-weight:600;margin-bottom:2px;">Place watermark at bottom-right corner of all videos</div></div></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#ff4444;font-weight:700;font-size:1.1rem;flex-shrink:0;">✗</span><div><div style="font-size:.86rem;font-weight:600;margin-bottom:2px;">Do not stretch, rotate or recolor the logo</div></div></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#ff4444;font-weight:700;font-size:1.1rem;flex-shrink:0;">✗</span><div><div style="font-size:.86rem;font-weight:600;margin-bottom:2px;">Do not place on white or light backgrounds</div></div></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#ff4444;font-weight:700;font-size:1.1rem;flex-shrink:0;">✗</span><div><div style="font-size:.86rem;font-weight:600;margin-bottom:2px;">Do not use unofficial color variants</div></div></div>
               </div>
             </div>
+            <!-- Tone of Voice -->
             <div class="card">
-              <div class="card-header">
-                <h3>Tone of Voice</h3>
-              </div>
-              <div class="coming-soon-body">
-                <div class="coming-soon-icon">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <div class="card-header"><h3>Tone of Voice</h3></div>
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;">
+                  <div style="font-size:.72rem;font-weight:700;color:#004dfa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">FA — Persian</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;"><span class="tag" style="background:rgba(0,77,250,0.12);color:#1d79fd;">Professional</span><span class="tag" style="background:rgba(0,77,250,0.12);color:#1d79fd;">Trustworthy</span><span class="tag" style="background:rgba(0,77,250,0.12);color:#1d79fd;">Educational</span></div>
+                  <div style="font-size:.78rem;margin-bottom:4px;"><strong>Example:</strong> <span style="color:rgba(255,255,255,0.6);">"با اوپوفایننس، معامله‌گری هوشمندانه‌تر را تجربه کنید"</span></div>
+                  <div style="font-size:.78rem;color:#ff4444;"><strong>Avoid:</strong> <span style="color:rgba(255,255,255,0.4);">Slang, informal pronouns, overpromising returns</span></div>
                 </div>
-                <p class="coming-soon-label">Coming Soon</p>
-                <p class="coming-soon-text">Writing style, messaging guidelines, and examples for FA, EN, and AR content.</p>
+                <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;">
+                  <div style="font-size:.72rem;font-weight:700;color:#1dfd3d;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">EN — English</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;"><span class="tag" style="background:rgba(29,253,61,0.08);color:#1dfd3d;">Confident</span><span class="tag" style="background:rgba(29,253,61,0.08);color:#1dfd3d;">Clear</span><span class="tag" style="background:rgba(29,253,61,0.08);color:#1dfd3d;">Empowering</span></div>
+                  <div style="font-size:.78rem;margin-bottom:4px;"><strong>Example:</strong> <span style="color:rgba(255,255,255,0.6);">"Trade smarter. Your edge starts here."</span></div>
+                  <div style="font-size:.78rem;color:#ff4444;"><strong>Avoid:</strong> <span style="color:rgba(255,255,255,0.4);">Financial jargon without explanation, clickbait</span></div>
+                </div>
+                <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="font-size:.72rem;font-weight:700;color:#ffcc00;text-transform:uppercase;letter-spacing:.06em;">AR — Arabic</div><span style="background:rgba(255,204,0,0.15);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Review needed</span></div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;"><span class="tag" style="background:rgba(255,204,0,0.1);color:#ffcc00;">Authoritative</span><span class="tag" style="background:rgba(255,204,0,0.1);color:#ffcc00;">Respectful</span><span class="tag" style="background:rgba(255,204,0,0.1);color:#ffcc00;">Informative</span></div>
+                  <div style="font-size:.78rem;margin-bottom:4px;"><strong>Example:</strong> <span style="color:rgba(255,255,255,0.6);">"ابدأ رحلتك في عالم التداول مع أوبوفاينانس"</span></div>
+                  <div style="font-size:.78rem;color:#ff4444;"><strong>Avoid:</strong> <span style="color:rgba(255,255,255,0.4);">Dialect-specific terms, informal register</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== APPROVAL INBOX ====== -->
+        <div id="section-approvals" class="dashboard-section hidden">
+          <!-- Summary row -->
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
+            <div class="stat-card" style="flex:1;min-width:160px;"><div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="stat-info"><span class="stat-value">4</span><span class="stat-label">Pending Review</span></div></div>
+            <div class="stat-card" style="flex:1;min-width:160px;"><div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="stat-info"><span class="stat-value">2</span><span class="stat-label">Approved Today</span></div></div>
+            <div class="stat-card" style="flex:1;min-width:160px;"><div class="stat-icon" style="background:rgba(255,68,68,0.12);color:#ff4444;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></div><div class="stat-info"><span class="stat-value">1</span><span class="stat-label">Sent Back</span></div></div>
+          </div>
+          <!-- Tabs -->
+          <div style="display:flex;gap:8px;margin-bottom:18px;">
+            <button class="filter-pill active" id="tab-pending" onclick="switchApprovalTab('pending')">Pending</button>
+            <button class="filter-pill" id="tab-reviewed" onclick="switchApprovalTab('reviewed')">Reviewed</button>
+          </div>
+          <!-- Pending list -->
+          <div id="approvals-pending">
+            <div class="approval-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                  <div style="font-size:.92rem;font-weight:700;margin-bottom:6px;">Gold Trading Tips — Carousel</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;"><span class="tag tag-instagram">Inst FA</span><span class="tag tag-telegram">Telegram</span></div>
+                  <div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Submitted by <strong style="color:rgba(255,255,255,0.7);">Ali — Designer</strong> · 2h ago</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.06);border-radius:8px;width:100px;height:70px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:rgba(255,255,255,0.3);">Carousel</div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:14px;">
+                <button class="action-btn btn-approve" onclick="approveItem(this)">Approve</button>
+                <button class="action-btn btn-sendback" onclick="toggleNotes(this)">Send Back</button>
+              </div>
+              <div class="notes-area" style="display:none;margin-top:12px;"><textarea class="brief-textarea" placeholder="Notes for the team member..."></textarea></div>
+            </div>
+            <div class="approval-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                  <div style="font-size:.92rem;font-weight:700;margin-bottom:6px;">Opofinance Academy — Platform Guide Video</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;"><span class="tag tag-youtube">YouTube</span><span class="tag tag-linkedin">LinkedIn</span></div>
+                  <div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Submitted by <strong style="color:rgba(255,255,255,0.7);">Sara — Videographer</strong> · 4h ago</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.06);border-radius:8px;width:100px;height:70px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:rgba(255,255,255,0.3);">Video</div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:14px;">
+                <button class="action-btn btn-approve" onclick="approveItem(this)">Approve</button>
+                <button class="action-btn btn-sendback" onclick="toggleNotes(this)">Send Back</button>
+              </div>
+              <div class="notes-area" style="display:none;margin-top:12px;"><textarea class="brief-textarea" placeholder="Notes for the team member..."></textarea></div>
+            </div>
+            <div class="approval-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                  <div style="font-size:.92rem;font-weight:700;margin-bottom:6px;">عرض تداول العملات الأجنبية — Post</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;"><span class="tag tag-instagram">Inst AR</span></div>
+                  <div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Submitted by <strong style="color:rgba(255,255,255,0.7);">Maryam — Copywriter</strong> · 5h ago</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.06);border-radius:8px;width:100px;height:70px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:rgba(255,255,255,0.3);">Post</div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:14px;">
+                <button class="action-btn btn-approve" onclick="approveItem(this)">Approve</button>
+                <button class="action-btn btn-sendback" onclick="toggleNotes(this)">Send Back</button>
+              </div>
+              <div class="notes-area" style="display:none;margin-top:12px;"><textarea class="brief-textarea" placeholder="Notes for the team member..."></textarea></div>
+            </div>
+            <div class="approval-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                  <div style="font-size:.92rem;font-weight:700;margin-bottom:6px;">Ramadan Financial Planning Series — Reel</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;"><span class="tag tag-instagram">Inst FA</span><span class="tag tag-instagram">Inst AR</span></div>
+                  <div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Submitted by <strong style="color:rgba(255,255,255,0.7);">Reza — Editor</strong> · 6h ago</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.06);border-radius:8px;width:100px;height:70px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:rgba(255,255,255,0.3);">Reel</div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:14px;">
+                <button class="action-btn btn-approve" onclick="approveItem(this)">Approve</button>
+                <button class="action-btn btn-sendback" onclick="toggleNotes(this)">Send Back</button>
+              </div>
+              <div class="notes-area" style="display:none;margin-top:12px;"><textarea class="brief-textarea" placeholder="Notes for the team member..."></textarea></div>
+            </div>
+            <div class="approval-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                  <div style="font-size:.92rem;font-weight:700;margin-bottom:6px;">CFD Trading Explained in 60 Seconds</div>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;"><span class="tag tag-youtube">YouTube</span><span class="tag tag-instagram">Inst EN</span></div>
+                  <div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Submitted by <strong style="color:rgba(255,255,255,0.7);">Sara — Videographer</strong> · 8h ago</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.06);border-radius:8px;width:100px;height:70px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:rgba(255,255,255,0.3);">Reel</div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:14px;">
+                <button class="action-btn btn-approve" onclick="approveItem(this)">Approve</button>
+                <button class="action-btn btn-sendback" onclick="toggleNotes(this)">Send Back</button>
+              </div>
+              <div class="notes-area" style="display:none;margin-top:12px;"><textarea class="brief-textarea" placeholder="Notes for the team member..."></textarea></div>
+            </div>
+          </div>
+          <!-- Reviewed list -->
+          <div id="approvals-reviewed" style="display:none;">
+            <div class="approval-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:.92rem;font-weight:700;margin-bottom:4px;">Copy Trading Feature Spotlight</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Reviewed by Negar · Apr 8 at 11:30</div></div>
+                <span class="content-status status-ready">Approved</span>
+              </div>
+            </div>
+            <div class="approval-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:.92rem;font-weight:700;margin-bottom:4px;">Forex Market Weekly Recap</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Reviewed by Negar · Apr 8 at 09:15</div></div>
+                <span class="content-status status-ready">Approved</span>
+              </div>
+            </div>
+            <div class="approval-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div><div style="font-size:.92rem;font-weight:700;margin-bottom:4px;">نصائح الذهب للمبتدئين</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Sent back by Negar · Apr 7 at 15:40 · Needs AR tone adjustment</div></div>
+                <span class="content-status status-review">Sent Back</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== CAMPAIGNS ====== -->
+        <div id="section-campaigns" class="dashboard-section hidden">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:18px;"><button class="btn-small">+ New Campaign</button></div>
+          <div class="grid-2" style="margin-bottom:18px;">
+            <div class="card"><div class="card-header"><h3>OpoTrade Launch (April)</h3><span class="content-status status-ready">Active</span></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-instagram">Inst FA</span><span class="tag tag-instagram">Inst EN</span><span class="tag tag-linkedin">LinkedIn</span><span class="tag tag-telegram">Telegram</span></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);margin-bottom:10px;">Apr 1 – Apr 30, 2026</div><div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span>Progress</span><span style="color:rgba(255,255,255,0.5);">14 / 20 posts</span></div><div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:70%;height:100%;background:linear-gradient(90deg,#004dfa,#1dfd3d);border-radius:3px;"></div></div></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Total Reach: <strong style="color:#fff;">680K</strong></div></div>
+            <div class="card"><div class="card-header"><h3>Ramadan Financial Planning</h3><span class="content-status status-review">Active</span></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-instagram">Inst FA</span><span class="tag tag-instagram">Inst AR</span><span class="tag tag-telegram">Telegram</span></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);margin-bottom:10px;">Mar 28 – Apr 20, 2026</div><div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span>Progress</span><span style="color:rgba(255,255,255,0.5);">9 / 12 posts</span></div><div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:75%;height:100%;background:linear-gradient(90deg,#ffcc00,#004dfa);border-radius:3px;"></div></div></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Total Reach: <strong style="color:#fff;">420K</strong></div></div>
+            <div class="card"><div class="card-header"><h3>Gold Market Weekly</h3><span class="content-status status-progress">Planning</span></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-instagram">Inst FA</span><span class="tag tag-youtube">YouTube</span><span class="tag tag-telegram">Telegram</span></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);margin-bottom:10px;">Apr 14 – May 12, 2026</div><div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span>Progress</span><span style="color:rgba(255,255,255,0.5);">2 / 16 posts</span></div><div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:12%;height:100%;background:#1d79fd;border-radius:3px;"></div></div></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Total Reach: <strong style="color:#fff;">—</strong></div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>All Campaigns</h3></div>
+            <div style="overflow-x:auto;">
+              <table class="queue-table">
+                <thead><tr><th>Name</th><th>Platforms</th><th>Date Range</th><th>Posts</th><th>Reach</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>OpoTrade Launch</td><td><span class="tag tag-instagram" style="font-size:.65rem;">Inst</span> <span class="tag tag-linkedin" style="font-size:.65rem;">LI</span> <span class="tag tag-telegram" style="font-size:.65rem;">TG</span></td><td style="font-size:.78rem;">Apr 1–30</td><td>14/20</td><td>680K</td><td><span class="content-status status-ready">Active</span></td></tr>
+                  <tr><td>Ramadan Planning</td><td><span class="tag tag-instagram" style="font-size:.65rem;">Inst</span> <span class="tag tag-telegram" style="font-size:.65rem;">TG</span></td><td style="font-size:.78rem;">Mar 28 – Apr 20</td><td>9/12</td><td>420K</td><td><span class="content-status status-review">Active</span></td></tr>
+                  <tr><td>Gold Market Weekly</td><td><span class="tag tag-instagram" style="font-size:.65rem;">Inst</span> <span class="tag tag-youtube" style="font-size:.65rem;">YT</span></td><td style="font-size:.78rem;">Apr 14 – May 12</td><td>2/16</td><td>—</td><td><span class="content-status status-progress">Planning</span></td></tr>
+                  <tr><td>Q1 Recap Campaign</td><td><span class="tag tag-linkedin" style="font-size:.65rem;">LI</span> <span class="tag tag-youtube" style="font-size:.65rem;">YT</span></td><td style="font-size:.78rem;">Mar 1–31</td><td>12/12</td><td>310K</td><td><span class="content-status status-draft">Completed</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== KPI SCORECARD ====== -->
+        <div id="section-kpi" class="dashboard-section hidden">
+          <!-- Overall Score -->
+          <div class="card" style="margin-bottom:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+              <div>
+                <div style="font-size:.78rem;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Overall Score</div>
+                <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-size:2.5rem;font-weight:800;color:#1dfd3d;">4.2</span><span style="font-size:1rem;color:rgba(255,255,255,0.4);">/ 5</span></div>
+                <div style="height:6px;width:200px;background:rgba(255,255,255,0.08);border-radius:3px;margin-top:8px;"><div style="width:84%;height:100%;background:linear-gradient(90deg,#004dfa,#1dfd3d);border-radius:3px;"></div></div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Last Review: <strong style="color:#fff;">Mar 31, 2026</strong></div>
+                <div style="font-size:.78rem;color:rgba(255,255,255,0.4);margin-top:4px;">Next Review: <strong style="color:#ffcc00;">Jun 30, 2026</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <!-- Delivery & Results -->
+            <div class="card">
+              <div class="card-header"><div><div style="font-size:.72rem;font-weight:700;color:#004dfa;text-transform:uppercase;letter-spacing:.06em;">Delivery &amp; Results</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Weight: 40%</div></div><div style="text-align:right;"><span style="font-size:1.6rem;font-weight:800;color:#1dfd3d;">4.5</span><span style="font-size:.85rem;color:rgba(255,255,255,0.4);"> / 5</span></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Calendar Delivery Rate</span><strong>82%</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Audience Growth (Q1)</span><strong>+12.3%</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Avg. Engagement Rate</span><strong>4.8%</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Monthly Reach</span><strong>1.2M</strong></div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;"><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:6px;">Manager Notes</div><div style="font-size:.82rem;color:rgba(255,255,255,0.5);">Strong delivery consistency. AR channel growth exceeding targets.</div></div>
+            </div>
+            <!-- Quality & Accuracy -->
+            <div class="card">
+              <div class="card-header"><div><div style="font-size:.72rem;font-weight:700;color:#ffcc00;text-transform:uppercase;letter-spacing:.06em;">Quality &amp; Accuracy</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Weight: 20%</div></div><div style="text-align:right;"><span style="font-size:1.6rem;font-weight:800;color:#ffcc00;">4.0</span><span style="font-size:.85rem;color:rgba(255,255,255,0.4);"> / 5</span></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Brand Consistency Score</span><strong>92%</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Editorial Accuracy Flags</span><strong>3 this month</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Caption Approval Rate</span><strong>94%</strong></div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;"><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:6px;">Manager Notes</div><div style="font-size:.82rem;color:rgba(255,255,255,0.5);">AR tone consistency needs improvement. 3 flags this month.</div></div>
+            </div>
+            <!-- Ownership & Initiative -->
+            <div class="card">
+              <div class="card-header"><div><div style="font-size:.72rem;font-weight:700;color:#1d79fd;text-transform:uppercase;letter-spacing:.06em;">Ownership &amp; Initiative</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Weight: 20%</div></div><div style="text-align:right;"><span style="font-size:1.6rem;font-weight:800;color:#1d79fd;">4.0</span><span style="font-size:.85rem;color:rgba(255,255,255,0.4);"> / 5</span></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">New Formats Launched</span><strong>2 this quarter</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Strategic Improvements</span><strong>4 initiatives</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Proactive Proposals</span><strong>3 accepted</strong></div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;"><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:6px;">Manager Notes</div><div style="font-size:.82rem;color:rgba(255,255,255,0.5);">Studio section initiative shows strong ownership. Keep driving format innovation.</div></div>
+            </div>
+            <!-- Collaboration -->
+            <div class="card">
+              <div class="card-header"><div><div style="font-size:.72rem;font-weight:700;color:#9b59b6;text-transform:uppercase;letter-spacing:.06em;">Collaboration &amp; Communication</div><div style="font-size:.78rem;color:rgba(255,255,255,0.4);">Weight: 20%</div></div><div style="text-align:right;"><span style="font-size:1.6rem;font-weight:800;color:#9b59b6;">4.5</span><span style="font-size:.85rem;color:rgba(255,255,255,0.4);"> / 5</span></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Workflow Efficiency</span><strong>High</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Team Feedback Score</span><strong>4.7 / 5</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:.84rem;"><span style="color:rgba(255,255,255,0.6);">Brief Clarity Rating</span><strong>4.5 / 5</strong></div>
+              </div>
+              <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;"><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:6px;">Manager Notes</div><div style="font-size:.82rem;color:rgba(255,255,255,0.5);">Excellent cross-team communication. Briefs are consistently clear and actionable.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== ARABIC OVERSIGHT ====== -->
+        <div id="section-arabic" class="dashboard-section hidden">
+          <!-- AR stats -->
+          <div class="stats-row" style="margin-bottom:18px;">
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-info"><span class="stat-value">28K</span><span class="stat-label">AR Followers</span></div><span class="stat-change positive">+14.2%</span></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(0,77,250,0.15);color:#004dfa;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div><div class="stat-info"><span class="stat-value">180K</span><span class="stat-label">Monthly Reach</span></div><span class="stat-change positive">+18.1%</span></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="stat-info"><span class="stat-value">3.9%</span><span class="stat-label">Engagement Rate</span></div><span class="stat-change positive">+0.8%</span></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(29,121,253,0.15);color:#1d79fd;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="8" width="4" height="12"/><rect x="17" y="4" width="4" height="16"/></svg></div><div class="stat-info"><span class="stat-value">10</span><span class="stat-label">Posts This Month</span></div><span class="stat-change neutral">On track</span></div>
+          </div>
+          <div class="grid-2" style="margin-bottom:18px;">
+            <!-- AR Pipeline -->
+            <div class="card">
+              <div class="card-header"><h3>Arabic Content Pipeline</h3></div>
+              <div class="kanban-board" style="gap:8px;" id="kanban-arabic">
+                <div class="kanban-col" data-col="ar-script" style="min-width:120px;"><div class="kanban-col-title">Script</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">نصائح الذهب</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Fatima · Apr 15</div></div></div>
+                <div class="kanban-col" data-col="ar-design" style="min-width:120px;"><div class="kanban-col-title">Design</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">عرض تداول</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Khalid · Apr 12</div></div></div>
+                <div class="kanban-col" data-col="ar-editing" style="min-width:120px;"><div class="kanban-col-title">Editing</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">رمضان مالي</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Reza · Apr 14</div></div></div>
+                <div class="kanban-col" data-col="ar-review" style="min-width:120px;"><div class="kanban-col-title">Review</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">تداول ذهب</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Maryam · Apr 11</div></div></div>
+                <div class="kanban-col" data-col="ar-done" style="min-width:120px;"><div class="kanban-col-title">Published</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">العملات الأجنبية</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Apr 8</div></div></div>
+              </div>
+            </div>
+            <!-- AR Team -->
+            <div class="card">
+              <div class="card-header"><h3>Arabic Team</h3></div>
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:center;gap:12px;"><div class="avatar-sm" style="background:#9b59b6;flex-shrink:0;">F</div><div style="flex:1;"><div style="font-size:.88rem;font-weight:600;">Fatima — AR Copywriter</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">2 tasks active · Script stage</div></div><span class="content-status status-progress" style="font-size:.68rem;">Active</span></div>
+                <div style="display:flex;align-items:center;gap:12px;"><div class="avatar-sm" style="background:#e67e22;flex-shrink:0;">K</div><div style="flex:1;"><div style="font-size:.88rem;font-weight:600;">Khalid — AR Designer</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">2 tasks active · Design stage</div></div><span class="content-status status-progress" style="font-size:.68rem;">Active</span></div>
+                <div style="display:flex;align-items:center;gap:12px;"><div class="avatar-sm" style="background:#1dfd3d;color:#051429;flex-shrink:0;">M</div><div style="flex:1;"><div style="font-size:.88rem;font-weight:600;">Maryam — Copywriter (AR support)</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">1 AR task in review</div></div><span class="content-status status-review" style="font-size:.68rem;">In Review</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <!-- Tone Consistency Checker -->
+            <div class="card">
+              <div class="card-header"><h3>Tone Consistency Checker</h3><span style="font-size:.72rem;background:rgba(255,204,0,0.15);color:#ffcc00;padding:2px 8px;border-radius:20px;font-weight:700;">AR Only</span></div>
+              <div style="font-size:.82rem;color:rgba(255,255,255,0.5);margin-bottom:12px;">Paste Arabic copy below to check against brand tone guidelines.</div>
+              <textarea class="brief-textarea" style="min-height:100px;" placeholder="الصق النص العربي هنا للتحقق من التوافق مع إرشادات العلامة التجارية..."></textarea>
+              <div style="display:flex;gap:8px;margin-top:12px;">
+                <button class="btn-small" onclick="this.textContent='✓ Tone looks consistent'">Check Tone</button>
+                <button style="padding:6px 14px;border-radius:8px;font-size:.82rem;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);cursor:pointer;">Clear</button>
+              </div>
+            </div>
+            <!-- Pending AR Approvals -->
+            <div class="card">
+              <div class="card-header"><h3>Pending AR Approvals</h3><span class="content-status status-review" style="font-size:.72rem;">3 pending</span></div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;"><div><div style="font-size:.86rem;font-weight:600;">عرض تداول العملات</div><div style="font-size:.74rem;color:rgba(255,255,255,0.4);">Submitted by Maryam · 5h ago</div></div><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;"><div><div style="font-size:.86rem;font-weight:600;">نصائح الذهب للمبتدئين</div><div style="font-size:.74rem;color:rgba(255,255,255,0.4);">Submitted by Fatima · 8h ago</div></div><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;"><div><div style="font-size:.86rem;font-weight:600;">رمضان والتخطيط المالي</div><div style="font-size:.74rem;color:rgba(255,255,255,0.4);">Submitted by Fatima · 1d ago</div></div><span class="tag tag-telegram" style="font-size:.65rem;">Telegram</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== STUDIO ====== -->
+        <div id="section-studio" class="dashboard-section hidden">
+          <!-- Studio tab bar -->
+          <div class="studio-tabs" id="studio-tabs">
+            <button class="studio-tab active" onclick="switchStudio(this,'idea')">Idea</button>
+            <button class="studio-tab" onclick="switchStudio(this,'brief')">Content Brief</button>
+            <button class="studio-tab" onclick="switchStudio(this,'script')">Script</button>
+            <button class="studio-tab" onclick="switchStudio(this,'chars')">Characters</button>
+            <button class="studio-tab" onclick="switchStudio(this,'shots')">Angles &amp; Shots</button>
+            <button class="studio-tab" onclick="switchStudio(this,'editing')">Editing</button>
+            <button class="studio-tab" onclick="switchStudio(this,'export')">Export</button>
+          </div>
+
+          <!-- TAB 1: IDEA -->
+          <div class="studio-panel active" id="studio-idea">
+            <div class="grid-2">
+              <div style="grid-column:1/-1;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                  <h4 style="font-size:.95rem;">Idea Board</h4>
+                  <button class="btn-small" onclick="addIdeaCard()">+ New Idea</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;" id="idea-board">
+                  <div class="card" style="padding:16px;">
+                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Gold Market Myths Debunked</div>
+                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "Everything you thought you knew about gold trading is wrong"</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(0,77,250,0.15);color:#1d79fd;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Selected</span></div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.closest('.card').querySelector('span[style*=\"Selected\"]').textContent='Developing'">Develop</button>
+                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                    </div>
+                  </div>
+                  <div class="card" style="padding:16px;">
+                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Copy Trading Explained Simply</div>
+                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "You don't need to be an expert to trade like one"</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Short</span><span style="background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Developing</span></div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                    </div>
+                  </div>
+                  <div class="card" style="padding:16px;">
+                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Behind the Screens at Opofinance</div>
+                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "A day in the life of our trading platform team"</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Video</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.parentElement.previousElementSibling.querySelector('span:last-child').textContent='Developing';this.parentElement.previousElementSibling.querySelector('span:last-child').style.cssText='background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;'">Develop</button>
+                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                    </div>
+                  </div>
+                  <div class="card" style="padding:16px;">
+                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">نصائح الذهب الأسبوعية</div>
+                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "كل أسبوع نكشف سراً عن سوق الذهب"</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header"><h3 style="color:#9b59b6;">Brainstorm Prompts</h3></div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What's happening in the market this week?</div>
+                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What question does our audience ask most?</div>
+                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What myth can we debunk about forex?</div>
+                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What's a behind-the-scenes story we can tell?</div>
+                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What trending audio/format fits our brand?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: CONTENT BRIEF -->
+          <div class="studio-panel" id="studio-brief">
+            <div class="card">
+              <div class="card-header"><h3>Content Brief</h3><div style="display:flex;gap:8px;"><button class="btn-small">Save Brief</button><button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Team</button></div></div>
+              <div class="grid-2" style="gap:14px;">
+                <div class="input-group"><label>Video Title</label><input type="text" placeholder="e.g. Gold Market Weekly Recap"></div>
+                <div class="input-group"><label>Platform</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Instagram Reel FA</option><option>Instagram Reel EN</option><option>Instagram Reel AR</option><option>YouTube</option><option>LinkedIn</option></select></div>
+                <div class="input-group"><label>Objective</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Educate</option><option>Promote</option><option>Entertain</option><option>Build Trust</option></select></div>
+                <div class="input-group"><label>Target Audience</label><input type="text" placeholder="e.g. Retail traders aged 25–45"></div>
+                <div class="input-group"><label>Call to Action</label><input type="text" placeholder="e.g. Follow for weekly updates"></div>
+                <div class="input-group"><label>Deadline</label><input type="date"></div>
+                <div class="input-group"><label>Assigned Presenter</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Negar (EN/FA Host)</option><option>AR Presenter (TBD)</option><option>AI Avatar</option></select></div>
+                <div class="input-group"><label>Reference Content</label><input type="text" placeholder="Links or notes..."></div>
+              </div>
+              <div class="input-group" style="margin-top:12px;"><label>Key Message</label><textarea class="brief-textarea" placeholder="What is the single most important message the viewer should remember?"></textarea></div>
+            </div>
+          </div>
+
+          <!-- TAB 3: SCRIPT -->
+          <div class="studio-panel" id="studio-script">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;gap:8px;align-items:center;">
+                <span id="script-status-badge" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;cursor:pointer;" onclick="cycleScriptStatus(this)">Draft</span>
+                <span id="script-wordcount" style="font-size:.78rem;color:rgba(255,255,255,0.4);">0 words · ~0 sec</span>
+              </div>
+              <button style="padding:7px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Presenter</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="background:rgba(255,204,0,0.12);color:#ffcc00;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">HOOK</div><span style="font-size:.72rem;color:rgba(255,255,255,0.35);">First 3 seconds — Must stop the scroll</span></div>
+                <textarea class="brief-textarea" placeholder="Write your hook line here..." oninput="updateWordCount()" id="script-hook"></textarea>
+                <div style="font-size:.72rem;color:rgba(255,255,255,0.35);margin-top:6px;" id="hook-count">0 / 30 chars recommended</div>
+              </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div style="background:rgba(0,77,250,0.12);color:#1d79fd;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">BODY</div></div>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 1 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 1 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 1 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 2 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 2 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 2 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 3 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 3 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 3 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
+                </div>
+              </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="background:rgba(29,253,61,0.1);color:#1dfd3d;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">CTA</div></div>
+                <textarea class="brief-textarea" placeholder="Write your call-to-action here..." oninput="updateWordCount()"></textarea>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Follow for more</button>
+                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Link in bio</button>
+                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Comment your question</button>
+                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Share with a trader friend</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: CHARACTERS -->
+          <div class="studio-panel" id="studio-chars">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h4 style="font-size:.95rem;">Characters &amp; Presenters</h4><button class="btn-small" onclick="addCharCard()">+ Add Character</button></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;" id="char-board">
+              <div class="card" style="padding:16px;">
+                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9b59b6,#004dfa);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;margin-bottom:12px;">N</div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" value="Negar" style="padding:8px 10px;font-size:.84rem;"></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>Host</option><option>Expert</option><option>Narrator</option><option>On-screen talent</option></select></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>EN / FA</option><option>AR</option></select></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Professional</option><option selected>Friendly</option><option>Authoritative</option><option>Conversational</option></select></div>
+                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">Strategy lead host — primary face of EN & FA channels</textarea></div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,204,0,0.2);border:2px dashed #ffcc00;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#ffcc00;margin-bottom:12px;">AR</div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" placeholder="AR Presenter TBD" style="padding:8px 10px;font-size:.84rem;"></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Host</option><option selected>Expert</option><option>Narrator</option><option>On-screen talent</option></select></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>EN / FA</option><option selected>AR</option></select></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Professional</option><option>Friendly</option><option selected>Authoritative</option><option>Conversational</option></select></div>
+                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">Arabic channel presenter — recruitment in progress</textarea></div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="width:44px;height:44px;border-radius:50%;background:rgba(29,253,61,0.1);border:2px solid #1dfd3d;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#1dfd3d;margin-bottom:12px;">AI</div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" value="AI Avatar" style="padding:8px 10px;font-size:.84rem;"></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Host</option><option>Expert</option><option selected>Narrator</option><option>On-screen talent</option></select></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>EN / FA</option><option>AR</option></select></div>
+                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>Professional</option><option>Friendly</option><option>Authoritative</option><option>Conversational</option></select></div>
+                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">AI-generated avatar for evergreen / automated content</textarea></div>
+              </div>
+            </div>
+            <div class="card" style="margin-top:18px;">
+              <div class="card-header"><h3>AI Avatar Settings</h3></div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
+                <div class="input-group"><label>Style</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Realistic</option><option>Animated</option><option>Illustrated</option></select></div>
+                <div class="input-group"><label>Background</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Studio Dark</option><option>Office</option><option>Abstract Brand</option><option>Green Screen</option></select></div>
+                <div class="input-group"><label>Clothing Style</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Business Casual</option><option>Formal</option><option>Smart Casual</option></select></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: ANGLES & SHOTS -->
+          <div class="studio-panel" id="studio-shots">
+            <div class="grid-2" style="margin-bottom:18px;">
+              <div class="card">
+                <div class="card-header"><h3>Shot List</h3><button class="btn-small" onclick="addShotRow()">Add Shot</button></div>
+                <div style="overflow-x:auto;">
+                  <table class="shot-table" id="shot-list">
+                    <thead><tr><th>#</th><th>Type</th><th>Subject</th><th>Duration</th><th>Notes</th></tr></thead>
+                    <tbody>
+                      <tr><td>1</td><td><select class="card-select" style="padding:4px 8px;font-size:.78rem;"><option>Wide</option><option selected>Medium</option><option>Close-up</option><option>Detail</option><option>B-roll</option></select></td><td><input type="text" value="Presenter intro" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:100px;"></td><td><input type="number" value="5" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:40px;"> sec</td><td><input type="text" placeholder="Notes..." style="background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:.78rem;width:100%;"></td></tr>
+                      <tr><td>2</td><td><select class="card-select" style="padding:4px 8px;font-size:.78rem;"><option>Wide</option><option selected>Medium</option><option>Close-up</option><option>Detail</option><option>B-roll</option></select></td><td><input type="text" value="Chart animation" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:100px;"></td><td><input type="number" value="8" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:40px;"> sec</td><td><input type="text" placeholder="Notes..." style="background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:.78rem;width:100%;"></td></tr>
+                      <tr><td>3</td><td><select class="card-select" style="padding:4px 8px;font-size:.78rem;"><option>Wide</option><option>Medium</option><option selected>Close-up</option><option>Detail</option><option>B-roll</option></select></td><td><input type="text" value="Screen / graphic" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:100px;"></td><td><input type="number" value="6" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:40px;"> sec</td><td><input type="text" placeholder="Notes..." style="background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:.78rem;width:100%;"></td></tr>
+                      <tr><td>4</td><td><select class="card-select" style="padding:4px 8px;font-size:.78rem;"><option>Wide</option><option>Medium</option><option>Close-up</option><option>Detail</option><option selected>B-roll</option></select></td><td><input type="text" value="Trading floor / office" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:100px;"></td><td><input type="number" value="4" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:40px;"> sec</td><td><input type="text" placeholder="Notes..." style="background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:.78rem;width:100%;"></td></tr>
+                      <tr><td>5</td><td><select class="card-select" style="padding:4px 8px;font-size:.78rem;"><option>Wide</option><option selected>Medium</option><option>Close-up</option><option>Detail</option><option>B-roll</option></select></td><td><input type="text" value="CTA / outro card" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:100px;"></td><td><input type="number" value="5" style="background:transparent;border:none;color:#fff;font-size:.78rem;width:40px;"> sec</td><td><input type="text" placeholder="Notes..." style="background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:.78rem;width:100%;"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:14px;">
+                  <div class="card-header"><h3>Scene Setup</h3></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div class="input-group"><label>Location</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>Studio</option><option>Office</option><option>Outdoor</option><option>Green Screen</option></select></div>
+                    <div class="input-group"><label>Lighting</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Natural</option><option selected>Studio</option><option>Ring Light</option></select></div>
+                    <div class="input-group"><label>Camera Motion</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>Static</option><option>Pan</option><option>Zoom</option><option>Handheld</option></select></div>
+                    <div class="input-group"><label>Background</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>Brand Dark</option><option>Blurred Office</option><option>Clean White</option><option>Abstract</option></select></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header"><h3>Shot Type Reference</h3></div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="font-size:.82rem;"><strong style="color:#9b59b6;">Wide:</strong> <span style="color:rgba(255,255,255,0.5);">Establishes location and context</span></div>
+                    <div style="font-size:.82rem;"><strong style="color:#9b59b6;">Medium:</strong> <span style="color:rgba(255,255,255,0.5);">Waist-up presenter shot — conversational</span></div>
+                    <div style="font-size:.82rem;"><strong style="color:#9b59b6;">Close-up:</strong> <span style="color:rgba(255,255,255,0.5);">Face or object detail — emotional impact</span></div>
+                    <div style="font-size:.82rem;"><strong style="color:#9b59b6;">Detail:</strong> <span style="color:rgba(255,255,255,0.5);">Extreme close-up — screen, hands, product</span></div>
+                    <div style="font-size:.82rem;"><strong style="color:#9b59b6;">B-roll:</strong> <span style="color:rgba(255,255,255,0.5);">Supporting footage — charts, office, lifestyle</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 6: EDITING -->
+          <div class="studio-panel" id="studio-editing">
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-header"><h3>Editing Checklist</h3><span id="edit-status" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;cursor:pointer;" onclick="cycleEditStatus(this)">Not Started</span></div>
+                <div class="checklist-section">
+                  <div class="checklist-title">Pre-edit</div>
+                  <label class="check-row"><input type="checkbox"> Raw footage received</label>
+                  <label class="check-row"><input type="checkbox"> Audio levels checked</label>
+                  <label class="check-row"><input type="checkbox"> Script reviewed</label>
+                </div>
+                <div class="checklist-section">
+                  <div class="checklist-title">Visual</div>
+                  <label class="check-row"><input type="checkbox"> Intro card added</label>
+                  <label class="check-row"><input type="checkbox"> Brand colors used</label>
+                  <label class="check-row"><input type="checkbox"> Lower thirds added</label>
+                  <label class="check-row"><input type="checkbox"> Captions added</label>
+                  <label class="check-row"><input type="checkbox"> Logo watermark placed</label>
+                </div>
+                <div class="checklist-section">
+                  <div class="checklist-title">Audio</div>
+                  <label class="check-row"><input type="checkbox"> Background music (royalty-free)</label>
+                  <label class="check-row"><input type="checkbox"> Voice levels balanced</label>
+                  <label class="check-row"><input type="checkbox"> Outro music fades</label>
+                </div>
+                <div class="checklist-section">
+                  <div class="checklist-title">Platform Optimization</div>
+                  <label class="check-row"><input type="checkbox"> Instagram (max 90 sec, 9:16)</label>
+                  <label class="check-row"><input type="checkbox"> YouTube (16:9 or 9:16)</label>
+                  <label class="check-row"><input type="checkbox"> LinkedIn (square or landscape)</label>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header"><h3>Revision Notes</h3></div>
+                <textarea class="brief-textarea" style="min-height:200px;" placeholder="Feedback between Negar and editor — note revision requests here..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 7: EXPORT -->
+          <div class="studio-panel" id="studio-export">
+            <div id="export-working">
+              <div class="grid-2" style="margin-bottom:18px;">
+                <div class="card">
+                  <div class="card-header"><h3>Export Settings</h3></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div class="input-group"><label>Format</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>MP4 (recommended)</option><option>MOV</option><option>WebM</option></select></div>
+                    <div class="input-group"><label>Resolution</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>1080×1920 (Reels/Shorts)</option><option>1920×1080 (YouTube/LinkedIn)</option><option>1080×1080 (Square)</option></select></div>
+                    <div class="input-group"><label>Quality</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>High (recommended)</option><option>Medium</option><option>Low</option></select></div>
+                    <div class="input-group"><label>Frame Rate</label><select class="card-select" style="width:100%;padding:10px 12px;"><option selected>30fps</option><option>60fps</option></select></div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header"><h3>Platform Specs</h3></div>
+                  <table class="shot-table">
+                    <thead><tr><th>Platform</th><th>Max Duration</th><th>Ratio</th><th>Format</th></tr></thead>
+                    <tbody>
+                      <tr><td>Instagram</td><td>90 sec</td><td>9:16</td><td>MP4</td></tr>
+                      <tr><td>YouTube</td><td>No limit</td><td>16:9 / 9:16</td><td>MP4</td></tr>
+                      <tr><td>LinkedIn</td><td>10 min</td><td>16:9 / 1:1</td><td>MP4</td></tr>
+                      <tr><td>Telegram</td><td>No limit</td><td>Any</td><td>MP4</td></tr>
+                      <tr><td>TikTok</td><td>10 min</td><td>9:16</td><td>MP4</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header"><h3>Ready for Export Checklist</h3></div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-bottom:20px;">
+                  <label class="check-row"><input type="checkbox"> Script approved</label>
+                  <label class="check-row"><input type="checkbox"> Editing complete</label>
+                  <label class="check-row"><input type="checkbox"> Captions added</label>
+                  <label class="check-row"><input type="checkbox"> Music licensed</label>
+                  <label class="check-row"><input type="checkbox"> Brand watermark placed</label>
+                </div>
+                <button class="btn-small" style="padding:10px 28px;font-size:.9rem;" onclick="markVideoComplete()">Mark as Complete</button>
+              </div>
+            </div>
+            <div id="export-complete" style="display:none;">
+              <div class="card" style="text-align:center;padding:48px 24px;">
+                <div style="font-size:3rem;margin-bottom:12px;">🎬</div>
+                <div style="font-size:1.3rem;font-weight:800;color:#1dfd3d;margin-bottom:8px;">Video Completed!</div>
+                <div style="font-size:.88rem;color:rgba(255,255,255,0.5);margin-bottom:24px;">Your video is ready. What would you like to do next?</div>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                  <button class="btn-small" onclick="switchStudio(document.querySelector('.studio-tab[onclick*=\\'brief\\']'),'brief')">View in Content Planner</button>
+                  <button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;" onclick="switchStudio(document.querySelector('.studio-tab[onclick*=\\'shots\\']'),'shots')">Add to Calendar</button>
+                  <button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);cursor:pointer;" onclick="document.getElementById('export-complete').style.display='none';document.getElementById('export-working').style.display='block';">Archive</button>
+                </div>
               </div>
             </div>
           </div>
