@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Opofinance — Social Media Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -59,6 +62,7 @@
     <aside class="sidebar">
       <div class="sidebar-logo">OPO<span>FINANCE</span></div>
       <nav>
+        <span class="nav-section-label">Workspace</span>
         <a href="#" class="nav-link active" data-section="overview">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           Overview
@@ -71,6 +75,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Calendar
         </a>
+        <span class="nav-section-label">Operations</span>
         <a href="#" class="nav-link" data-section="team">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
           Team
@@ -95,11 +100,8 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="8" width="4" height="12"/><rect x="17" y="4" width="4" height="16"/></svg>
           KPI Scorecard
         </a>
-        <a href="#" class="nav-link" data-section="arabic">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          Arabic Oversight
-        </a>
-        <a href="#" class="nav-link studio-nav-link" data-section="studio">
+        <span class="nav-section-label">Production</span>
+        <a href="#" class="nav-link studio-link" data-section="studio">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>
           Studio
         </a>
@@ -122,6 +124,10 @@
         </div>
         <div class="header-right">
           <div class="header-date" id="header-date"></div>
+          <div class="header-notif">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span class="notif-dot"></span>
+          </div>
           <div class="user-info">
             <div class="avatar" id="user-avatar">N</div>
             <span class="user-name" id="user-name">Negar</span>
@@ -131,295 +137,261 @@
 
       <div class="content">
         <div id="section-overview" class="dashboard-section">
-        <!-- Stats Row -->
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(0,77,250,0.15);color:#004dfa;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-            </div>
-            <div class="stat-info">
-              <span class="stat-value">248.5K</span>
-              <span class="stat-label">Total Followers</span>
-            </div>
-            <span class="stat-change positive">+12.3%</span>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-            </div>
-            <div class="stat-info">
-              <span class="stat-value">4.8%</span>
-              <span class="stat-label">Engagement Rate</span>
-            </div>
-            <span class="stat-change positive">+0.6%</span>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            </div>
-            <div class="stat-info">
-              <span class="stat-value">37</span>
-              <span class="stat-label">Scheduled Posts</span>
-            </div>
-            <span class="stat-change neutral">This week</span>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(29,121,253,0.15);color:#1d79fd;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-            </div>
-            <div class="stat-info">
-              <span class="stat-value">1.2M</span>
-              <span class="stat-label">Monthly Reach</span>
-            </div>
-            <span class="stat-change positive">+18.7%</span>
-          </div>
-        </div>
 
-        <!-- Main Grid -->
-        <div class="grid-2">
-          <!-- Platform Performance -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Platform Performance</h3>
-              <select class="card-select">
-                <option>This Month</option>
-                <option>Last Month</option>
-                <option>Last 90 Days</option>
-              </select>
-            </div>
-            <div class="platform-list">
-              <div class="platform-item">
-                <div class="platform-icon instagram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                </div>
-                <div class="platform-info">
-                  <span class="platform-name">Instagram (FA/EN/AR)</span>
-                  <span class="platform-stat">142K followers</span>
-                </div>
-                <div class="platform-bar-wrap">
-                  <div class="platform-bar" style="width:78%"></div>
-                </div>
-                <span class="platform-pct">78%</span>
-              </div>
-              <div class="platform-item">
-                <div class="platform-icon telegram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                </div>
-                <div class="platform-info">
-                  <span class="platform-name">Telegram</span>
-                  <span class="platform-stat">68K subscribers</span>
-                </div>
-                <div class="platform-bar-wrap">
-                  <div class="platform-bar" style="width:55%"></div>
-                </div>
-                <span class="platform-pct">55%</span>
-              </div>
-              <div class="platform-item">
-                <div class="platform-icon youtube">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.546 12 3.546 12 3.546s-7.505 0-9.377.504A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.504 9.376.504 9.376.504s7.505 0 9.377-.504a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </div>
-                <div class="platform-info">
-                  <span class="platform-name">YouTube</span>
-                  <span class="platform-stat">28.5K subscribers</span>
-                </div>
-                <div class="platform-bar-wrap">
-                  <div class="platform-bar" style="width:40%"></div>
-                </div>
-                <span class="platform-pct">40%</span>
-              </div>
-              <div class="platform-item">
-                <div class="platform-icon linkedin">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                </div>
-                <div class="platform-info">
-                  <span class="platform-name">LinkedIn</span>
-                  <span class="platform-stat">10K followers</span>
-                </div>
-                <div class="platform-bar-wrap">
-                  <div class="platform-bar" style="width:28%"></div>
-                </div>
-                <span class="platform-pct">28%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Content Calendar -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Upcoming Content</h3>
-              <button class="btn-small">+ Add Post</button>
-            </div>
-            <div class="content-list">
-              <div class="content-item">
-                <div class="content-date">
-                  <span class="day">08</span>
-                  <span class="month">APR</span>
-                </div>
-                <div class="content-detail">
-                  <span class="content-title">Forex Market Weekly Recap — Reel</span>
-                  <div class="content-tags">
-                    <span class="tag tag-instagram">Instagram EN</span>
-                    <span class="tag tag-youtube">YouTube</span>
-                  </div>
-                </div>
-                <span class="content-status status-ready">Ready</span>
-              </div>
-              <div class="content-item">
-                <div class="content-date">
-                  <span class="day">09</span>
-                  <span class="month">APR</span>
-                </div>
-                <div class="content-detail">
-                  <span class="content-title">Gold Trading Tips — Carousel</span>
-                  <div class="content-tags">
-                    <span class="tag tag-instagram">Instagram FA</span>
-                    <span class="tag tag-telegram">Telegram</span>
-                  </div>
-                </div>
-                <span class="content-status status-review">In Review</span>
-              </div>
-              <div class="content-item">
-                <div class="content-date">
-                  <span class="day">10</span>
-                  <span class="month">APR</span>
-                </div>
-                <div class="content-detail">
-                  <span class="content-title">Opofinance Academy — Video</span>
-                  <div class="content-tags">
-                    <span class="tag tag-youtube">YouTube</span>
-                    <span class="tag tag-linkedin">LinkedIn</span>
-                  </div>
-                </div>
-                <span class="content-status status-progress">In Progress</span>
-              </div>
-              <div class="content-item">
-                <div class="content-date">
-                  <span class="day">11</span>
-                  <span class="month">APR</span>
-                </div>
-                <div class="content-detail">
-                  <span class="content-title">عرض تداول العملات — Post</span>
-                  <div class="content-tags">
-                    <span class="tag tag-instagram">Instagram AR</span>
-                  </div>
-                </div>
-                <span class="content-status status-draft">Draft</span>
-              </div>
-              <div class="content-item">
-                <div class="content-date">
-                  <span class="day">12</span>
-                  <span class="month">APR</span>
-                </div>
-                <div class="content-detail">
-                  <span class="content-title">Copy Trading Feature Spotlight</span>
-                  <div class="content-tags">
-                    <span class="tag tag-linkedin">LinkedIn</span>
-                    <span class="tag tag-telegram">Telegram</span>
-                  </div>
-                </div>
-                <span class="content-status status-ready">Ready</span>
-              </div>
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-content">
+            <div class="hero-eyebrow">Week 15 · April 2026</div>
+            <h2 class="hero-title">Negar's Dashboard</h2>
+            <p class="hero-sub">37 posts scheduled · 5 awaiting approval · 1 campaign live</p>
+            <div class="hero-actions">
+              <button class="btn-primary" onclick="navigateTo('content')">+ New Post</button>
+              <button class="btn-ghost" onclick="navigateTo('approvals')">Review Approvals</button>
             </div>
           </div>
         </div>
 
-        <div class="grid-2">
-          <!-- Team Activity -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Team Activity</h3>
-              <a href="#" class="card-link">View All</a>
+        <!-- Shelves Container -->
+        <div class="shelves-container">
+
+          <!-- Stats Row -->
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:rgba(0,77,250,0.15);color:#004dfa;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value">248.5K</span>
+                <span class="stat-label">Total Followers</span>
+              </div>
+              <span class="stat-change positive">+12.3%</span>
             </div>
-            <div class="team-list">
-              <div class="team-item">
-                <div class="avatar-sm" style="background:#004dfa;">A</div>
-                <div class="team-detail">
-                  <span class="team-name">Ali — Designer</span>
-                  <span class="team-task">Completed carousel for Gold Trading Tips</span>
-                </div>
-                <span class="team-time">2h ago</span>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               </div>
-              <div class="team-item">
-                <div class="avatar-sm" style="background:#1d79fd;">S</div>
-                <div class="team-detail">
-                  <span class="team-name">Sara — Videographer</span>
-                  <span class="team-task">Uploaded raw footage for Academy video</span>
-                </div>
-                <span class="team-time">4h ago</span>
+              <div class="stat-info">
+                <span class="stat-value">4.8%</span>
+                <span class="stat-label">Engagement Rate</span>
               </div>
-              <div class="team-item">
-                <div class="avatar-sm" style="background:#ffcc00;color:#051429;">R</div>
-                <div class="team-detail">
-                  <span class="team-name">Reza — Editor</span>
-                  <span class="team-task">Editing weekly recap reel — 70% done</span>
-                </div>
-                <span class="team-time">5h ago</span>
+              <span class="stat-change positive">+0.6%</span>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
-              <div class="team-item">
-                <div class="avatar-sm" style="background:#1dfd3d;color:#051429;">M</div>
-                <div class="team-detail">
-                  <span class="team-name">Maryam — Copywriter</span>
-                  <span class="team-task">Drafted Arabic post captions for review</span>
+              <div class="stat-info">
+                <span class="stat-value">37</span>
+                <span class="stat-label">Scheduled Posts</span>
+              </div>
+              <span class="stat-change neutral">This week</span>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:rgba(29,121,253,0.15);color:#1d79fd;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value">1.2M</span>
+                <span class="stat-label">Monthly Reach</span>
+              </div>
+              <span class="stat-change positive">+18.7%</span>
+            </div>
+          </div>
+
+          <!-- Upcoming Content Shelf -->
+          <div class="shelf">
+            <div class="shelf-header">
+              <h3 class="shelf-title">Upcoming This Week</h3>
+              <a href="#" class="shelf-see-all" onclick="navigateTo('content')">See all</a>
+            </div>
+            <div class="shelf-row">
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#004dfa 0%,#051429 100%);">
+                  <span class="poster-type">Reel</span>
+                  <div class="poster-platforms"><span class="pdot ig"></span><span class="pdot yt"></span></div>
                 </div>
-                <span class="team-time">6h ago</span>
+                <div class="poster-info">
+                  <p class="poster-title">Forex Market Weekly Recap</p>
+                  <p class="poster-date">Apr 08</p>
+                  <span class="pill pill-ready">Ready</span>
+                </div>
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#1d79fd 0%,#004dfa 100%);">
+                  <span class="poster-type">Carousel</span>
+                  <div class="poster-platforms"><span class="pdot ig"></span><span class="pdot tg"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">Gold Trading Tips</p>
+                  <p class="poster-date">Apr 09</p>
+                  <span class="pill pill-review">In Review</span>
+                </div>
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#ffcc00 0%,#004dfa 100%);">
+                  <span class="poster-type">Video</span>
+                  <div class="poster-platforms"><span class="pdot yt"></span><span class="pdot li"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">Opofinance Academy</p>
+                  <p class="poster-date">Apr 10</p>
+                  <span class="pill pill-progress">In Progress</span>
+                </div>
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#1dfd3d22 0%,#051429 100%);">
+                  <span class="poster-type">Post</span>
+                  <div class="poster-platforms"><span class="pdot ig"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">عرض تداول العملات</p>
+                  <p class="poster-date">Apr 11</p>
+                  <span class="pill pill-draft">Draft</span>
+                </div>
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#9b59b6 0%,#051429 100%);">
+                  <span class="poster-type">Carousel</span>
+                  <div class="poster-platforms"><span class="pdot li"></span><span class="pdot tg"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">Copy Trading Feature Spotlight</p>
+                  <p class="poster-date">Apr 12</p>
+                  <span class="pill pill-ready">Ready</span>
+                </div>
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#1d79fd 0%,#1dfd3d22 100%);">
+                  <span class="poster-type">Reel</span>
+                  <div class="poster-platforms"><span class="pdot ig"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">MT5 Platform Walkthrough</p>
+                  <p class="poster-date">Apr 14</p>
+                  <span class="pill pill-draft">Draft</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Brand Consistency -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Brand Consistency Score</h3>
-              <select class="card-select">
-                <option>All Platforms</option>
-                <option>Instagram</option>
-                <option>Telegram</option>
-                <option>YouTube</option>
-                <option>LinkedIn</option>
-              </select>
+          <!-- Awaiting Approval Shelf -->
+          <div class="shelf">
+            <div class="shelf-header">
+              <h3 class="shelf-title">Awaiting Approval</h3>
+              <a href="#" class="shelf-see-all" onclick="navigateTo('approvals')">See all</a>
             </div>
-            <div class="brand-score-wrap">
-              <div class="brand-ring">
-                <svg viewBox="0 0 120 120" width="140" height="140">
-                  <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
-                  <circle cx="60" cy="60" r="52" fill="none" stroke="#1dfd3d" stroke-width="10"
-                    stroke-dasharray="297" stroke-dashoffset="30" stroke-linecap="round"
-                    transform="rotate(-90 60 60)"/>
-                </svg>
-                <div class="brand-score-value">
-                  <span class="score-num">92</span>
-                  <span class="score-unit">%</span>
+            <div class="shelf-row">
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#004dfa 0%,#9b59b6 100%);">
+                  <span class="poster-type">Reel</span>
+                  <div class="poster-platforms"><span class="pdot ig"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">10 Forex Mistakes</p>
+                  <p class="poster-date">Pending · Ali</p>
+                  <span class="pill pill-review">Needs Review</span>
                 </div>
               </div>
-              <div class="brand-checklist">
-                <div class="check-item pass">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                  Logo placement
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#ffcc00 0%,#004dfa 100%);">
+                  <span class="poster-type">Carousel</span>
+                  <div class="poster-platforms"><span class="pdot li"></span></div>
                 </div>
-                <div class="check-item pass">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                  Color palette
+                <div class="poster-info">
+                  <p class="poster-title">Risk Management 101</p>
+                  <p class="poster-date">Pending · Sara</p>
+                  <span class="pill pill-review">Needs Review</span>
                 </div>
-                <div class="check-item pass">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                  Typography
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#1dfd3d22 0%,#1d79fd 100%);">
+                  <span class="poster-type">Video</span>
+                  <div class="poster-platforms"><span class="pdot yt"></span></div>
                 </div>
-                <div class="check-item warn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  Tone of voice (AR)
+                <div class="poster-info">
+                  <p class="poster-title">Academy Ep.4 — Crypto</p>
+                  <p class="poster-date">Pending · Reza</p>
+                  <span class="pill pill-review">Needs Review</span>
                 </div>
-                <div class="check-item pass">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                  CTA consistency
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#9b59b6 0%,#004dfa 100%);">
+                  <span class="poster-type">Post</span>
+                  <div class="poster-platforms"><span class="pdot tg"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">Weekly Market Brief</p>
+                  <p class="poster-date">Pending · Neda</p>
+                  <span class="pill pill-review">Needs Review</span>
+                </div>
+              </div>
+              <div class="poster-card">
+                <div class="poster-thumb" style="background:linear-gradient(135deg,#004dfa 0%,#1dfd3d22 100%);">
+                  <span class="poster-type">Reel</span>
+                  <div class="poster-platforms"><span class="pdot ig"></span></div>
+                </div>
+                <div class="poster-info">
+                  <p class="poster-title">سیگنال‌های فارکس این هفته</p>
+                  <p class="poster-date">Pending · Kamran</p>
+                  <span class="pill pill-review">Needs Review</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <!-- Studio Projects Shelf -->
+          <div class="shelf">
+            <div class="shelf-header">
+              <h3 class="shelf-title">Studio Projects</h3>
+              <a href="#" class="shelf-see-all" onclick="navigateTo('studio')">Open Studio</a>
+            </div>
+            <div class="shelf-row">
+              <div class="video-card">
+                <div class="video-thumb">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </div>
+                <div class="video-info">
+                  <p class="video-title">Academy Ep.4 — Crypto Basics</p>
+                  <p class="video-meta">First Cut Ready · 4:22</p>
+                </div>
+              </div>
+              <div class="video-card">
+                <div class="video-thumb">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </div>
+                <div class="video-info">
+                  <p class="video-title">Forex Weekly Recap — Reel</p>
+                  <p class="video-meta">In Progress · 0:58</p>
+                </div>
+              </div>
+              <div class="video-card">
+                <div class="video-thumb">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </div>
+                <div class="video-info">
+                  <p class="video-title">MT5 Platform Walkthrough</p>
+                  <p class="video-meta">Script Approved · 3:10</p>
+                </div>
+              </div>
+              <div class="video-card">
+                <div class="video-thumb">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </div>
+                <div class="video-info">
+                  <p class="video-title">Brand Story — Q2 2026</p>
+                  <p class="video-meta">In Development · 2:45</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- end shelves-container -->
+
         </div><!-- end section-overview -->
 
         <!-- ====== CONTENT PLANNER ====== -->
         <div id="section-content" class="dashboard-section hidden">
+          <div class="section-pad">
           <div class="card" style="margin-bottom:18px;">
             <div class="card-header">
               <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
@@ -547,10 +519,12 @@
               </div>
             </div>
           </div>
-        </div>
+          </div><!-- end section-pad -->
+        </div><!-- end section-content -->
 
         <!-- ====== CALENDAR ====== -->
         <div id="section-calendar" class="dashboard-section hidden">
+          <div class="section-pad">
           <!-- Delivery Rate -->
           <div class="card" style="margin-bottom:18px;">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
@@ -629,10 +603,12 @@
               <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><span style="width:10px;height:10px;border-radius:50%;background:#ff0000;display:inline-block;"></span>YouTube</div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
         <!-- ====== TEAM ====== -->
         <div id="section-team" class="dashboard-section hidden">
+          <div class="section-pad">
           <div class="card" style="margin-bottom:18px;">
             <div class="card-header"><h3>Production Pipeline</h3><span style="font-size:.8rem;color:rgba(255,255,255,0.4);">Drag cards between columns</span></div>
             <div class="kanban-board" id="kanban-main">
@@ -699,10 +675,12 @@
               </div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
         <!-- ====== ANALYTICS ====== -->
         <div id="section-analytics" class="dashboard-section hidden">
+          <div class="section-pad">
           <!-- Platform selector -->
           <div class="card" style="margin-bottom:18px;">
             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
@@ -760,10 +738,12 @@
               </div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
         <!-- ====== BRAND GUIDELINES ====== -->
         <div id="section-brand" class="dashboard-section hidden">
+          <div class="section-pad">
           <div class="grid-2">
             <!-- Color Palette -->
             <div class="card">
@@ -823,10 +803,12 @@
               </div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
         <!-- ====== APPROVAL INBOX ====== -->
         <div id="section-approvals" class="dashboard-section hidden">
+          <div class="section-pad">
           <!-- Summary row -->
           <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
             <div class="stat-card" style="flex:1;min-width:160px;"><div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="stat-info"><span class="stat-value">4</span><span class="stat-label">Pending Review</span></div></div>
@@ -937,10 +919,12 @@
               </div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
         <!-- ====== CAMPAIGNS ====== -->
         <div id="section-campaigns" class="dashboard-section hidden">
+          <div class="section-pad">
           <div style="display:flex;justify-content:flex-end;margin-bottom:18px;"><button class="btn-small">+ New Campaign</button></div>
           <div class="grid-2" style="margin-bottom:18px;">
             <div class="card"><div class="card-header"><h3>OpoTrade Launch (April)</h3><span class="content-status status-ready">Active</span></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"><span class="tag tag-instagram">Inst FA</span><span class="tag tag-instagram">Inst EN</span><span class="tag tag-linkedin">LinkedIn</span><span class="tag tag-telegram">Telegram</span></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);margin-bottom:10px;">Apr 1 – Apr 30, 2026</div><div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px;"><span>Progress</span><span style="color:rgba(255,255,255,0.5);">14 / 20 posts</span></div><div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;"><div style="width:70%;height:100%;background:linear-gradient(90deg,#004dfa,#1dfd3d);border-radius:3px;"></div></div></div><div style="font-size:.78rem;color:rgba(255,255,255,0.45);">Total Reach: <strong style="color:#fff;">680K</strong></div></div>
@@ -961,10 +945,12 @@
               </table>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
         <!-- ====== KPI SCORECARD ====== -->
         <div id="section-kpi" class="dashboard-section hidden">
+          <div class="section-pad">
           <!-- Overall Score -->
           <div class="card" style="margin-bottom:18px;">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
@@ -1022,64 +1008,11 @@
               <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:12px;"><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:6px;">Manager Notes</div><div style="font-size:.82rem;color:rgba(255,255,255,0.5);">Excellent cross-team communication. Briefs are consistently clear and actionable.</div></div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
-
-        <!-- ====== ARABIC OVERSIGHT ====== -->
-        <div id="section-arabic" class="dashboard-section hidden">
-          <!-- AR stats -->
-          <div class="stats-row" style="margin-bottom:18px;">
-            <div class="stat-card"><div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stat-info"><span class="stat-value">28K</span><span class="stat-label">AR Followers</span></div><span class="stat-change positive">+14.2%</span></div>
-            <div class="stat-card"><div class="stat-icon" style="background:rgba(0,77,250,0.15);color:#004dfa;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div><div class="stat-info"><span class="stat-value">180K</span><span class="stat-label">Monthly Reach</span></div><span class="stat-change positive">+18.1%</span></div>
-            <div class="stat-card"><div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="stat-info"><span class="stat-value">3.9%</span><span class="stat-label">Engagement Rate</span></div><span class="stat-change positive">+0.8%</span></div>
-            <div class="stat-card"><div class="stat-icon" style="background:rgba(29,121,253,0.15);color:#1d79fd;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="8" width="4" height="12"/><rect x="17" y="4" width="4" height="16"/></svg></div><div class="stat-info"><span class="stat-value">10</span><span class="stat-label">Posts This Month</span></div><span class="stat-change neutral">On track</span></div>
-          </div>
-          <div class="grid-2" style="margin-bottom:18px;">
-            <!-- AR Pipeline -->
-            <div class="card">
-              <div class="card-header"><h3>Arabic Content Pipeline</h3></div>
-              <div class="kanban-board" style="gap:8px;" id="kanban-arabic">
-                <div class="kanban-col" data-col="ar-script" style="min-width:120px;"><div class="kanban-col-title">Script</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">نصائح الذهب</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Fatima · Apr 15</div></div></div>
-                <div class="kanban-col" data-col="ar-design" style="min-width:120px;"><div class="kanban-col-title">Design</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">عرض تداول</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Khalid · Apr 12</div></div></div>
-                <div class="kanban-col" data-col="ar-editing" style="min-width:120px;"><div class="kanban-col-title">Editing</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">رمضان مالي</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Reza · Apr 14</div></div></div>
-                <div class="kanban-col" data-col="ar-review" style="min-width:120px;"><div class="kanban-col-title">Review</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">تداول ذهب</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Maryam · Apr 11</div></div></div>
-                <div class="kanban-col" data-col="ar-done" style="min-width:120px;"><div class="kanban-col-title">Published</div><div class="kanban-card" draggable="true"><div style="font-size:.8rem;font-weight:600;">العملات الأجنبية</div><div style="font-size:.7rem;color:rgba(255,255,255,0.4);margin-top:4px;">Apr 8</div></div></div>
-              </div>
-            </div>
-            <!-- AR Team -->
-            <div class="card">
-              <div class="card-header"><h3>Arabic Team</h3></div>
-              <div style="display:flex;flex-direction:column;gap:14px;">
-                <div style="display:flex;align-items:center;gap:12px;"><div class="avatar-sm" style="background:#9b59b6;flex-shrink:0;">F</div><div style="flex:1;"><div style="font-size:.88rem;font-weight:600;">Fatima — AR Copywriter</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">2 tasks active · Script stage</div></div><span class="content-status status-progress" style="font-size:.68rem;">Active</span></div>
-                <div style="display:flex;align-items:center;gap:12px;"><div class="avatar-sm" style="background:#e67e22;flex-shrink:0;">K</div><div style="flex:1;"><div style="font-size:.88rem;font-weight:600;">Khalid — AR Designer</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">2 tasks active · Design stage</div></div><span class="content-status status-progress" style="font-size:.68rem;">Active</span></div>
-                <div style="display:flex;align-items:center;gap:12px;"><div class="avatar-sm" style="background:#1dfd3d;color:#051429;flex-shrink:0;">M</div><div style="flex:1;"><div style="font-size:.88rem;font-weight:600;">Maryam — Copywriter (AR support)</div><div style="font-size:.76rem;color:rgba(255,255,255,0.4);">1 AR task in review</div></div><span class="content-status status-review" style="font-size:.68rem;">In Review</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="grid-2">
-            <!-- Tone Consistency Checker -->
-            <div class="card">
-              <div class="card-header"><h3>Tone Consistency Checker</h3><span style="font-size:.72rem;background:rgba(255,204,0,0.15);color:#ffcc00;padding:2px 8px;border-radius:20px;font-weight:700;">AR Only</span></div>
-              <div style="font-size:.82rem;color:rgba(255,255,255,0.5);margin-bottom:12px;">Paste Arabic copy below to check against brand tone guidelines.</div>
-              <textarea class="brief-textarea" style="min-height:100px;" placeholder="الصق النص العربي هنا للتحقق من التوافق مع إرشادات العلامة التجارية..."></textarea>
-              <div style="display:flex;gap:8px;margin-top:12px;">
-                <button class="btn-small" onclick="this.textContent='✓ Tone looks consistent'">Check Tone</button>
-                <button style="padding:6px 14px;border-radius:8px;font-size:.82rem;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);cursor:pointer;">Clear</button>
-              </div>
-            </div>
-            <!-- Pending AR Approvals -->
-            <div class="card">
-              <div class="card-header"><h3>Pending AR Approvals</h3><span class="content-status status-review" style="font-size:.72rem;">3 pending</span></div>
-              <div style="display:flex;flex-direction:column;gap:10px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;"><div><div style="font-size:.86rem;font-weight:600;">عرض تداول العملات</div><div style="font-size:.74rem;color:rgba(255,255,255,0.4);">Submitted by Maryam · 5h ago</div></div><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div>
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;"><div><div style="font-size:.86rem;font-weight:600;">نصائح الذهب للمبتدئين</div><div style="font-size:.74rem;color:rgba(255,255,255,0.4);">Submitted by Fatima · 8h ago</div></div><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span></div>
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;"><div><div style="font-size:.86rem;font-weight:600;">رمضان والتخطيط المالي</div><div style="font-size:.74rem;color:rgba(255,255,255,0.4);">Submitted by Fatima · 1d ago</div></div><span class="tag tag-telegram" style="font-size:.65rem;">Telegram</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- ====== STUDIO ====== -->
         <div id="section-studio" class="dashboard-section hidden">
+          <div class="section-pad">
           <!-- Studio tab bar -->
           <div class="studio-tabs" id="studio-tabs">
             <button class="studio-tab active" onclick="switchStudio(this,'idea')">Idea</button>
@@ -1381,6 +1314,7 @@
               </div>
             </div>
           </div>
+          </div><!-- end section-pad -->
         </div>
 
       </div>
