@@ -35,9 +35,38 @@ function handleSignup(e) {
 
 /* ===== Enter Dashboard ===== */
 function enterDashboard(name) {
-  document.getElementById('user-name').textContent = name;
+  document.getElementById('user-name').textContent = "Negar's Dashboard";
   document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
   showPage('dashboard');
+}
+
+/* ===== Navigate To Section ===== */
+function navigateTo(section) {
+  var navLinks = document.querySelectorAll('.sidebar nav .nav-link');
+  navLinks.forEach(function(l) { l.classList.remove('active'); });
+  var target = document.querySelector('.sidebar nav .nav-link[data-section="' + section + '"]');
+  if (target) target.classList.add('active');
+
+  var titles = {
+    overview: 'Dashboard Overview', content: 'Content Planner',
+    calendar: 'Calendar', team: 'Team Management',
+    analytics: 'Analytics', brand: 'Brand Guidelines',
+    approvals: 'Approval Inbox', campaigns: 'Campaigns',
+    kpi: 'KPI Scorecard', studio: 'Studio'
+  };
+  var titleEl = document.querySelector('.page-title');
+  if (titleEl && titles[section]) titleEl.textContent = titles[section];
+
+  document.querySelectorAll('.dashboard-section').forEach(function(s) { s.classList.add('hidden'); });
+  var sectionMap = {
+    overview: 'section-overview', content: 'section-content',
+    calendar: 'section-calendar', team: 'section-team',
+    analytics: 'section-analytics', brand: 'section-brand',
+    approvals: 'section-approvals', campaigns: 'section-campaigns',
+    kpi: 'section-kpi', studio: 'section-studio'
+  };
+  var el = document.getElementById(sectionMap[section]);
+  if (el) el.classList.remove('hidden');
 }
 
 /* ===== Logout ===== */
@@ -68,36 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
   navLinks.forEach(function (link) {
     link.addEventListener('click', function (e) {
       e.preventDefault();
-      navLinks.forEach(function (l) { l.classList.remove('active'); });
-      link.classList.add('active');
-
       var section = link.getAttribute('data-section');
-      var titles = {
-        overview: 'Dashboard Overview',
-        content: 'Content Planner',
-        calendar: 'Calendar',
-        team: 'Team Management',
-        analytics: 'Analytics',
-        brand: 'Brand Guidelines',
-        approvals: 'Approval Inbox',
-        campaigns: 'Campaigns',
-        kpi: 'KPI Scorecard',
-        arabic: 'Arabic Channel Oversight',
-        studio: 'Studio'
-      };
-      var titleEl = document.querySelector('.page-title');
-      if (titleEl && titles[section]) titleEl.textContent = titles[section];
-
-      document.querySelectorAll('.dashboard-section').forEach(function(s){ s.classList.add('hidden'); });
-      var sectionMap = {
-        overview:'section-overview', content:'section-content',
-        calendar:'section-calendar', team:'section-team',
-        analytics:'section-analytics', brand:'section-brand',
-        approvals:'section-approvals', campaigns:'section-campaigns',
-        kpi:'section-kpi', arabic:'section-arabic', studio:'section-studio'
-      };
-      var target = document.getElementById(sectionMap[section]);
-      if (target) target.classList.remove('hidden');
+      if (section) navigateTo(section);
 
       var sidebar = document.querySelector('.sidebar');
       var overlay = document.querySelector('.sidebar-overlay');
@@ -114,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Kanban drag and drop
   initKanban('kanban-main');
-  initKanban('kanban-arabic');
 });
 
 /* ===== Content Planner Filters ===== */
