@@ -6,7 +6,7 @@
   <title>Opofinance — Social Media Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
 /* ═══════════════════════════════════════════
@@ -285,6 +285,288 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
   html[dir="rtl"] .lang-bar{right:auto;left:12px;}
 }
   </style>
+  <style>
+/* ═══════════════════════════════════════════════════════════
+   OVERVIEW — FUTURISTIC REDESIGN
+   All selectors prefixed with .ov- to prevent collisions.
+═══════════════════════════════════════════════════════════ */
+
+/* Tokens */
+#section-overview {
+  --ov-navy:   #051429;
+  --ov-blue:   #004dfa;
+  --ov-yellow: #ffcc00;
+  --ov-green:  #1dfd3d;
+  --ov-purple: #7b2fff;
+  --ov-glass:  rgba(0,77,250,0.07);
+  --ov-border: rgba(0,77,250,0.2);
+  --ov-font:  'Plus Jakarta Sans', sans-serif;
+  --ov-font2: 'Oxanium', sans-serif;
+  font-family: var(--ov-font);
+  scroll-behavior: smooth;
+}
+
+/* ── KPI Hero Bar ── */
+.ov-hero {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 14px;
+  padding: 28px 36px 0;
+}
+.ov-kpi {
+  background: rgba(5,20,41,0.7);
+  border: 1px solid var(--ov-border);
+  border-top: 1px solid rgba(0,77,250,0.5);
+  border-radius: 12px;
+  padding: 20px 22px;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+.ov-kpi::after {
+  content: '';
+  position: absolute;
+  top: -100%; left: 0; right: 0; height: 100%;
+  background: linear-gradient(transparent,rgba(0,77,250,0.04),transparent);
+  pointer-events: none;
+}
+.ov-kpi:hover { border-color: rgba(123,47,255,0.5); box-shadow: 0 0 24px rgba(123,47,255,0.15); }
+.ov-kpi:hover::after { animation: ov-scan 0.6s ease-out; }
+@keyframes ov-scan { from{top:-100%;opacity:1;} to{top:100%;opacity:0;} }
+
+.ov-kpi-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 8px;
+}
+.ov-kpi-value {
+  font-family: var(--ov-font2);
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 9px;
+}
+.ov-kpi-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+.ov-delta-pos { background: rgba(29,253,61,0.1); color: var(--ov-green); border: 1px solid rgba(29,253,61,0.25); }
+.ov-delta-neg { background: rgba(255,77,77,0.1);  color: #ff4d4d;       border: 1px solid rgba(255,77,77,0.25); }
+.ov-delta-neu { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.12); }
+
+/* ── Sections wrapper ── */
+.ov-sections { padding: 22px 36px 36px; display: flex; flex-direction: column; gap: 18px; }
+
+/* ── Glass card ── */
+.ov-card {
+  background: rgba(5,20,41,0.7);
+  border: 1px solid var(--ov-border);
+  border-top: 1px solid rgba(0,77,250,0.5);
+  border-radius: 14px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  position: relative;
+  transition: all 0.2s ease;
+}
+.ov-card:hover { border-color: rgba(123,47,255,0.4); box-shadow: 0 0 24px rgba(123,47,255,0.12); }
+.ov-card::after {
+  content: '';
+  position: absolute;
+  top: -100%; left: 0; right: 0; height: 100%;
+  background: linear-gradient(transparent,rgba(0,77,250,0.04),transparent);
+  pointer-events: none;
+}
+.ov-card:hover::after { animation: ov-scan 0.6s ease-out; }
+
+/* ── Section header ── */
+.ov-sec-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 22px 14px;
+  border-bottom: 1px solid var(--ov-border);
+}
+.ov-sec-hd::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,77,250,0.3), transparent);
+}
+.ov-sec-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ov-blue);
+  border-left: 2px solid var(--ov-blue);
+  padding-left: 10px;
+  white-space: nowrap;
+}
+
+/* ── Tables ── */
+.ov-table-wrap { overflow-x: auto; }
+.ov-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.ov-table th {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.35);
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--ov-border);
+  white-space: nowrap;
+}
+.ov-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(0,77,250,0.1);
+  color: rgba(255,255,255,0.82);
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+.ov-table tr:last-child td { border-bottom: none; }
+.ov-table tbody tr { transition: all 0.2s ease; }
+.ov-table tbody tr:hover { background: rgba(0,77,250,0.06); }
+
+/* ── Platform name cell ── */
+.ov-plat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.ov-plat-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* ── Growth / number coloring ── */
+.ov-pos { color: var(--ov-green); font-weight: 600; }
+.ov-neg { color: #ff4d4d;         font-weight: 600; }
+.ov-neu { color: rgba(255,255,255,0.4); }
+.ov-num { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* ── Status badges ── */
+.ov-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.ov-badge-live    { border: 1px solid var(--ov-green); color: var(--ov-green); background: rgba(29,253,61,0.08); }
+.ov-badge-review  { border: 1px solid var(--ov-yellow); color: var(--ov-yellow); background: rgba(255,204,0,0.08); }
+.ov-badge-planned { border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.5); background: transparent; }
+.ov-badge-draft   { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.35); background: transparent; }
+.ov-badge-active  { border: 1px solid var(--ov-green); color: var(--ov-green); background: rgba(29,253,61,0.08); }
+
+/* Pulse dot for live */
+.ov-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ov-green);
+  animation: ov-pulse-anim 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes ov-pulse-anim {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%     { opacity:0.45; transform:scale(1.6); }
+}
+
+/* ── Activity level badges ── */
+.ov-act-high   { color: var(--ov-green); background: rgba(29,253,61,0.08); border: 1px solid rgba(29,253,61,0.3); }
+.ov-act-med    { color: var(--ov-yellow); background: rgba(255,204,0,0.08);  border: 1px solid rgba(255,204,0,0.3); }
+.ov-act-low    { color: #ff4d4d; background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); }
+.ov-act-dot-g  { width:6px;height:6px;border-radius:50%;background:var(--ov-green);display:inline-block;flex-shrink:0; }
+.ov-act-dot-y  { width:6px;height:6px;border-radius:50%;background:var(--ov-yellow);display:inline-block;flex-shrink:0; }
+.ov-act-dot-r  { width:6px;height:6px;border-radius:50%;background:#ff4d4d;display:inline-block;flex-shrink:0; }
+
+/* ── Progress bar (task overview) ── */
+.ov-prog-wrap { display:flex; align-items:center; gap:8px; }
+.ov-prog-track {
+  width: 60px; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; flex-shrink: 0;
+}
+.ov-prog-fill { height: 100%; background: var(--ov-blue); border-radius: 2px; transition: width 0.3s ease; }
+.ov-prog-txt { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; color: rgba(255,255,255,0.7); }
+
+/* ── Suggestion cards grid ── */
+.ov-sug-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+  padding: 18px 22px 22px;
+}
+.ov-sug-card {
+  background: rgba(5,20,41,0.8);
+  border: 1px solid var(--ov-border);
+  border-radius: 11px;
+  padding: 18px 18px 16px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.ov-sug-card:hover { box-shadow: 0 0 18px rgba(123,47,255,0.12); }
+.ov-sug-top { height: 2px; width: 100%; border-radius: 2px 2px 0 0; position: absolute; top: 0; left: 0; }
+.ov-sug-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.ov-sug-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.ov-sug-list li {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.55);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.45;
+}
+.ov-sug-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 5px; height: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── opo brand ── */
+.opo-brand { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; }
+.opo-brand-dot { color: var(--ov-blue); }
+
+/* ── Responsive ── */
+@media(max-width:1100px) {
+  .ov-hero { grid-template-columns: repeat(2,1fr); }
+  .ov-sug-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:700px) {
+  .ov-hero { grid-template-columns: 1fr; padding: 16px 16px 0; }
+  .ov-sections { padding: 14px 16px 24px; }
+  .ov-sug-grid { grid-template-columns: 1fr; }
+  .ov-kpi-value { font-size: 22px; }
+}
+  </style>
 </head>
 <body>
 
@@ -469,7 +751,7 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
   <!-- ====== DASHBOARD ====== -->
   <div id="page-dashboard" class="hidden">
     <aside class="sidebar">
-      <div class="sidebar-logo">OPO<span>FINANCE</span></div>
+      <div class="sidebar-logo"><span class="opo-brand">opo<span class="opo-brand-dot">.</span></span></div>
       <nav>
         <span class="nav-section-label">Workspace</span>
         <a href="#" class="nav-link active" data-section="overview">
@@ -550,254 +832,456 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
       <div class="content">
         <div id="section-overview" class="dashboard-section">
 
-        <!-- Hero Banner -->
-        <div class="hero-banner">
-          <div class="hero-content">
-            <div class="hero-eyebrow">Week 15 · April 2026</div>
-            <h2 class="hero-title">Negar's Dashboard</h2>
-            <p class="hero-sub">37 posts scheduled · 5 awaiting approval · 1 campaign live</p>
-            <div class="hero-actions">
-              <button class="btn-primary" onclick="navigateTo('content')">+ New Post</button>
-              <button class="btn-ghost" onclick="navigateTo('approvals')">Review Approvals</button>
+          <!-- ── KPI Hero Bar ── -->
+          <div class="ov-hero">
+            <div class="ov-kpi">
+              <div class="ov-kpi-label">Total Followers</div>
+              <div class="ov-kpi-value">95,400</div>
+              <span class="ov-kpi-delta ov-delta-pos">&#8593; +2.1K this week</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Shelves Container -->
-        <div class="shelves-container">
-
-          <!-- Stats Row -->
-          <div class="stats-row">
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(0,77,250,0.15);color:#004dfa;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-              </div>
-              <div class="stat-info">
-                <span class="stat-value">248.5K</span>
-                <span class="stat-label">Total Followers</span>
-              </div>
-              <span class="stat-change positive">+12.3%</span>
+            <div class="ov-kpi">
+              <div class="ov-kpi-label">Engagement Rate</div>
+              <div class="ov-kpi-value">5.1%</div>
+              <span class="ov-kpi-delta ov-delta-pos">&#8593; +0.3% this week</span>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(29,253,61,0.12);color:#1dfd3d;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              </div>
-              <div class="stat-info">
-                <span class="stat-value">4.8%</span>
-                <span class="stat-label">Engagement Rate</span>
-              </div>
-              <span class="stat-change positive">+0.6%</span>
+            <div class="ov-kpi">
+              <div class="ov-kpi-label">Monthly Reach</div>
+              <div class="ov-kpi-value">739K</div>
+              <span class="ov-kpi-delta ov-delta-pos">&#8593; +8.4% this month</span>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(255,204,0,0.15);color:#ffcc00;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              </div>
-              <div class="stat-info">
-                <span class="stat-value">37</span>
-                <span class="stat-label">Scheduled Posts</span>
-              </div>
-              <span class="stat-change neutral">This week</span>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon" style="background:rgba(29,121,253,0.15);color:#1d79fd;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-              </div>
-              <div class="stat-info">
-                <span class="stat-value">1.2M</span>
-                <span class="stat-label">Monthly Reach</span>
-              </div>
-              <span class="stat-change positive">+18.7%</span>
+            <div class="ov-kpi">
+              <div class="ov-kpi-label">Active Campaigns</div>
+              <div class="ov-kpi-value">3</div>
+              <span class="ov-kpi-delta ov-delta-neu">Q2 2026</span>
             </div>
           </div>
 
-          <!-- Upcoming Content Shelf -->
-          <div class="shelf">
-            <div class="shelf-header">
-              <h3 class="shelf-title">Upcoming This Week</h3>
-              <a href="#" class="shelf-see-all" onclick="navigateTo('content')">See all</a>
-            </div>
-            <div class="shelf-row">
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#004dfa 0%,#051429 100%);">
-                  <span class="poster-type">Reel</span>
-                  <div class="poster-platforms"><span class="pdot ig"></span><span class="pdot yt"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Forex Market Weekly Recap</p>
-                  <p class="poster-date">Apr 08</p>
-                  <span class="pill pill-ready">Ready</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#1d79fd 0%,#004dfa 100%);">
-                  <span class="poster-type">Carousel</span>
-                  <div class="poster-platforms"><span class="pdot ig"></span><span class="pdot tg"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Gold Trading Tips</p>
-                  <p class="poster-date">Apr 09</p>
-                  <span class="pill pill-review">In Review</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#ffcc00 0%,#004dfa 100%);">
-                  <span class="poster-type">Video</span>
-                  <div class="poster-platforms"><span class="pdot yt"></span><span class="pdot li"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Opofinance Academy</p>
-                  <p class="poster-date">Apr 10</p>
-                  <span class="pill pill-progress">In Progress</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#1dfd3d22 0%,#051429 100%);">
-                  <span class="poster-type">Post</span>
-                  <div class="poster-platforms"><span class="pdot ig"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">عرض تداول العملات</p>
-                  <p class="poster-date">Apr 11</p>
-                  <span class="pill pill-draft">Draft</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#9b59b6 0%,#051429 100%);">
-                  <span class="poster-type">Carousel</span>
-                  <div class="poster-platforms"><span class="pdot li"></span><span class="pdot tg"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Copy Trading Feature Spotlight</p>
-                  <p class="poster-date">Apr 12</p>
-                  <span class="pill pill-ready">Ready</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#1d79fd 0%,#1dfd3d22 100%);">
-                  <span class="poster-type">Reel</span>
-                  <div class="poster-platforms"><span class="pdot ig"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">MT5 Platform Walkthrough</p>
-                  <p class="poster-date">Apr 14</p>
-                  <span class="pill pill-draft">Draft</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- ── Main Sections ── -->
+          <div class="ov-sections">
 
-          <!-- Awaiting Approval Shelf -->
-          <div class="shelf">
-            <div class="shelf-header">
-              <h3 class="shelf-title">Awaiting Approval</h3>
-              <a href="#" class="shelf-see-all" onclick="navigateTo('approvals')">See all</a>
+            <!-- 1. Social Media Insights -->
+            <div class="ov-card">
+              <div class="ov-sec-hd"><span class="ov-sec-title">Social Media Insights</span></div>
+              <div class="ov-table-wrap">
+                <table class="ov-table">
+                  <thead>
+                    <tr>
+                      <th>Platform</th>
+                      <th>Followers</th>
+                      <th>New Followers</th>
+                      <th>Reach</th>
+                      <th>Eng. Rate</th>
+                      <th>Avg. Likes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#e1306c;"></span>Instagram FA</div></td>
+                      <td class="ov-num">42,800</td>
+                      <td class="ov-pos">+540</td>
+                      <td class="ov-num">210K</td>
+                      <td>5.8%</td>
+                      <td class="ov-num">1,240</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#833ab4;"></span>Instagram EN</div></td>
+                      <td class="ov-num">18,300</td>
+                      <td class="ov-pos">+210</td>
+                      <td class="ov-num">89K</td>
+                      <td>4.2%</td>
+                      <td class="ov-num">768</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#c13584;"></span>Instagram AR</div></td>
+                      <td class="ov-num">11,600</td>
+                      <td class="ov-pos">+130</td>
+                      <td class="ov-num">54K</td>
+                      <td>3.9%</td>
+                      <td class="ov-num">452</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#0077b5;"></span>LinkedIn</div></td>
+                      <td class="ov-num">8,400</td>
+                      <td class="ov-pos">+95</td>
+                      <td class="ov-num">41K</td>
+                      <td>3.1%</td>
+                      <td class="ov-num">312</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#2ca5e0;"></span>Telegram</div></td>
+                      <td class="ov-num">7,200</td>
+                      <td class="ov-pos">+480</td>
+                      <td class="ov-num">148K</td>
+                      <td>6.8%</td>
+                      <td class="ov-neu">&#8212;</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#ff0000;"></span>YouTube</div></td>
+                      <td class="ov-num">5,800</td>
+                      <td class="ov-pos">+62</td>
+                      <td class="ov-num">97K</td>
+                      <td>4.5%</td>
+                      <td class="ov-num">920</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#1da1f2;"></span>Twitter / X</div></td>
+                      <td class="ov-num">1,100</td>
+                      <td class="ov-neg">&#8722;12</td>
+                      <td class="ov-num">23K</td>
+                      <td>1.9%</td>
+                      <td class="ov-num">84</td>
+                    </tr>
+                    <tr>
+                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#69c9d0;"></span>TikTok</div></td>
+                      <td class="ov-num">200</td>
+                      <td class="ov-pos">+200</td>
+                      <td class="ov-num">77K</td>
+                      <td>9.3%</td>
+                      <td class="ov-num">3,410</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div class="shelf-row">
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#004dfa 0%,#9b59b6 100%);">
-                  <span class="poster-type">Reel</span>
-                  <div class="poster-platforms"><span class="pdot ig"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">10 Forex Mistakes</p>
-                  <p class="poster-date">Pending · Ali</p>
-                  <span class="pill pill-review">Needs Review</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#ffcc00 0%,#004dfa 100%);">
-                  <span class="poster-type">Carousel</span>
-                  <div class="poster-platforms"><span class="pdot li"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Risk Management 101</p>
-                  <p class="poster-date">Pending · Sara</p>
-                  <span class="pill pill-review">Needs Review</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#1dfd3d22 0%,#1d79fd 100%);">
-                  <span class="poster-type">Video</span>
-                  <div class="poster-platforms"><span class="pdot yt"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Academy Ep.4 — Crypto</p>
-                  <p class="poster-date">Pending · Reza</p>
-                  <span class="pill pill-review">Needs Review</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#9b59b6 0%,#004dfa 100%);">
-                  <span class="poster-type">Post</span>
-                  <div class="poster-platforms"><span class="pdot tg"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">Weekly Market Brief</p>
-                  <p class="poster-date">Pending · Neda</p>
-                  <span class="pill pill-review">Needs Review</span>
-                </div>
-              </div>
-              <div class="poster-card">
-                <div class="poster-thumb" style="background:linear-gradient(135deg,#004dfa 0%,#1dfd3d22 100%);">
-                  <span class="poster-type">Reel</span>
-                  <div class="poster-platforms"><span class="pdot ig"></span></div>
-                </div>
-                <div class="poster-info">
-                  <p class="poster-title">سیگنال‌های فارکس این هفته</p>
-                  <p class="poster-date">Pending · Kamran</p>
-                  <span class="pill pill-review">Needs Review</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Studio Projects Shelf -->
-          <div class="shelf">
-            <div class="shelf-header">
-              <h3 class="shelf-title">Studio Projects</h3>
-              <a href="#" class="shelf-see-all" onclick="navigateTo('studio')">Open Studio</a>
+            <!-- 2. Monthly Task Overview -->
+            <div class="ov-card">
+              <div class="ov-sec-hd"><span class="ov-sec-title">Monthly Task Overview &#8212; April 2026</span></div>
+              <div class="ov-table-wrap">
+                <table class="ov-table">
+                  <thead>
+                    <tr>
+                      <th>Task Category</th>
+                      <th>Total</th>
+                      <th>Done</th>
+                      <th>In Progress</th>
+                      <th>Remaining</th>
+                      <th>Progress</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Content Planning</td>
+                      <td class="ov-num">20</td>
+                      <td class="ov-pos">16</td>
+                      <td class="ov-num">3</td>
+                      <td class="ov-neu">1</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:80%;"></div></div><span class="ov-prog-txt">80%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Video Production</td>
+                      <td class="ov-num">14</td>
+                      <td class="ov-pos">7</td>
+                      <td class="ov-num">5</td>
+                      <td class="ov-neu">2</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:50%;"></div></div><span class="ov-prog-txt">50%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Graphic Design</td>
+                      <td class="ov-num">18</td>
+                      <td class="ov-pos">14</td>
+                      <td class="ov-num">3</td>
+                      <td class="ov-neu">1</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:78%;"></div></div><span class="ov-prog-txt">78%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Copywriting</td>
+                      <td class="ov-num">24</td>
+                      <td class="ov-pos">19</td>
+                      <td class="ov-num">4</td>
+                      <td class="ov-neu">1</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:79%;"></div></div><span class="ov-prog-txt">79%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Approvals</td>
+                      <td class="ov-num">31</td>
+                      <td class="ov-pos">24</td>
+                      <td class="ov-num">5</td>
+                      <td class="ov-neu">2</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:77%;"></div></div><span class="ov-prog-txt">77%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Publishing</td>
+                      <td class="ov-num">47</td>
+                      <td class="ov-pos">38</td>
+                      <td class="ov-num">9</td>
+                      <td class="ov-neu">0</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:81%;"></div></div><span class="ov-prog-txt">81%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Analytics Review</td>
+                      <td class="ov-num">4</td>
+                      <td class="ov-pos">3</td>
+                      <td class="ov-num">1</td>
+                      <td class="ov-neu">0</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:75%;background:var(--ov-yellow);"></div></div><span class="ov-prog-txt">75%</span></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div class="shelf-row">
-              <div class="video-card">
-                <div class="video-thumb">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                </div>
-                <div class="video-info">
-                  <p class="video-title">Academy Ep.4 — Crypto Basics</p>
-                  <p class="video-meta">First Cut Ready · 4:22</p>
-                </div>
-              </div>
-              <div class="video-card">
-                <div class="video-thumb">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                </div>
-                <div class="video-info">
-                  <p class="video-title">Forex Weekly Recap — Reel</p>
-                  <p class="video-meta">In Progress · 0:58</p>
-                </div>
-              </div>
-              <div class="video-card">
-                <div class="video-thumb">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                </div>
-                <div class="video-info">
-                  <p class="video-title">MT5 Platform Walkthrough</p>
-                  <p class="video-meta">Script Approved · 3:10</p>
-                </div>
-              </div>
-              <div class="video-card">
-                <div class="video-thumb">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                </div>
-                <div class="video-info">
-                  <p class="video-title">Brand Story — Q2 2026</p>
-                  <p class="video-meta">In Development · 2:45</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
-        </div><!-- end shelves-container -->
+            <!-- 3. Video Production Overview -->
+            <div class="ov-card">
+              <div class="ov-sec-hd"><span class="ov-sec-title">Video Production Overview</span></div>
+              <div class="ov-table-wrap">
+                <table class="ov-table">
+                  <thead>
+                    <tr>
+                      <th>Project</th>
+                      <th>Type</th>
+                      <th>Duration</th>
+                      <th>Status</th>
+                      <th>Editor</th>
+                      <th>Due Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Academy Ep.4 &#8212; Crypto Basics</td>
+                      <td class="ov-neu">YouTube</td>
+                      <td class="ov-num">4:22</td>
+                      <td><span class="ov-badge ov-badge-live"><span class="ov-pulse"></span>Live</span></td>
+                      <td>Reza</td>
+                      <td class="ov-neu">Apr 01</td>
+                    </tr>
+                    <tr>
+                      <td>Forex Weekly Recap</td>
+                      <td class="ov-neu">Reel</td>
+                      <td class="ov-num">0:58</td>
+                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
+                      <td>Kamran</td>
+                      <td class="ov-neu">Apr 14</td>
+                    </tr>
+                    <tr>
+                      <td>MT5 Platform Walkthrough</td>
+                      <td class="ov-neu">YouTube</td>
+                      <td class="ov-num">3:10</td>
+                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
+                      <td>Reza</td>
+                      <td class="ov-neu">Apr 18</td>
+                    </tr>
+                    <tr>
+                      <td>Brand Story &#8212; Q2 2026</td>
+                      <td class="ov-neu">Documentary</td>
+                      <td class="ov-num">2:45</td>
+                      <td><span class="ov-badge ov-badge-draft">Draft</span></td>
+                      <td>Ali</td>
+                      <td class="ov-neu">Apr 30</td>
+                    </tr>
+                    <tr>
+                      <td>Gold Trading Tips Reel</td>
+                      <td class="ov-neu">Reel</td>
+                      <td class="ov-num">0:45</td>
+                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
+                      <td>Kamran</td>
+                      <td class="ov-neu">Apr 20</td>
+                    </tr>
+                    <tr>
+                      <td>Copy Trading Spotlight</td>
+                      <td class="ov-neu">Video</td>
+                      <td class="ov-num">1:30</td>
+                      <td><span class="ov-badge ov-badge-draft">Draft</span></td>
+                      <td>Ali</td>
+                      <td class="ov-neu">Apr 25</td>
+                    </tr>
+                    <tr>
+                      <td>Persian Market Brief</td>
+                      <td class="ov-neu">Reel</td>
+                      <td class="ov-num">0:52</td>
+                      <td><span class="ov-badge ov-badge-planned">Planned</span></td>
+                      <td class="ov-neu">&#8212;</td>
+                      <td class="ov-neu">May 01</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 4. Campaign Overview -->
+            <div class="ov-card">
+              <div class="ov-sec-hd"><span class="ov-sec-title">Campaign Overview</span></div>
+              <div class="ov-table-wrap">
+                <table class="ov-table">
+                  <thead>
+                    <tr>
+                      <th>Campaign</th>
+                      <th>Platforms</th>
+                      <th>Budget</th>
+                      <th>Status</th>
+                      <th>Start Date</th>
+                      <th>Progress</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Q2 Brand Awareness</td>
+                      <td class="ov-neu">IG &middot; LI &middot; TG</td>
+                      <td class="ov-num">$4,200</td>
+                      <td><span class="ov-badge ov-badge-active"><span class="ov-pulse"></span>Active</span></td>
+                      <td class="ov-neu">Apr 01</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:48%;"></div></div><span class="ov-prog-txt">48%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>MT5 Platform Launch</td>
+                      <td class="ov-neu">YT &middot; IG &middot; LI</td>
+                      <td class="ov-num">$6,800</td>
+                      <td><span class="ov-badge ov-badge-active"><span class="ov-pulse"></span>Active</span></td>
+                      <td class="ov-neu">Apr 08</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:32%;"></div></div><span class="ov-prog-txt">32%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Ramadan Trading Special</td>
+                      <td class="ov-neu">IG &middot; TG</td>
+                      <td class="ov-num">$2,100</td>
+                      <td><span class="ov-badge ov-badge-active"><span class="ov-pulse"></span>Active</span></td>
+                      <td class="ov-neu">Mar 20</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:85%;background:var(--ov-green);"></div></div><span class="ov-prog-txt">85%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Summer Academy Series</td>
+                      <td class="ov-neu">YT &middot; IG</td>
+                      <td class="ov-num">$3,500</td>
+                      <td><span class="ov-badge ov-badge-planned">Planned</span></td>
+                      <td class="ov-neu">Jun 01</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:0%;"></div></div><span class="ov-prog-txt">0%</span></div></td>
+                    </tr>
+                    <tr>
+                      <td>Social Growth Sprint</td>
+                      <td class="ov-neu">IG &middot; TT &middot; X</td>
+                      <td class="ov-num">$1,800</td>
+                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
+                      <td class="ov-neu">Apr 22</td>
+                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:10%;background:var(--ov-yellow);"></div></div><span class="ov-prog-txt">10%</span></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 5. Team Activity Overview -->
+            <div class="ov-card">
+              <div class="ov-sec-hd"><span class="ov-sec-title">Team Activity Overview</span></div>
+              <div class="ov-table-wrap">
+                <table class="ov-table">
+                  <thead>
+                    <tr>
+                      <th>Member</th>
+                      <th>Role</th>
+                      <th>Posts This Week</th>
+                      <th>Tasks Done</th>
+                      <th>Activity Level</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Negar</strong></td>
+                      <td class="ov-neu">Manager</td>
+                      <td class="ov-num">12</td>
+                      <td class="ov-num">18</td>
+                      <td><span class="ov-badge ov-act-high"><span class="ov-act-dot-g"></span>High</span></td>
+                    </tr>
+                    <tr>
+                      <td>Ali</td>
+                      <td class="ov-neu">Content Creator</td>
+                      <td class="ov-num">9</td>
+                      <td class="ov-num">14</td>
+                      <td><span class="ov-badge ov-act-high"><span class="ov-act-dot-g"></span>High</span></td>
+                    </tr>
+                    <tr>
+                      <td>Sara</td>
+                      <td class="ov-neu">Graphic Designer</td>
+                      <td class="ov-num">7</td>
+                      <td class="ov-num">11</td>
+                      <td><span class="ov-badge ov-act-med"><span class="ov-act-dot-y"></span>Medium</span></td>
+                    </tr>
+                    <tr>
+                      <td>Reza</td>
+                      <td class="ov-neu">Video Editor</td>
+                      <td class="ov-num">4</td>
+                      <td class="ov-num">6</td>
+                      <td><span class="ov-badge ov-act-med"><span class="ov-act-dot-y"></span>Medium</span></td>
+                    </tr>
+                    <tr>
+                      <td>Kamran</td>
+                      <td class="ov-neu">Social Media Specialist</td>
+                      <td class="ov-num">2</td>
+                      <td class="ov-num">3</td>
+                      <td><span class="ov-badge ov-act-low"><span class="ov-act-dot-r"></span>Low</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 6. Dashboard Improvement Suggestions -->
+            <div class="ov-card">
+              <div class="ov-sec-hd"><span class="ov-sec-title">Dashboard Improvement Suggestions</span></div>
+              <div class="ov-sug-grid">
+                <div class="ov-sug-card">
+                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#004dfa,#7b2fff);"></div>
+                  <div class="ov-sug-label" style="color:#1d79fd;">Productivity</div>
+                  <ul class="ov-sug-list">
+                    <li>Daily digest email with top 3 tasks</li>
+                    <li>Calendar sync with Google / Outlook</li>
+                    <li>Quick-action shortcuts for common tasks</li>
+                    <li>Auto-tag posts by platform &amp; language</li>
+                  </ul>
+                </div>
+                <div class="ov-sug-card">
+                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#1dfd3d,#004dfa);"></div>
+                  <div class="ov-sug-label" style="color:#1dfd3d;">Content Performance</div>
+                  <ul class="ov-sug-list">
+                    <li>Best-performing post format per platform</li>
+                    <li>Optimal posting time recommendations</li>
+                    <li>Content fatigue detection alerts</li>
+                    <li>A/B test reporting for captions &amp; visuals</li>
+                  </ul>
+                </div>
+                <div class="ov-sug-card">
+                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#ffcc00,#ff6b00);"></div>
+                  <div class="ov-sug-label" style="color:#ffcc00;">Individual KPIs</div>
+                  <ul class="ov-sug-list">
+                    <li>Personal weekly &amp; monthly scorecards</li>
+                    <li>Goal-setting with milestone tracking</li>
+                    <li>Peer comparison (anonymous) benchmarks</li>
+                    <li>Skill growth timeline visualization</li>
+                  </ul>
+                </div>
+                <div class="ov-sug-card">
+                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#7b2fff,#c13584);"></div>
+                  <div class="ov-sug-label" style="color:#9b59b6;">Workflow Optimization</div>
+                  <ul class="ov-sug-list">
+                    <li>One-click approval routing to reviewers</li>
+                    <li>Recurring content templates library</li>
+                    <li>Dependency linking between tasks</li>
+                    <li>Automated status updates via webhooks</li>
+                  </ul>
+                </div>
+                <div class="ov-sug-card">
+                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#2ca5e0,#004dfa);"></div>
+                  <div class="ov-sug-label" style="color:#2ca5e0;">Smart Notifications</div>
+                  <ul class="ov-sug-list">
+                    <li>Deadline alerts 24h before due date</li>
+                    <li>Engagement spike notifications per post</li>
+                    <li>Campaign budget burn-rate warnings</li>
+                    <li>Mention &amp; comment digest (daily/weekly)</li>
+                  </ul>
+                </div>
+                <div class="ov-sug-card">
+                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#ff6b6b,#ffcc00);"></div>
+                  <div class="ov-sug-label" style="color:#ff6b6b;">Team Gamification</div>
+                  <ul class="ov-sug-list">
+                    <li>Weekly leaderboard for post output</li>
+                    <li>Achievement badges for milestones</li>
+                    <li>Team streak counters for consistency</li>
+                    <li>Spotlight of the week recognition card</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- end ov-sections -->
 
         </div><!-- end section-overview -->
 
