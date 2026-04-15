@@ -1,45 +1,3 @@
-/* ===== Page Navigation ===== */
-function showPage(page) {
-  document.getElementById('page-login').classList.add('hidden');
-  document.getElementById('page-signup').classList.add('hidden');
-  document.getElementById('page-dashboard').classList.add('hidden');
-
-  if (page === 'login') {
-    document.getElementById('page-login').classList.remove('hidden');
-  } else if (page === 'signup') {
-    document.getElementById('page-signup').classList.remove('hidden');
-  } else if (page === 'dashboard') {
-    document.getElementById('page-dashboard').classList.remove('hidden');
-  }
-}
-
-/* ===== Login ===== */
-function handleLogin(e) {
-  e.preventDefault();
-  var email = document.getElementById('login-email').value;
-  var name = email.split('@')[0];
-  name = name.charAt(0).toUpperCase() + name.slice(1);
-  sessionStorage.setItem('userName', name);
-  enterDashboard(name);
-  return false;
-}
-
-/* ===== Sign Up ===== */
-function handleSignup(e) {
-  e.preventDefault();
-  var name = document.getElementById('signup-name').value;
-  sessionStorage.setItem('userName', name);
-  enterDashboard(name);
-  return false;
-}
-
-/* ===== Enter Dashboard ===== */
-function enterDashboard(name) {
-  document.getElementById('user-name').textContent = "Negar's Dashboard";
-  document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
-  showPage('dashboard');
-}
-
 /* ===== Navigate To Section ===== */
 function navigateTo(section) {
   var navLinks = document.querySelectorAll('.sidebar nav .nav-link');
@@ -69,12 +27,7 @@ function navigateTo(section) {
   if (el) el.classList.remove('hidden');
 }
 
-/* ===== Logout ===== */
-function handleLogout() {
-  sessionStorage.removeItem('userName');
-  document.getElementById('login-form').reset();
-  showPage('login');
-}
+/* ===== Session check (called by auth inline script's showDashboard/showAuth) ===== */
 
 /* ===== Sidebar Toggle (mobile) ===== */
 function toggleSidebar() {
@@ -86,6 +39,25 @@ function toggleSidebar() {
 
 /* ===== Sidebar Nav Links ===== */
 document.addEventListener('DOMContentLoaded', function () {
+  // Check for existing session — show dashboard or auth gate
+  try {
+    var session = localStorage.getItem('opo-session');
+    if (session) {
+      var data = JSON.parse(session);
+      var verified = JSON.parse(localStorage.getItem('opo-verified') || '{}');
+      if (data.email && verified[data.email] === true) {
+        showDashboard(data.name || data.email);
+      } else {
+        showAuth();
+      }
+    } else {
+      showAuth();
+    }
+  } catch (e) {
+    localStorage.removeItem('opo-session');
+    showAuth();
+  }
+
   // Set current date in header
   var now = new Date();
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

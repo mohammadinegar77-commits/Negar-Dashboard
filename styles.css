@@ -201,6 +201,13 @@ input,select,textarea{font-family:inherit;}
   border:2px solid rgba(0,77,250,0.4);
 }
 .user-name{font-weight:600;font-size:.86rem;}
+.logout-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(255,255,255,0.05);color:var(--text-muted);
+  transition:background .2s,color .2s;margin-left:4px;
+}
+.logout-btn:hover{background:rgba(255,77,109,0.15);color:#ff8fa3;}
 
 /* ===== CONTENT AREA ===== */
 .content{flex:1;padding:0;}
