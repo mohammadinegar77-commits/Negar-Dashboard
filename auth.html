@@ -250,6 +250,8 @@ input, select { font-family: inherit; }
   pointer-events: none;
 }
 .tab-indicator.right { transform: translateX(calc(100% + 4px)); }
+html[dir="rtl"] .tab-indicator       { left: auto; right: 4px; }
+html[dir="rtl"] .tab-indicator.right { transform: translateX(calc(-100% - 4px)); }
 
 /* ─────────────────────────────────────────
    PANELS (slide transition)
@@ -706,20 +708,12 @@ html[dir="rtl"] .opo-dot        { margin-left: 0; margin-right: 3px; }
 
           <form id="register-form" onsubmit="handleRegister(event)" novalidate>
 
-            <div class="field-row">
-              <div class="field-group">
-                <label for="reg-name" data-i18n="fullname-label">Full Name</label>
-                <input type="text" id="reg-name" name="name"
-                       data-i18n-placeholder="fullname-placeholder"
-                       placeholder="Your full name" autocomplete="name">
-                <span class="field-error hidden" id="re-name-err"></span>
-              </div>
-              <div class="field-group">
-                <label for="reg-empid" data-i18n="empid-label">Employee ID</label>
-                <input type="text" id="reg-empid" name="empid"
-                       placeholder="OPO-2024-XXX" autocomplete="off">
-                <span class="field-error hidden" id="re-empid-err"></span>
-              </div>
+            <div class="field-group">
+              <label for="reg-name" data-i18n="fullname-label">Full Name</label>
+              <input type="text" id="reg-name" name="name"
+                     data-i18n-placeholder="fullname-placeholder"
+                     placeholder="Your full name" autocomplete="name">
+              <span class="field-error hidden" id="re-name-err"></span>
             </div>
 
             <div class="field-group">
@@ -1160,7 +1154,6 @@ function handleRegister(e) {
   clearAllErrors();
 
   const nameEl    = document.getElementById('reg-name');
-  const empidEl   = document.getElementById('reg-empid');
   const emailEl   = document.getElementById('reg-email');
   const deptEl    = document.getElementById('reg-dept');
   const titleEl   = document.getElementById('reg-title');
@@ -1168,7 +1161,6 @@ function handleRegister(e) {
   const confirmEl = document.getElementById('reg-confirm');
 
   const name    = nameEl.value.trim();
-  const empid   = empidEl.value.trim();
   const email   = emailEl.value.trim();
   const dept    = deptEl.value;
   const title   = titleEl.value.trim();
@@ -1179,10 +1171,6 @@ function handleRegister(e) {
 
   if (!name)
     valid = setFieldError('re-name-err',    nameEl,    'err-name-req')    && valid;
-  if (!empid)
-    valid = setFieldError('re-empid-err',   empidEl,   'err-empid-req')   && valid;
-  else if (!isValidEmpId(empid))
-    valid = setFieldError('re-empid-err',   empidEl,   'err-empid-fmt')   && valid;
   if (!email)
     valid = setFieldError('re-email-err',   emailEl,   'err-email-req')   && valid;
   else if (!isValidEmail(email))
@@ -1206,7 +1194,7 @@ function handleRegister(e) {
 
   /* Save registration + unverified state */
   const registered = getRegistered();
-  registered[email.toLowerCase()] = { name, empid, dept, title };
+  registered[email.toLowerCase()] = { name, dept, title };
   saveRegistered(registered);
 
   const verified = getVerified();
@@ -1266,7 +1254,6 @@ function hideEl(id) { document.getElementById(id).classList.add('hidden'); }
 function addBlurValidation() {
   const rules = [
     { id: 'reg-name',    err: 're-name-err',    check: v => v ? null : 'err-name-req' },
-    { id: 'reg-empid',   err: 're-empid-err',   check: v => !v ? 'err-empid-req' : (!isValidEmpId(v) ? 'err-empid-fmt' : null) },
     { id: 'reg-email',   err: 're-email-err',   check: v => !v ? 'err-email-req' : (!isValidEmail(v) ? 'err-email-invalid' : (!isAllowedDomain(v) ? 'err-email-domain' : null)) },
     { id: 'reg-title',   err: 're-title-err',   check: v => v ? null : 'err-title-req' },
     { id: 'reg-password',err: 're-pass-err',    check: v => !v ? 'err-pass-req' : (v.length < 8 ? 'err-pass-short' : null) },

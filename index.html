@@ -6,56 +6,465 @@
   <title>Opofinance — Social Media Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+/* ═══════════════════════════════════════════
+   AUTH GATE — scoped styles (galaxy theme)
+   All selectors live under #auth-section or
+   body.auth-mode to avoid dashboard conflicts.
+═══════════════════════════════════════════ */
+
+/* Body override when auth is visible */
+body.auth-mode {
+  background: linear-gradient(135deg,#0a0520 0%,#040d1a 60%,#050818 100%) !important;
+  font-family:'Space Grotesk',sans-serif !important;
+}
+body.auth-mode.fa-mode { font-family:'Vazirmatn',sans-serif !important; }
+
+/* Auth gate wrapper */
+#auth-section {
+  display: none;
+  position: relative;
+  min-height: 100vh;
+}
+#auth-section.auth-active { display: block; }
+
+/* Starfield canvas */
+#stars-canvas {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+
+/* Nebula blobs */
+.nebula {
+  position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+  animation: nebula-pulse 8s ease-in-out infinite alternate;
+}
+.neb-1 {
+  width:700px;height:500px;top:-180px;left:-180px;
+  background:radial-gradient(ellipse,rgba(123,47,255,.13) 0%,transparent 68%);
+  filter:blur(60px);
+}
+.neb-2 {
+  width:600px;height:600px;bottom:-200px;right:-150px;
+  background:radial-gradient(ellipse,rgba(0,77,250,.11) 0%,transparent 68%);
+  filter:blur(70px); animation-delay:3s;
+}
+.neb-3 {
+  width:400px;height:350px;top:45%;left:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse,rgba(123,47,255,.07) 0%,transparent 70%);
+  filter:blur(50px); animation-delay:5s;
+  animation-name:nebula-pulse-center;
+}
+@keyframes nebula-pulse {
+  from{opacity:.7;transform:scale(1);}  to{opacity:1;transform:scale(1.08);}
+}
+@keyframes nebula-pulse-center {
+  from{opacity:.7;transform:translate(-50%,-50%) scale(1);}
+  to  {opacity:1;transform:translate(-50%,-50%) scale(1.1);}
+}
+
+/* Language toggle */
+.lang-bar {
+  position:fixed;top:20px;right:24px;z-index:100;
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:30px;padding:5px 14px;backdrop-filter:blur(12px);
+}
+.lang-btn {
+  font-size:.78rem;font-weight:700;letter-spacing:.06em;
+  color:rgba(255,255,255,.45);padding:2px 4px;border-radius:4px;transition:color .2s;
+  background:none;border:none;cursor:pointer;
+}
+.lang-btn.active{color:#fff;} .lang-btn:hover{color:#a66fff;}
+.lang-sep{color:rgba(255,255,255,.2);font-size:.75rem;}
+
+/* Auth wrap + card */
+.auth-wrap {
+  position:relative;z-index:10;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:60px 16px 40px;
+}
+.auth-card {
+  width:100%;max-width:500px;
+  background:rgba(13,22,55,.82);
+  border:1px solid rgba(123,47,255,.35);
+  border-radius:22px;
+  box-shadow:0 0 60px rgba(123,47,255,.18),0 24px 64px rgba(0,0,0,.55);
+  padding:40px 40px 36px;
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  position:relative;overflow:hidden;
+}
+.auth-card::before {
+  content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(123,47,255,.7),rgba(0,77,250,.5),transparent);
+}
+
+/* opo logo */
+.opo-logo {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:3rem;font-weight:700;letter-spacing:-2px;line-height:1;
+  display:flex;align-items:center;gap:1px;margin-bottom:4px;width:fit-content;
+}
+body.auth-mode.fa-mode .opo-logo { font-family:'Space Grotesk',sans-serif; }
+.opo-o {
+  background:linear-gradient(135deg,#fff 30%,#a66fff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.opo-p { color:#fff; }
+.opo-dot {
+  width:6px;height:6px;border-radius:50%;
+  background:#7b2fff;box-shadow:0 0 8px #7b2fff;
+  margin-left:3px;align-self:flex-end;margin-bottom:8px;flex-shrink:0;
+}
+.opo-tagline {
+  font-size:.72rem;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:28px;
+}
+
+/* Tabs */
+.auth-tabs {
+  display:flex;position:relative;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:4px;margin-bottom:28px;gap:4px;
+}
+.auth-tab {
+  flex:1;padding:9px 12px;font-size:.88rem;font-weight:600;
+  color:rgba(255,255,255,.45);border-radius:9px;transition:color .25s;
+  position:relative;z-index:1;background:none;border:none;cursor:pointer;
+  font-family:inherit;
+}
+.auth-tab.active{color:#fff;}
+.tab-indicator {
+  position:absolute;top:4px;bottom:4px;left:4px;
+  width:calc(50% - 6px);
+  background:linear-gradient(135deg,rgba(123,47,255,.35) 0%,rgba(0,77,250,.25) 100%);
+  border:1px solid rgba(123,47,255,.4);border-radius:9px;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);pointer-events:none;
+}
+.tab-indicator.right{transform:translateX(calc(100% + 4px));}
+html[dir="rtl"] .tab-indicator      {left:auto;right:4px;}
+html[dir="rtl"] .tab-indicator.right{transform:translateX(calc(-100% - 4px));}
+
+/* Form panels */
+.form-panel{display:none;animation:auth-panel-in .32s cubic-bezier(.4,0,.2,1) forwards;}
+.form-panel.active{display:block;}
+@keyframes auth-panel-in{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+.form-heading{font-size:1.45rem;font-weight:700;margin-bottom:4px;}
+.form-sub{font-size:.84rem;color:rgba(255,255,255,.45);margin-bottom:20px;}
+
+/* Alerts */
+.auth-alert {
+  display:flex;align-items:flex-start;gap:9px;padding:11px 14px;
+  border-radius:10px;font-size:.82rem;line-height:1.5;margin-bottom:16px;
+}
+.auth-alert svg{flex-shrink:0;margin-top:1px;}
+.auth-alert-error{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);color:#ff8fa3;}
+.auth-alert-warn {background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.3);color:#ffcf89;}
+.auth-alert-warn .resend-link{display:block;margin-top:4px;color:#ffcc00;font-weight:600;font-size:.8rem;}
+.auth-alert-warn .resend-link:hover{color:#ffe066;}
+
+/* Fields */
+.auth-field{margin-bottom:16px;display:flex;flex-direction:column;gap:6px;}
+.auth-field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.auth-field label{font-size:.78rem;font-weight:600;color:rgba(255,255,255,.65);letter-spacing:.02em;}
+.auth-field input,.auth-field select {
+  width:100%;padding:11px 14px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:11px;color:#fff;font-size:.9rem;font-family:inherit;
+  outline:none;transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.auth-field input::placeholder{color:rgba(255,255,255,.22);}
+.auth-field input:hover,.auth-field select:hover{border-color:rgba(255,255,255,.18);}
+.auth-field input:focus,.auth-field select:focus{
+  border-color:#7b2fff;background:rgba(123,47,255,.06);
+  box-shadow:0 0 0 3px rgba(123,47,255,.18);
+}
+.auth-field input.auth-invalid{
+  border-color:rgba(255,77,109,.6);box-shadow:0 0 0 3px rgba(255,77,109,.12);
+}
+.auth-field-err{font-size:.74rem;color:#ff8fa3;padding-left:2px;min-height:1em;}
+
+/* Password input + eye */
+.auth-input-wrap{position:relative;}
+.auth-input-wrap input{padding-right:42px;}
+.auth-eye-btn{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:rgba(255,255,255,.3);display:flex;align-items:center;padding:4px;
+  border-radius:6px;transition:color .2s;background:none;border:none;cursor:pointer;
+}
+.auth-eye-btn:hover{color:rgba(255,255,255,.7);}
+.auth-eye-btn.revealed .auth-eye-icon{stroke:#7b2fff;}
+.auth-eye-icon{width:18px;height:18px;pointer-events:none;}
+html[dir="rtl"] .auth-eye-btn{right:auto;left:12px;}
+html[dir="rtl"] .auth-input-wrap input{padding-right:14px;padding-left:42px;}
+
+/* Select */
+.auth-select-wrap{position:relative;}
+.auth-select-wrap select{appearance:none;padding-right:36px;cursor:pointer;}
+.auth-select-arrow{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;stroke:rgba(255,255,255,.3);pointer-events:none;
+}
+.auth-select-wrap select option{background:#0d1b3e;color:#fff;}
+html[dir="rtl"] .auth-select-wrap select{padding-right:14px;padding-left:36px;}
+html[dir="rtl"] .auth-select-arrow{right:auto;left:12px;}
+
+/* CTA button */
+.auth-btn-primary {
+  width:100%;padding:13px 20px;margin-top:6px;
+  background:#ffcc00;color:#0a0a0a;font-size:.96rem;font-weight:700;
+  border-radius:11px;letter-spacing:.02em;border:none;cursor:pointer;
+  font-family:inherit;
+  transition:background .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 4px 20px rgba(255,204,0,.25);
+}
+.auth-btn-primary:hover{background:#ffe033;transform:translateY(-1px);box-shadow:0 6px 28px rgba(255,204,0,.38);}
+.auth-btn-primary:active{transform:translateY(0);}
+
+/* Modal verify btn */
+.auth-btn-verify{background:#1dfd3d;box-shadow:0 4px 20px rgba(29,253,61,.2);}
+.auth-btn-verify:hover{background:#4fffb0;box-shadow:0 6px 28px rgba(29,253,61,.35);}
+
+/* Switch link + note */
+.auth-switch{text-align:center;font-size:.82rem;color:rgba(255,255,255,.45);margin-top:18px;}
+.auth-switch a{color:#7b2fff;font-weight:600;margin-left:4px;}
+.auth-switch a:hover{color:#a66fff;}
+html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
+.auth-note{text-align:center;font-size:.72rem;color:rgba(255,255,255,.22);margin-top:10px;}
+
+/* Verification modal */
+.auth-modal-overlay {
+  position:fixed;inset:0;z-index:200;
+  background:rgba(4,13,26,.85);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.auth-modal-overlay.hidden{display:none;}
+.auth-modal-card {
+  background:linear-gradient(145deg,#0d1b3e,rgba(30,10,60,.95));
+  border:1px solid rgba(123,47,255,.35);border-radius:22px;
+  box-shadow:0 0 80px rgba(123,47,255,.3),0 30px 60px rgba(0,0,0,.6);
+  padding:40px 36px;max-width:420px;width:100%;text-align:center;
+  animation:modal-up .3s cubic-bezier(.4,0,.2,1);
+}
+@keyframes modal-up{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.auth-modal-icon {
+  width:68px;height:68px;border-radius:50%;
+  background:rgba(123,47,255,.15);border:1px solid rgba(123,47,255,.35);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;color:#a66fff;
+}
+.auth-modal-title{font-size:1.3rem;font-weight:700;margin-bottom:12px;}
+.auth-modal-body{font-size:.86rem;color:rgba(255,255,255,.45);line-height:1.65;margin-bottom:14px;}
+.auth-modal-email{
+  font-size:.82rem;font-weight:600;color:#a66fff;
+  background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.25);
+  border-radius:8px;padding:8px 14px;margin-bottom:20px;word-break:break-all;
+}
+.auth-modal-note{font-size:.72rem;color:rgba(255,255,255,.22);margin-top:12px;}
+
+/* Toast */
+.auth-toast {
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:300;
+  background:rgba(29,253,61,.12);border:1px solid rgba(29,253,61,.3);color:#6effa0;
+  padding:11px 22px;border-radius:30px;font-size:.84rem;font-weight:600;
+  display:flex;align-items:center;gap:8px;backdrop-filter:blur(12px);
+  animation:toast-up .3s ease;
+}
+.auth-toast.hidden{display:none;}
+@keyframes toast-up{from{opacity:0;transform:translate(-50%,12px);}to{opacity:1;transform:translate(-50%,0);}}
+
+/* Responsive */
+@media(max-width:540px){
+  .auth-card{padding:30px 22px 28px;}
+  .auth-field-row{grid-template-columns:1fr;}
+  .opo-logo{font-size:2.4rem;}
+  .lang-bar{top:12px;right:12px;padding:4px 10px;}
+  html[dir="rtl"] .lang-bar{right:auto;left:12px;}
+}
+  </style>
 </head>
 <body>
 
-  <!-- ====== LOGIN ====== -->
-  <div id="page-login" class="auth-page">
-    <div class="auth-card">
-      <div class="auth-logo">OPO<span>FINANCE</span></div>
-      <h2>Welcome Back</h2>
-      <p class="auth-subtitle">Sign in to your dashboard</p>
-      <form id="login-form" onsubmit="return handleLogin(event)">
-        <div class="input-group">
-          <label for="login-email">Email</label>
-          <input type="email" id="login-email" placeholder="you@opofinance.com" required>
-        </div>
-        <div class="input-group">
-          <label for="login-password">Password</label>
-          <input type="password" id="login-password" placeholder="Enter your password" required>
-        </div>
-        <button type="submit" class="btn-primary">Login</button>
-      </form>
-      <p class="auth-footer">Don't have an account? <a href="#" onclick="showPage('signup')">Sign Up</a></p>
-    </div>
-  </div>
+  <!-- ====== AUTH GATE ====== -->
+  <div id="auth-section" class="auth-active">
 
-  <!-- ====== SIGN UP ====== -->
-  <div id="page-signup" class="auth-page hidden">
-    <div class="auth-card">
-      <div class="auth-logo">OPO<span>FINANCE</span></div>
-      <h2>Create Account</h2>
-      <p class="auth-subtitle">Join the Social Media team</p>
-      <form id="signup-form" onsubmit="return handleSignup(event)">
-        <div class="input-group">
-          <label for="signup-name">Full Name</label>
-          <input type="text" id="signup-name" placeholder="Your full name" required>
-        </div>
-        <div class="input-group">
-          <label for="signup-email">Email</label>
-          <input type="email" id="signup-email" placeholder="you@opofinance.com" required>
-        </div>
-        <div class="input-group">
-          <label for="signup-password">Password</label>
-          <input type="password" id="signup-password" placeholder="Create a password" required>
-        </div>
-        <button type="submit" class="btn-primary">Register</button>
-      </form>
-      <p class="auth-footer">Already have an account? <a href="#" onclick="showPage('login')">Login</a></p>
+    <canvas id="stars-canvas"></canvas>
+    <div class="nebula neb-1"></div>
+    <div class="nebula neb-2"></div>
+    <div class="nebula neb-3"></div>
+
+    <div class="lang-bar">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" id="btn-fa" onclick="setLang('fa')">FA</button>
     </div>
-  </div>
+
+    <div class="auth-wrap">
+      <div class="auth-card" id="auth-card">
+
+        <div class="opo-logo" aria-label="opo">
+          <span class="opo-o">o</span><span class="opo-p">p</span><span class="opo-o">o</span>
+          <span class="opo-dot"></span>
+        </div>
+        <p class="opo-tagline" data-i18n="tagline">Employee Portal</p>
+
+        <div class="auth-tabs" role="tablist">
+          <button class="auth-tab active" id="tab-login" role="tab" onclick="switchTab('login')">
+            <span data-i18n="tab-login">Login</span>
+          </button>
+          <button class="auth-tab" id="tab-register" role="tab" onclick="switchTab('register')">
+            <span data-i18n="tab-register">Register</span>
+          </button>
+          <div class="tab-indicator" id="tab-indicator"></div>
+        </div>
+
+        <div class="panels-wrap">
+
+          <!-- LOGIN PANEL -->
+          <div class="form-panel active" id="panel-login" role="tabpanel">
+            <h2 class="form-heading" data-i18n="login-heading">Welcome Back</h2>
+            <p class="form-sub" data-i18n="login-sub">Sign in to your dashboard</p>
+
+            <div class="auth-alert auth-alert-error hidden" id="login-error" role="alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span id="login-error-msg" data-i18n="login-error-generic">Invalid credentials.</span>
+            </div>
+
+            <div class="auth-alert auth-alert-warn hidden" id="login-unverified" role="alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>
+                <span data-i18n="unverified-msg">Please verify your email before logging in. </span>
+                <a href="#" class="resend-link" id="resend-link" onclick="resendVerification(event)" data-i18n="resend-link">Resend verification email</a>
+              </span>
+            </div>
+
+            <form id="login-form" onsubmit="return handleLogin(event)" novalidate>
+              <div class="auth-field">
+                <label for="login-email" data-i18n="email-label">Email</label>
+                <input type="email" id="login-email" data-i18n-placeholder="email-placeholder" placeholder="you@opofinance.com" autocomplete="email">
+                <span class="auth-field-err hidden" id="le-email-err"></span>
+              </div>
+              <div class="auth-field">
+                <label for="login-password" data-i18n="password-label">Password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="login-password" data-i18n-placeholder="password-placeholder" placeholder="Enter your password" autocomplete="current-password">
+                  <button type="button" class="auth-eye-btn" onclick="authTogglePwd('login-password',this)" aria-label="Show password">
+                    <svg class="auth-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <span class="auth-field-err hidden" id="le-pass-err"></span>
+              </div>
+              <button type="submit" class="auth-btn-primary" data-i18n="login-btn">Login</button>
+            </form>
+
+            <p class="auth-switch">
+              <span data-i18n="no-account">Don't have an account?</span>
+              <a href="#" onclick="switchTab('register')" data-i18n="sign-up-link">Sign Up</a>
+            </p>
+            <p class="auth-note" data-i18n="access-note">Access restricted to verified Opofinance employees</p>
+          </div>
+
+          <!-- REGISTER PANEL -->
+          <div class="form-panel" id="panel-register" role="tabpanel">
+            <h2 class="form-heading" data-i18n="reg-heading">Create Account</h2>
+            <p class="form-sub" data-i18n="reg-sub">New employee onboarding</p>
+
+            <form id="register-form" onsubmit="return handleRegister(event)" novalidate>
+              <div class="auth-field">
+                <label for="reg-name" data-i18n="fullname-label">Full Name</label>
+                <input type="text" id="reg-name" data-i18n-placeholder="fullname-placeholder" placeholder="Your full name" autocomplete="name">
+                <span class="auth-field-err hidden" id="re-name-err"></span>
+              </div>
+
+              <div class="auth-field">
+                <label for="reg-email" data-i18n="email-label">Work Email</label>
+                <input type="email" id="reg-email" data-i18n-placeholder="email-placeholder" placeholder="you@opofinance.com" autocomplete="email">
+                <span class="auth-field-err hidden" id="re-email-err"></span>
+              </div>
+
+              <div class="auth-field-row">
+                <div class="auth-field">
+                  <label for="reg-dept" data-i18n="dept-label">Department</label>
+                  <div class="auth-select-wrap">
+                    <select id="reg-dept">
+                      <option value="" data-i18n="dept-placeholder">Select department</option>
+                      <option value="marketing">Marketing</option>
+                      <option value="finance">Finance</option>
+                      <option value="tech">Tech</option>
+                      <option value="operations">Operations</option>
+                      <option value="hr">HR</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <svg class="auth-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </div>
+                  <span class="auth-field-err hidden" id="re-dept-err"></span>
+                </div>
+                <div class="auth-field">
+                  <label for="reg-title" data-i18n="jobtitle-label">Job Title</label>
+                  <input type="text" id="reg-title" data-i18n-placeholder="jobtitle-placeholder" placeholder="Your job title" autocomplete="organization-title">
+                  <span class="auth-field-err hidden" id="re-title-err"></span>
+                </div>
+              </div>
+
+              <div class="auth-field">
+                <label for="reg-password" data-i18n="password-label">Password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="reg-password" data-i18n-placeholder="password-placeholder" placeholder="Create a password" autocomplete="new-password">
+                  <button type="button" class="auth-eye-btn" onclick="authTogglePwd('reg-password',this)" aria-label="Show password">
+                    <svg class="auth-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <span class="auth-field-err hidden" id="re-pass-err"></span>
+              </div>
+
+              <div class="auth-field">
+                <label for="reg-confirm" data-i18n="confirm-label">Confirm Password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="reg-confirm" data-i18n-placeholder="confirm-placeholder" placeholder="Repeat your password" autocomplete="new-password">
+                  <button type="button" class="auth-eye-btn" onclick="authTogglePwd('reg-confirm',this)" aria-label="Show password">
+                    <svg class="auth-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <span class="auth-field-err hidden" id="re-confirm-err"></span>
+              </div>
+
+              <button type="submit" class="auth-btn-primary" data-i18n="register-btn">Register</button>
+            </form>
+
+            <p class="auth-switch">
+              <span data-i18n="have-account">Already have an account?</span>
+              <a href="#" onclick="switchTab('login')" data-i18n="login-link">Login</a>
+            </p>
+          </div>
+
+        </div><!-- /panels-wrap -->
+      </div><!-- /auth-card -->
+    </div><!-- /auth-wrap -->
+
+    <!-- Verification modal -->
+    <div class="auth-modal-overlay hidden" id="verify-modal" role="dialog" aria-modal="true">
+      <div class="auth-modal-card">
+        <div class="auth-modal-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3 class="auth-modal-title" data-i18n="modal-title">Check Your Inbox</h3>
+        <p class="auth-modal-body" data-i18n="modal-body">A verification email has been sent. Click the link to activate your account before logging in.</p>
+        <div class="auth-modal-email" id="modal-email-display"></div>
+        <button class="auth-btn-primary auth-btn-verify" id="verify-btn" onclick="verifyEmail()" data-i18n="verify-btn">✓ Verify My Email</button>
+        <p class="auth-modal-note" data-i18n="modal-note">(This simulates clicking the verification link in your email)</p>
+      </div>
+    </div>
+
+    <!-- Resend toast -->
+    <div class="auth-toast hidden" id="resend-toast">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      <span data-i18n="resend-toast">Verification email resent!</span>
+    </div>
+
+  </div><!-- /auth-section -->
 
   <!-- ====== DASHBOARD ====== -->
   <div id="page-dashboard" class="hidden">
@@ -132,6 +541,9 @@
             <div class="avatar" id="user-avatar">N</div>
             <span class="user-name" id="user-name">Negar</span>
           </div>
+          <button class="logout-btn" onclick="handleLogout()" title="Logout">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
         </div>
       </header>
 
@@ -1322,5 +1734,285 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+/* ════════════════════════════════════════════════════════
+   AUTH GATE — inline script (runs after app.js)
+════════════════════════════════════════════════════════ */
+'use strict';
+
+/* ── Translations ── */
+var AUTH_T = {
+  en:{
+    'tagline':'Employee Portal','tab-login':'Login','tab-register':'Register',
+    'login-heading':'Welcome Back','login-sub':'Sign in to your dashboard',
+    'email-label':'Email','email-placeholder':'you@opofinance.com',
+    'password-label':'Password','password-placeholder':'Enter your password',
+    'login-btn':'Login','no-account':"Don't have an account?",'sign-up-link':'Sign Up',
+    'access-note':'Access restricted to verified Opofinance employees',
+    'unverified-msg':'Please verify your email before logging in. ',
+    'resend-link':'Resend verification email','login-error-generic':'Invalid email or password.',
+    'reg-heading':'Create Account','reg-sub':'New employee onboarding',
+    'fullname-label':'Full Name','fullname-placeholder':'Your full name',
+    'email-label':'Work Email','dept-label':'Department','dept-placeholder':'Select department',
+    'jobtitle-label':'Job Title','jobtitle-placeholder':'Your job title',
+    'confirm-label':'Confirm Password','confirm-placeholder':'Repeat your password',
+    'register-btn':'Register','have-account':'Already have an account?','login-link':'Login',
+    'modal-title':'Check Your Inbox',
+    'modal-body':'A verification email has been sent. Click the link to activate your account before logging in.',
+    'verify-btn':'✓ Verify My Email','modal-note':'(This simulates clicking the verification link in your email)',
+    'resend-toast':'Verification email resent!',
+    'err-name-req':'Full name is required.',
+    'err-email-req':'Email is required.','err-email-domain':'Must be an @opofinance.com address.',
+    'err-email-invalid':'Enter a valid email address.',
+    'err-dept-req':'Please select a department.','err-title-req':'Job title is required.',
+    'err-pass-req':'Password is required.','err-pass-short':'Password must be at least 8 characters.',
+    'err-confirm-req':'Please confirm your password.','err-confirm-match':'Passwords do not match.',
+    'err-login-email-req':'Email is required.','err-login-pass-req':'Password is required.'
+  },
+  fa:{
+    'tagline':'پرتال کارمندان','tab-login':'ورود','tab-register':'ثبت‌نام',
+    'login-heading':'خوش اومدی!','login-sub':'می‌تونی داشبوردتو باز کنی',
+    'email-label':'ایمیل بزن','email-placeholder':'you@opofinance.com',
+    'password-label':'رمز بزن','password-placeholder':'رمز عبورت رو بنویس',
+    'login-btn':'ورود','no-account':'حساب نداری؟ آخی...','sign-up-link':'ثبت‌نام کن خب!',
+    'access-note':'دسترسی فقط برای کارمندان تأیید‌شده‌ی اوپوفایننس',
+    'unverified-msg':'قبل از ورود، ایمیلتو تأیید کن. ',
+    'resend-link':'ارسال مجدد ایمیل تأیید','login-error-generic':'ایمیل یا رمز عبور اشتباهه.',
+    'reg-heading':'ثبت‌نام کارمند','reg-sub':'آنبوردینگ کارمند جدید',
+    'fullname-label':'نام و نام خانوادگی','fullname-placeholder':'اسمت رو بنویس',
+    'email-label':'ایمیل کاری','dept-label':'دپارتمان','dept-placeholder':'دپارتمان رو انتخاب کن',
+    'jobtitle-label':'عنوان شغلی','jobtitle-placeholder':'سمتت رو بنویس',
+    'confirm-label':'تکرار رمز عبور','confirm-placeholder':'رمز رو دوباره بنویس',
+    'register-btn':'ثبت‌نام','have-account':'قبلا ثبت‌نام کردی؟ مطمئنی؟','login-link':'وارد شو پس!',
+    'modal-title':'صندوق ورودیتو چک کن',
+    'modal-body':'ایمیل تأیید ارسال شد. روی لینک کلیک کن تا حسابت فعال بشه.',
+    'verify-btn':'✓ ایمیلمو تأیید کردم','modal-note':'(این دکمه شبیه‌سازی کلیک روی لینک ایمیله)',
+    'resend-toast':'ایمیل تأیید مجدداً ارسال شد!',
+    'err-name-req':'نام و نام خانوادگی الزامی است.',
+    'err-email-req':'ایمیل الزامی است.','err-email-domain':'باید آدرس @opofinance.com باشد.',
+    'err-email-invalid':'یک آدرس ایمیل معتبر وارد کنید.',
+    'err-dept-req':'لطفاً یک دپارتمان انتخاب کنید.','err-title-req':'عنوان شغلی الزامی است.',
+    'err-pass-req':'رمز عبور الزامی است.','err-pass-short':'رمز عبور باید حداقل ۸ کاراکتر باشد.',
+    'err-confirm-req':'تکرار رمز عبور الزامی است.','err-confirm-match':'رمزهای عبور با هم مطابقت ندارند.',
+    'err-login-email-req':'ایمیل الزامی است.','err-login-pass-req':'رمز عبور الزامی است.'
+  }
+};
+
+/* ── State ── */
+var authLang = localStorage.getItem('opo-lang') || 'en';
+var authCurrentTab = 'login';
+var authPendingEmail = null;
+var starAnimId = null;
+
+/* ── Helpers ── */
+function at(k){ return (AUTH_T[authLang]&&AUTH_T[authLang][k])||AUTH_T.en[k]||k; }
+function authShow(id){ var e=document.getElementById(id); if(e) e.classList.remove('hidden'); }
+function authHide(id){ var e=document.getElementById(id); if(e) e.classList.add('hidden'); }
+function authGetVerified()  { try{return JSON.parse(localStorage.getItem('opo-verified')||'{}');}catch(e){return{};} }
+function authSaveVerified(v){ localStorage.setItem('opo-verified',JSON.stringify(v)); }
+function authGetReg()       { try{return JSON.parse(localStorage.getItem('opo-registered')||'{}');}catch(e){return{};} }
+function authSaveReg(r)     { localStorage.setItem('opo-registered',JSON.stringify(r)); }
+
+/* ── Show/hide auth vs dashboard ── */
+function showAuth() {
+  document.getElementById('auth-section').classList.add('auth-active');
+  document.getElementById('page-dashboard').classList.add('hidden');
+  document.body.classList.add('auth-mode');
+  startStarfield();
+}
+function showDashboard(name) {
+  document.getElementById('auth-section').classList.remove('auth-active');
+  document.getElementById('page-dashboard').classList.remove('hidden');
+  document.body.classList.remove('auth-mode');
+  document.getElementById('user-name').textContent = "Negar's Dashboard";
+  document.getElementById('user-avatar').textContent = (name||'N').charAt(0).toUpperCase();
+  if (starAnimId) { cancelAnimationFrame(starAnimId); starAnimId = null; }
+}
+
+/* ── Starfield ── */
+function startStarfield() {
+  var canvas = document.getElementById('stars-canvas');
+  if (!canvas || starAnimId) return;
+  var ctx = canvas.getContext('2d');
+  var stars = [], W, H;
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+  function mkStars(){ stars=[]; for(var i=0;i<260;i++){var r=Math.random();stars.push({x:Math.random()*W,y:Math.random()*H,r:r<.6?.5:r<.88?1:1.6,a:Math.random(),d:(Math.random()*.004+.001)*(Math.random()<.5?1:-1),c:r<.8?'#fff':r<.92?'#c8b4ff':'#89cfff'});}}
+  function draw(){ ctx.clearRect(0,0,W,H); stars.forEach(function(s){s.a+=s.d;if(s.a<=0||s.a>=1)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=s.c;ctx.globalAlpha=Math.max(0,Math.min(1,s.a));ctx.fill();}); ctx.globalAlpha=1; starAnimId=requestAnimationFrame(draw); }
+  window.addEventListener('resize',function(){resize();mkStars();});
+  resize(); mkStars(); draw();
+}
+
+/* ── Language ── */
+function setLang(lang) {
+  authLang = lang;
+  var root = document.getElementById('root') || document.documentElement;
+  var isFA = lang==='fa';
+  root.setAttribute('lang', lang);
+  root.setAttribute('dir', isFA?'rtl':'ltr');
+  document.body.classList.toggle('fa-mode', isFA);
+  document.getElementById('btn-en').classList.toggle('active',!isFA);
+  document.getElementById('btn-fa').classList.toggle('active', isFA);
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v=at(el.getAttribute('data-i18n')); if(v) el.textContent=v;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    var v=at(el.getAttribute('data-i18n-placeholder')); if(v) el.placeholder=v;
+  });
+  var dp=document.querySelector('#reg-dept option[value=""]');
+  if(dp) dp.textContent=at('dept-placeholder');
+  localStorage.setItem('opo-lang', lang);
+}
+
+/* ── Tab switching ── */
+function switchTab(tab) {
+  authCurrentTab = tab;
+  var isReg = tab==='register';
+  document.getElementById('tab-login').classList.toggle('active',!isReg);
+  document.getElementById('tab-register').classList.toggle('active', isReg);
+  document.getElementById('tab-indicator').classList.toggle('right', isReg);
+  document.getElementById('panel-login').classList.toggle('active',!isReg);
+  document.getElementById('panel-register').classList.toggle('active', isReg);
+  authClearErrors();
+  authHide('login-error'); authHide('login-unverified');
+}
+
+/* ── Password toggle ── */
+function authTogglePwd(id, btn) {
+  var inp = document.getElementById(id);
+  var show = inp.type==='password';
+  inp.type = show?'text':'password';
+  btn.classList.toggle('revealed', show);
+  btn.querySelector('.auth-eye-icon').innerHTML = show
+    ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.73 5.08A10.43 10.43 0 0112 5c7 0 11 7 11 7a13.16 13.16 0 01-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 001 12s4 7 11 7a9.74 9.74 0 005.39-1.61"/>'
+    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+}
+
+/* ── Validation helpers ── */
+var ALLOWED_EMAILS = ['mohammadi.negar77@gmail.com'];
+function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+function isAllowedDomain(v){ var e=v.trim().toLowerCase(); return e.endsWith('@opofinance.com')||ALLOWED_EMAILS.indexOf(e)>-1; }
+function authSetErr(errId, el, key) {
+  var err=document.getElementById(errId);
+  if(err){err.textContent=at(key);err.classList.remove('hidden');}
+  if(el) el.classList.add('auth-invalid');
+  return false;
+}
+function authClearErr(errId, el) {
+  var err=document.getElementById(errId);
+  if(err) err.classList.add('hidden');
+  if(el) el.classList.remove('auth-invalid');
+}
+function authClearErrors() {
+  document.querySelectorAll('.auth-field-err').forEach(function(e){e.classList.add('hidden');});
+  document.querySelectorAll('.auth-invalid').forEach(function(e){e.classList.remove('auth-invalid');});
+}
+
+/* ── Login ── */
+function handleLogin(e) {
+  e.preventDefault();
+  authClearErrors(); authHide('login-error'); authHide('login-unverified');
+  var emailEl=document.getElementById('login-email'), passEl=document.getElementById('login-password');
+  var email=emailEl.value.trim(), pass=passEl.value;
+  var ok=true;
+  if(!email)              ok=authSetErr('le-email-err',emailEl,'err-login-email-req');
+  else if(!isValidEmail(email)) ok=authSetErr('le-email-err',emailEl,'err-email-invalid');
+  if(!pass)               ok=authSetErr('le-pass-err',passEl,'err-login-pass-req')&&ok;
+  if(!ok) return false;
+
+  var verified=authGetVerified();
+  if(verified[email.toLowerCase()]===false){
+    authPendingEmail=email.toLowerCase();
+    authShow('login-unverified'); return false;
+  }
+  var reg=authGetReg();
+  if(!reg[email.toLowerCase()]){
+    authShow('login-error'); emailEl.classList.add('auth-invalid'); return false;
+  }
+  /* Success */
+  var name=reg[email.toLowerCase()].name||email.split('@')[0];
+  localStorage.setItem('opo-session',JSON.stringify({email:email.toLowerCase(),name:name}));
+  showDashboard(name);
+  return false;
+}
+
+/* ── Register ── */
+function handleRegister(e) {
+  e.preventDefault();
+  authClearErrors();
+  var nameEl=document.getElementById('reg-name'), emailEl=document.getElementById('reg-email'),
+      deptEl=document.getElementById('reg-dept'), titleEl=document.getElementById('reg-title'),
+      passEl=document.getElementById('reg-password'), confirmEl=document.getElementById('reg-confirm');
+  var name=nameEl.value.trim(), email=emailEl.value.trim(), dept=deptEl.value,
+      title=titleEl.value.trim(), pass=passEl.value, confirm=confirmEl.value;
+  var ok=true;
+  if(!name)              ok=authSetErr('re-name-err',nameEl,'err-name-req')&&ok;
+  if(!email)             ok=authSetErr('re-email-err',emailEl,'err-email-req')&&ok;
+  else if(!isValidEmail(email)) ok=authSetErr('re-email-err',emailEl,'err-email-invalid')&&ok;
+  else if(!isAllowedDomain(email)) ok=authSetErr('re-email-err',emailEl,'err-email-domain')&&ok;
+  if(!dept)              ok=authSetErr('re-dept-err',deptEl,'err-dept-req')&&ok;
+  if(!title)             ok=authSetErr('re-title-err',titleEl,'err-title-req')&&ok;
+  if(!pass)              ok=authSetErr('re-pass-err',passEl,'err-pass-req')&&ok;
+  else if(pass.length<8) ok=authSetErr('re-pass-err',passEl,'err-pass-short')&&ok;
+  if(!confirm)           ok=authSetErr('re-confirm-err',confirmEl,'err-confirm-req')&&ok;
+  else if(confirm!==pass) ok=authSetErr('re-confirm-err',confirmEl,'err-confirm-match')&&ok;
+  if(!ok) return false;
+
+  var reg=authGetReg(); reg[email.toLowerCase()]={name:name,dept:dept,title:title};
+  authSaveReg(reg);
+  var v=authGetVerified(); v[email.toLowerCase()]=false; authSaveVerified(v);
+  authPendingEmail=email.toLowerCase();
+  document.getElementById('modal-email-display').textContent=email;
+  authShow('verify-modal');
+  return false;
+}
+
+/* ── Verify email ── */
+function verifyEmail() {
+  if(!authPendingEmail) return;
+  var v=authGetVerified(); v[authPendingEmail]=true; authSaveVerified(v);
+  authHide('verify-modal'); authPendingEmail=null;
+  switchTab('login');
+}
+
+/* ── Resend ── */
+function resendVerification(e) {
+  e.preventDefault();
+  var toast=document.getElementById('resend-toast');
+  toast.classList.remove('hidden');
+  setTimeout(function(){toast.classList.add('hidden');},3000);
+}
+
+/* ── Logout ── */
+function handleLogout() {
+  localStorage.removeItem('opo-session');
+  showAuth();
+  switchTab('login');
+  document.getElementById('login-form').reset();
+}
+
+/* ── Blur validation ── */
+function authAddBlurValidation() {
+  var rules=[
+    {id:'reg-name',    err:'re-name-err',    fn:function(v){return v?null:'err-name-req';}},
+    {id:'reg-email',   err:'re-email-err',   fn:function(v){return !v?'err-email-req':!isValidEmail(v)?'err-email-invalid':!isAllowedDomain(v)?'err-email-domain':null;}},
+    {id:'reg-title',   err:'re-title-err',   fn:function(v){return v?null:'err-title-req';}},
+    {id:'reg-password',err:'re-pass-err',    fn:function(v){return !v?'err-pass-req':v.length<8?'err-pass-short':null;}},
+    {id:'reg-confirm', err:'re-confirm-err', fn:function(v){return !v?'err-confirm-req':v!==document.getElementById('reg-password').value?'err-confirm-match':null;}},
+    {id:'login-email', err:'le-email-err',   fn:function(v){return !v?'err-login-email-req':!isValidEmail(v)?'err-email-invalid':null;}}
+  ];
+  rules.forEach(function(r){
+    var el=document.getElementById(r.id); if(!el) return;
+    el.addEventListener('blur',function(){var k=r.fn(el.value.trim());k?authSetErr(r.err,el,k):authClearErr(r.err,el);});
+    el.addEventListener('input',function(){if(el.classList.contains('auth-invalid'))authClearErr(r.err,el);});
+  });
+  document.getElementById('reg-dept').addEventListener('change',function(){if(this.value)authClearErr('re-dept-err',this);});
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', function() {
+  setLang(authLang);
+  authAddBlurValidation();
+});
+  </script>
 </body>
 </html>
