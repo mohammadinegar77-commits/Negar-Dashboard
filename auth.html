@@ -827,6 +827,490 @@ html[dir="rtl"] .opo-dot        { margin-left: 0; margin-right: 3px; }
     <span data-i18n="resend-toast">Verification email resent!</span>
   </div>
 
-  <script>/* JS — Step 3 */</script>
+  <script>
+'use strict';
+
+/* ═══════════════════════════════════════════
+   1. TRANSLATIONS
+═══════════════════════════════════════════ */
+const T = {
+  en: {
+    'tagline':              'Employee Portal',
+    'tab-login':            'Login',
+    'tab-register':         'Register',
+    'login-heading':        'Welcome Back',
+    'login-sub':            'Sign in to your dashboard',
+    'email-label':          'Email',
+    'email-placeholder':    'you@opofinance.com',
+    'password-label':       'Password',
+    'password-placeholder': 'Enter your password',
+    'login-btn':            'Login',
+    'no-account':           "Don't have an account?",
+    'sign-up-link':         'Sign Up',
+    'access-note':          'Access restricted to verified Opofinance employees',
+    'unverified-msg':       'Please verify your email before logging in. ',
+    'resend-link':          'Resend verification email',
+    'login-error-generic':  'Invalid email or password.',
+    'reg-heading':          'Create Account',
+    'reg-sub':              'New employee onboarding',
+    'fullname-label':       'Full Name',
+    'fullname-placeholder': 'Your full name',
+    'empid-label':          'Employee ID',
+    'jobtitle-label':       'Job Title',
+    'jobtitle-placeholder': 'Your job title',
+    'dept-label':           'Department',
+    'dept-placeholder':     'Select department',
+    'confirm-label':        'Confirm Password',
+    'confirm-placeholder':  'Repeat your password',
+    'register-btn':         'Register',
+    'have-account':         'Already have an account?',
+    'login-link':           'Login',
+    'modal-title':          'Check Your Inbox',
+    'modal-body':           'A verification email has been sent to your address. Click the link to activate your account before logging in.',
+    'verify-btn':           '✓ Verify My Email',
+    'modal-note':           '(This simulates clicking the verification link in your email)',
+    'resend-toast':         'Verification email resent!',
+    /* validation errors */
+    'err-name-req':         'Full name is required.',
+    'err-empid-req':        'Employee ID is required.',
+    'err-empid-fmt':        'Format: OPO-YYYY-XXX (e.g. OPO-2024-001)',
+    'err-email-req':        'Email is required.',
+    'err-email-domain':     'Must be an @opofinance.com address.',
+    'err-email-invalid':    'Enter a valid email address.',
+    'err-dept-req':         'Please select a department.',
+    'err-title-req':        'Job title is required.',
+    'err-pass-req':         'Password is required.',
+    'err-pass-short':       'Password must be at least 8 characters.',
+    'err-confirm-req':      'Please confirm your password.',
+    'err-confirm-match':    'Passwords do not match.',
+    'err-login-email-req':  'Email is required.',
+    'err-login-pass-req':   'Password is required.',
+  },
+  fa: {
+    'tagline':              'پرتال کارمندان',
+    'tab-login':            'ورود',
+    'tab-register':         'ثبت‌نام',
+    'login-heading':        'خوش اومدی!',
+    'login-sub':            'می‌تونی داشبوردتو باز کنی',
+    'email-label':          'ایمیل بزن',
+    'email-placeholder':    'you@opofinance.com',
+    'password-label':       'رمز بزن',
+    'password-placeholder': 'رمز عبورت رو بنویس',
+    'login-btn':            'ورود',
+    'no-account':           'حساب نداری؟ آخی...',
+    'sign-up-link':         'ثبت‌نام کن خب!',
+    'access-note':          'دسترسی فقط برای کارمندان تأیید‌شده‌ی اوپوفایننس',
+    'unverified-msg':       'قبل از ورود، ایمیلتو تأیید کن. ',
+    'resend-link':          'ارسال مجدد ایمیل تأیید',
+    'login-error-generic':  'ایمیل یا رمز عبور اشتباهه.',
+    'reg-heading':          'ثبت‌نام کارمند',
+    'reg-sub':              'آنبوردینگ کارمند جدید',
+    'fullname-label':       'نام و نام خانوادگی',
+    'fullname-placeholder': 'اسمت رو بنویس',
+    'empid-label':          'شناسه',
+    'jobtitle-label':       'عنوان شغلی',
+    'jobtitle-placeholder': 'سمتت رو بنویس',
+    'dept-label':           'دپارتمان',
+    'dept-placeholder':     'دپارتمان رو انتخاب کن',
+    'confirm-label':        'تکرار رمز عبور',
+    'confirm-placeholder':  'رمز رو دوباره بنویس',
+    'register-btn':         'ثبت‌نام',
+    'have-account':         'قبلا ثبت‌نام کردی؟ مطمئنی؟',
+    'login-link':           'وارد شو پس!',
+    'modal-title':          'صندوق ورودیتو چک کن',
+    'modal-body':           'ایمیل تأیید ارسال شد. روی لینک کلیک کن تا حسابت فعال بشه.',
+    'verify-btn':           '✓ ایمیلمو تأیید کردم',
+    'modal-note':           '(این دکمه شبیه‌سازی کلیک روی لینک ایمیله)',
+    'resend-toast':         'ایمیل تأیید مجدداً ارسال شد!',
+    /* validation errors */
+    'err-name-req':         'نام و نام خانوادگی الزامی است.',
+    'err-empid-req':        'شناسه کارمندی الزامی است.',
+    'err-empid-fmt':        'فرمت: OPO-YYYY-XXX (مثال: OPO-2024-001)',
+    'err-email-req':        'ایمیل الزامی است.',
+    'err-email-domain':     'باید آدرس @opofinance.com باشد.',
+    'err-email-invalid':    'یک آدرس ایمیل معتبر وارد کنید.',
+    'err-dept-req':         'لطفاً یک دپارتمان انتخاب کنید.',
+    'err-title-req':        'عنوان شغلی الزامی است.',
+    'err-pass-req':         'رمز عبور الزامی است.',
+    'err-pass-short':       'رمز عبور باید حداقل ۸ کاراکتر باشد.',
+    'err-confirm-req':      'تکرار رمز عبور الزامی است.',
+    'err-confirm-match':    'رمزهای عبور با هم مطابقت ندارند.',
+    'err-login-email-req':  'ایمیل الزامی است.',
+    'err-login-pass-req':   'رمز عبور الزامی است.',
+  }
+};
+
+/* ═══════════════════════════════════════════
+   2. STATE
+═══════════════════════════════════════════ */
+let currentLang = localStorage.getItem('opo-lang') || 'en';
+let currentTab  = 'login';
+let pendingVerifyEmail = null;  // email awaiting verification after register
+
+/* ═══════════════════════════════════════════
+   3. STARFIELD CANVAS
+═══════════════════════════════════════════ */
+(function initStars() {
+  const canvas = document.getElementById('stars-canvas');
+  const ctx    = canvas.getContext('2d');
+  let stars    = [];
+  let W, H;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function createStars(n) {
+    stars = [];
+    for (let i = 0; i < n; i++) {
+      const r = Math.random();
+      stars.push({
+        x:       Math.random() * W,
+        y:       Math.random() * H,
+        r:       r < 0.6 ? 0.5 : r < 0.88 ? 1 : 1.6,
+        alpha:   Math.random(),
+        delta:   (Math.random() * 0.004 + 0.001) * (Math.random() < .5 ? 1 : -1),
+        color:   r < 0.8 ? '#fff' : (r < 0.92 ? '#c8b4ff' : '#89cfff'),
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.alpha += s.delta;
+      if (s.alpha <= 0 || s.alpha >= 1) s.delta *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = Math.max(0, Math.min(1, s.alpha));
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); createStars(260); });
+  resize();
+  createStars(260);
+  draw();
+})();
+
+/* ═══════════════════════════════════════════
+   4. LANGUAGE SWITCHING
+═══════════════════════════════════════════ */
+function t(key) {
+  return (T[currentLang] && T[currentLang][key]) || T.en[key] || key;
+}
+
+function applyLang() {
+  const root = document.getElementById('root');
+  const isFA = currentLang === 'fa';
+
+  root.setAttribute('lang', currentLang);
+  root.setAttribute('dir', isFA ? 'rtl' : 'ltr');
+  document.body.classList.toggle('fa-mode', isFA);
+
+  document.getElementById('btn-en').classList.toggle('active', !isFA);
+  document.getElementById('btn-fa').classList.toggle('active',  isFA);
+
+  /* Text content */
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (val) el.textContent = val;
+  });
+
+  /* Placeholders */
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    const val = t(key);
+    if (val) el.placeholder = val;
+  });
+
+  /* Department placeholder option */
+  const deptPlaceholder = document.querySelector('#reg-dept option[value=""]');
+  if (deptPlaceholder) deptPlaceholder.textContent = t('dept-placeholder');
+
+  localStorage.setItem('opo-lang', currentLang);
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  applyLang();
+}
+
+/* ═══════════════════════════════════════════
+   5. TAB SWITCHING
+═══════════════════════════════════════════ */
+function switchTab(tab) {
+  currentTab = tab;
+  const isRegister = tab === 'register';
+
+  document.getElementById('tab-login').classList.toggle('active',    !isRegister);
+  document.getElementById('tab-register').classList.toggle('active',  isRegister);
+  document.getElementById('tab-indicator').classList.toggle('right',  isRegister);
+
+  document.getElementById('panel-login').classList.toggle('active',    !isRegister);
+  document.getElementById('panel-register').classList.toggle('active',  isRegister);
+
+  /* Clear errors on switch */
+  clearAllErrors();
+  hideEl('login-error');
+  hideEl('login-unverified');
+}
+
+/* ═══════════════════════════════════════════
+   6. PASSWORD VISIBILITY TOGGLE
+═══════════════════════════════════════════ */
+function togglePwd(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const show  = input.type === 'password';
+  input.type  = show ? 'text' : 'password';
+  btn.classList.toggle('revealed', show);
+  /* Swap icon: open-eye / closed-eye */
+  btn.querySelector('.eye-icon').innerHTML = show
+    ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.73 5.08A10.43 10.43 0 0112 5c7 0 11 7 11 7a13.16 13.16 0 01-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 001 12s4 7 11 7a9.74 9.74 0 005.39-1.61"/>'
+    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+}
+
+/* ═══════════════════════════════════════════
+   7. VALIDATION HELPERS
+═══════════════════════════════════════════ */
+const ALLOWED_EMAILS = ['mohammadi.negar77@gmail.com'];
+
+function isValidEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+}
+function isAllowedDomain(v) {
+  const email = v.trim().toLowerCase();
+  return email.endsWith('@opofinance.com') || ALLOWED_EMAILS.includes(email);
+}
+function isValidEmpId(v) {
+  return /^OPO-\d{4}-[A-Z0-9]+$/i.test(v.trim());
+}
+
+function setFieldError(errId, inputEl, msgKey) {
+  const errEl = document.getElementById(errId);
+  if (errEl) {
+    errEl.textContent = t(msgKey);
+    errEl.classList.remove('hidden');
+  }
+  if (inputEl) inputEl.classList.add('field-invalid');
+  return false;
+}
+function clearFieldError(errId, inputEl) {
+  const errEl = document.getElementById(errId);
+  if (errEl) errEl.classList.add('hidden');
+  if (inputEl) inputEl.classList.remove('field-invalid');
+}
+function clearAllErrors() {
+  document.querySelectorAll('.field-error').forEach(e => e.classList.add('hidden'));
+  document.querySelectorAll('.field-invalid').forEach(e => e.classList.remove('field-invalid'));
+}
+
+/* ═══════════════════════════════════════════
+   8. LOGIN
+═══════════════════════════════════════════ */
+function handleLogin(e) {
+  e.preventDefault();
+  clearAllErrors();
+  hideEl('login-error');
+  hideEl('login-unverified');
+
+  const emailEl = document.getElementById('login-email');
+  const passEl  = document.getElementById('login-password');
+  const email   = emailEl.value.trim();
+  const pass    = passEl.value;
+  let valid = true;
+
+  if (!email)               valid = setFieldError('le-email-err', emailEl, 'err-login-email-req');
+  else if (!isValidEmail(email)) valid = setFieldError('le-email-err', emailEl, 'err-email-invalid');
+  if (!pass)                valid = setFieldError('le-pass-err',  passEl,  'err-login-pass-req') && valid;
+
+  if (!valid) return;
+
+  /* Check verification state */
+  const verified = getVerified();
+  if (verified[email.toLowerCase()] === false) {
+    /* Registered but not verified */
+    pendingVerifyEmail = email.toLowerCase();
+    showEl('login-unverified');
+    return;
+  }
+
+  /* No registered record = wrong credentials (prototype) */
+  const registered = getRegistered();
+  if (!registered[email.toLowerCase()]) {
+    showEl('login-error');
+    emailEl.classList.add('field-invalid');
+    return;
+  }
+
+  /* Verified — redirect to dashboard */
+  window.location.href = 'index.html';
+}
+
+/* ═══════════════════════════════════════════
+   9. REGISTER
+═══════════════════════════════════════════ */
+function handleRegister(e) {
+  e.preventDefault();
+  clearAllErrors();
+
+  const nameEl    = document.getElementById('reg-name');
+  const empidEl   = document.getElementById('reg-empid');
+  const emailEl   = document.getElementById('reg-email');
+  const deptEl    = document.getElementById('reg-dept');
+  const titleEl   = document.getElementById('reg-title');
+  const passEl    = document.getElementById('reg-password');
+  const confirmEl = document.getElementById('reg-confirm');
+
+  const name    = nameEl.value.trim();
+  const empid   = empidEl.value.trim();
+  const email   = emailEl.value.trim();
+  const dept    = deptEl.value;
+  const title   = titleEl.value.trim();
+  const pass    = passEl.value;
+  const confirm = confirmEl.value;
+
+  let valid = true;
+
+  if (!name)
+    valid = setFieldError('re-name-err',    nameEl,    'err-name-req')    && valid;
+  if (!empid)
+    valid = setFieldError('re-empid-err',   empidEl,   'err-empid-req')   && valid;
+  else if (!isValidEmpId(empid))
+    valid = setFieldError('re-empid-err',   empidEl,   'err-empid-fmt')   && valid;
+  if (!email)
+    valid = setFieldError('re-email-err',   emailEl,   'err-email-req')   && valid;
+  else if (!isValidEmail(email))
+    valid = setFieldError('re-email-err',   emailEl,   'err-email-invalid') && valid;
+  else if (!isAllowedDomain(email))
+    valid = setFieldError('re-email-err',   emailEl,   'err-email-domain') && valid;
+  if (!dept)
+    valid = setFieldError('re-dept-err',    deptEl,    'err-dept-req')    && valid;
+  if (!title)
+    valid = setFieldError('re-title-err',   titleEl,   'err-title-req')   && valid;
+  if (!pass)
+    valid = setFieldError('re-pass-err',    passEl,    'err-pass-req')    && valid;
+  else if (pass.length < 8)
+    valid = setFieldError('re-pass-err',    passEl,    'err-pass-short')  && valid;
+  if (!confirm)
+    valid = setFieldError('re-confirm-err', confirmEl, 'err-confirm-req') && valid;
+  else if (pass && confirm !== pass)
+    valid = setFieldError('re-confirm-err', confirmEl, 'err-confirm-match') && valid;
+
+  if (!valid) return;
+
+  /* Save registration + unverified state */
+  const registered = getRegistered();
+  registered[email.toLowerCase()] = { name, empid, dept, title };
+  saveRegistered(registered);
+
+  const verified = getVerified();
+  verified[email.toLowerCase()] = false;
+  saveVerified(verified);
+
+  pendingVerifyEmail = email.toLowerCase();
+
+  /* Show modal */
+  document.getElementById('modal-email-display').textContent = email;
+  showEl('verify-modal');
+}
+
+/* ═══════════════════════════════════════════
+   10. EMAIL VERIFICATION
+═══════════════════════════════════════════ */
+function verifyEmail() {
+  if (!pendingVerifyEmail) return;
+
+  const verified = getVerified();
+  verified[pendingVerifyEmail] = true;
+  saveVerified(verified);
+
+  hideEl('verify-modal');
+  pendingVerifyEmail = null;
+
+  /* Switch to login with success hint */
+  switchTab('login');
+  document.getElementById('login-email').value = '';
+}
+
+function resendVerification(e) {
+  e.preventDefault();
+  /* Show toast */
+  const toast = document.getElementById('resend-toast');
+  toast.classList.remove('hidden');
+  setTimeout(() => toast.classList.add('hidden'), 3000);
+}
+
+/* ═══════════════════════════════════════════
+   11. LOCALSTORAGE HELPERS
+═══════════════════════════════════════════ */
+function getVerified()    { try { return JSON.parse(localStorage.getItem('opo-verified') || '{}'); } catch { return {}; } }
+function saveVerified(v)  { localStorage.setItem('opo-verified', JSON.stringify(v)); }
+function getRegistered()  { try { return JSON.parse(localStorage.getItem('opo-registered') || '{}'); } catch { return {}; } }
+function saveRegistered(r){ localStorage.setItem('opo-registered', JSON.stringify(r)); }
+
+/* ═══════════════════════════════════════════
+   12. DOM HELPERS
+═══════════════════════════════════════════ */
+function showEl(id) { document.getElementById(id).classList.remove('hidden'); }
+function hideEl(id) { document.getElementById(id).classList.add('hidden'); }
+
+/* ═══════════════════════════════════════════
+   13. LIVE FIELD VALIDATION (on blur)
+═══════════════════════════════════════════ */
+function addBlurValidation() {
+  const rules = [
+    { id: 'reg-name',    err: 're-name-err',    check: v => v ? null : 'err-name-req' },
+    { id: 'reg-empid',   err: 're-empid-err',   check: v => !v ? 'err-empid-req' : (!isValidEmpId(v) ? 'err-empid-fmt' : null) },
+    { id: 'reg-email',   err: 're-email-err',   check: v => !v ? 'err-email-req' : (!isValidEmail(v) ? 'err-email-invalid' : (!isAllowedDomain(v) ? 'err-email-domain' : null)) },
+    { id: 'reg-title',   err: 're-title-err',   check: v => v ? null : 'err-title-req' },
+    { id: 'reg-password',err: 're-pass-err',    check: v => !v ? 'err-pass-req' : (v.length < 8 ? 'err-pass-short' : null) },
+    { id: 'reg-confirm', err: 're-confirm-err', check: v => !v ? 'err-confirm-req' : (v !== document.getElementById('reg-password').value ? 'err-confirm-match' : null) },
+    { id: 'login-email', err: 'le-email-err',   check: v => !v ? 'err-login-email-req' : (!isValidEmail(v) ? 'err-email-invalid' : null) },
+  ];
+
+  rules.forEach(({ id, err, check }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('blur', () => {
+      const key = check(el.value.trim());
+      if (key) setFieldError(err, el, key);
+      else clearFieldError(err, el);
+    });
+    el.addEventListener('input', () => {
+      if (el.classList.contains('field-invalid')) clearFieldError(err, el);
+    });
+  });
+
+  /* Dept select */
+  document.getElementById('reg-dept').addEventListener('change', function() {
+    if (this.value) clearFieldError('re-dept-err', this);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   14. INIT
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function () {
+  applyLang();
+  addBlurValidation();
+
+  /* Close modal on overlay click */
+  document.getElementById('verify-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      /* Don't allow dismiss without verifying */
+    }
+  });
+
+  /* If returning from a verified session, hint the login form */
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('tab') === 'register') switchTab('register');
+});
+  </script>
 </body>
 </html>
