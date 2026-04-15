@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>opo — Employee Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>/* CSS — Step 2 */</style>
+</head>
+<body>
+
+  <!-- ── Starfield canvas ── -->
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- ── Nebula blobs ── -->
+  <div class="nebula neb-1"></div>
+  <div class="nebula neb-2"></div>
+  <div class="nebula neb-3"></div>
+
+  <!-- ── Language toggle ── -->
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" id="btn-fa" onclick="setLang('fa')">FA</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       AUTH CARD
+  ══════════════════════════════════════ -->
+  <div class="auth-wrap">
+    <div class="auth-card" id="auth-card">
+
+      <!-- Logo -->
+      <div class="opo-logo" aria-label="opo">
+        <span class="opo-o">o</span><span class="opo-p">p</span><span class="opo-o">o</span>
+        <span class="opo-dot"></span>
+      </div>
+      <p class="opo-tagline" data-i18n="tagline">Employee Portal</p>
+
+      <!-- Tabs -->
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" id="tab-login"
+                role="tab" aria-selected="true"
+                onclick="switchTab('login')">
+          <span data-i18n="tab-login">Login</span>
+        </button>
+        <button class="auth-tab" id="tab-register"
+                role="tab" aria-selected="false"
+                onclick="switchTab('register')">
+          <span data-i18n="tab-register">Register</span>
+        </button>
+        <div class="tab-indicator" id="tab-indicator"></div>
+      </div>
+
+      <!-- ── Panels wrapper (overflow hidden for slide) ── -->
+      <div class="panels-wrap">
+
+        <!-- ────────────────────────────────
+             LOGIN PANEL
+        ──────────────────────────────── -->
+        <div class="form-panel active" id="panel-login" role="tabpanel">
+
+          <h2 class="form-heading" data-i18n="login-heading">Welcome Back</h2>
+          <p class="form-sub" data-i18n="login-sub">Sign in to your dashboard</p>
+
+          <!-- Global error banner -->
+          <div class="alert alert-error hidden" id="login-error" role="alert">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="login-error-msg" data-i18n="login-error-generic">Invalid credentials.</span>
+          </div>
+
+          <!-- Unverified warning -->
+          <div class="alert alert-warn hidden" id="login-unverified" role="alert">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>
+              <span data-i18n="unverified-msg">Please verify your email before logging in.</span>
+              <a href="#" class="resend-link" id="resend-link" onclick="resendVerification(event)" data-i18n="resend-link">Resend verification email</a>
+            </span>
+          </div>
+
+          <form id="login-form" onsubmit="handleLogin(event)" novalidate>
+
+            <div class="field-group">
+              <label for="login-email" data-i18n="email-label">Email</label>
+              <input type="email" id="login-email" name="email"
+                     data-i18n-placeholder="email-placeholder"
+                     placeholder="you@opofinance.com" autocomplete="email">
+              <span class="field-error hidden" id="le-email-err"></span>
+            </div>
+
+            <div class="field-group">
+              <label for="login-password" data-i18n="password-label">Password</label>
+              <div class="input-wrap">
+                <input type="password" id="login-password" name="password"
+                       data-i18n-placeholder="password-placeholder"
+                       placeholder="Enter your password" autocomplete="current-password">
+                <button type="button" class="eye-btn" onclick="togglePwd('login-password', this)" aria-label="Show password">
+                  <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="field-error hidden" id="le-pass-err"></span>
+            </div>
+
+            <button type="submit" class="btn-primary" data-i18n="login-btn">Login</button>
+
+          </form>
+
+          <p class="switch-link">
+            <span data-i18n="no-account">Don't have an account?</span>
+            <a href="#" onclick="switchTab('register')" data-i18n="sign-up-link">Sign Up</a>
+          </p>
+          <p class="access-note" data-i18n="access-note">Access restricted to verified Opofinance employees</p>
+
+        </div><!-- /panel-login -->
+
+        <!-- ────────────────────────────────
+             REGISTER PANEL
+        ──────────────────────────────── -->
+        <div class="form-panel" id="panel-register" role="tabpanel">
+
+          <h2 class="form-heading" data-i18n="reg-heading">Create Account</h2>
+          <p class="form-sub" data-i18n="reg-sub">New employee onboarding</p>
+
+          <form id="register-form" onsubmit="handleRegister(event)" novalidate>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="reg-name" data-i18n="fullname-label">Full Name</label>
+                <input type="text" id="reg-name" name="name"
+                       data-i18n-placeholder="fullname-placeholder"
+                       placeholder="Your full name" autocomplete="name">
+                <span class="field-error hidden" id="re-name-err"></span>
+              </div>
+              <div class="field-group">
+                <label for="reg-empid" data-i18n="empid-label">Employee ID</label>
+                <input type="text" id="reg-empid" name="empid"
+                       placeholder="OPO-2024-XXX" autocomplete="off">
+                <span class="field-error hidden" id="re-empid-err"></span>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="reg-email" data-i18n="email-label">Work Email</label>
+              <input type="email" id="reg-email" name="email"
+                     data-i18n-placeholder="email-placeholder"
+                     placeholder="you@opofinance.com" autocomplete="email">
+              <span class="field-error hidden" id="re-email-err"></span>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="reg-dept" data-i18n="dept-label">Department</label>
+                <div class="select-wrap">
+                  <select id="reg-dept" name="dept">
+                    <option value="" data-i18n="dept-placeholder">Select department</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="finance">Finance</option>
+                    <option value="tech">Tech</option>
+                    <option value="operations">Operations</option>
+                    <option value="hr">HR</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <span class="field-error hidden" id="re-dept-err"></span>
+              </div>
+              <div class="field-group">
+                <label for="reg-title" data-i18n="jobtitle-label">Job Title</label>
+                <input type="text" id="reg-title" name="title"
+                       data-i18n-placeholder="jobtitle-placeholder"
+                       placeholder="Your job title" autocomplete="organization-title">
+                <span class="field-error hidden" id="re-title-err"></span>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="reg-password" data-i18n="password-label">Password</label>
+              <div class="input-wrap">
+                <input type="password" id="reg-password" name="password"
+                       data-i18n-placeholder="password-placeholder"
+                       placeholder="Create a password" autocomplete="new-password">
+                <button type="button" class="eye-btn" onclick="togglePwd('reg-password', this)" aria-label="Show password">
+                  <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="field-error hidden" id="re-pass-err"></span>
+            </div>
+
+            <div class="field-group">
+              <label for="reg-confirm" data-i18n="confirm-label">Confirm Password</label>
+              <div class="input-wrap">
+                <input type="password" id="reg-confirm" name="confirm"
+                       data-i18n-placeholder="confirm-placeholder"
+                       placeholder="Repeat your password" autocomplete="new-password">
+                <button type="button" class="eye-btn" onclick="togglePwd('reg-confirm', this)" aria-label="Show password">
+                  <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="field-error hidden" id="re-confirm-err"></span>
+            </div>
+
+            <button type="submit" class="btn-primary" data-i18n="register-btn">Register</button>
+
+          </form>
+
+          <p class="switch-link">
+            <span data-i18n="have-account">Already have an account?</span>
+            <a href="#" onclick="switchTab('login')" data-i18n="login-link">Login</a>
+          </p>
+
+        </div><!-- /panel-register -->
+
+      </div><!-- /panels-wrap -->
+    </div><!-- /auth-card -->
+  </div><!-- /auth-wrap -->
+
+  <!-- ══════════════════════════════════════
+       VERIFICATION MODAL
+  ══════════════════════════════════════ -->
+  <div class="modal-overlay hidden" id="verify-modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <h3 class="modal-title" data-i18n="modal-title">Check Your Inbox</h3>
+      <p class="modal-body" data-i18n="modal-body">
+        A verification email has been sent to your address. Click the link to activate your account before logging in.
+      </p>
+      <div class="modal-email-display" id="modal-email-display"></div>
+      <button class="btn-primary" id="verify-btn" onclick="verifyEmail()" data-i18n="verify-btn">
+        ✓ Verify My Email
+      </button>
+      <p class="modal-note" data-i18n="modal-note">
+        (This simulates clicking the verification link in your email)
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       RESEND TOAST
+  ══════════════════════════════════════ -->
+  <div class="toast hidden" id="resend-toast">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    <span data-i18n="resend-toast">Verification email resent!</span>
+  </div>
+
+  <script>/* JS — Step 3 */</script>
+</body>
+</html>
