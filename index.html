@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <style>
 /* ═══════════════════════════════════════════
    AUTH GATE — scoped styles (galaxy theme)
@@ -287,284 +288,138 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
   </style>
   <style>
 /* ═══════════════════════════════════════════════════════════
-   OVERVIEW — FUTURISTIC REDESIGN
-   All selectors prefixed with .ov- to prevent collisions.
+   OVERVIEW — CHART-DRIVEN REDESIGN  (ch- prefix)
+   Only applied within #section-overview
 ═══════════════════════════════════════════════════════════ */
 
-/* Tokens */
+/* ── Design tokens ── */
 #section-overview {
-  --ov-navy:   #051429;
-  --ov-blue:   #004dfa;
-  --ov-yellow: #ffcc00;
-  --ov-green:  #1dfd3d;
-  --ov-purple: #7b2fff;
-  --ov-glass:  rgba(0,77,250,0.07);
-  --ov-border: rgba(0,77,250,0.2);
-  --ov-font:  'Plus Jakarta Sans', sans-serif;
-  --ov-font2: 'Oxanium', sans-serif;
-  font-family: var(--ov-font);
-  scroll-behavior: smooth;
+  --ch-blue:   #004dfa;
+  --ch-green:  #1dfd3d;
+  --ch-yellow: #ffcc00;
+  --ch-purple: #7b2fff;
+  --ch-red:    #ff4d4d;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
-/* ── KPI Hero Bar ── */
-.ov-hero {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 14px;
-  padding: 28px 36px 0;
+/* ── Alert strip ── */
+.ch-alert-strip {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  background: rgba(255,77,77,0.06);
+  border-bottom: 1px solid rgba(255,77,77,0.15);
+  padding: 10px 20px;
 }
-.ov-kpi {
-  background: rgba(5,20,41,0.7);
-  border: 1px solid var(--ov-border);
-  border-top: 1px solid rgba(0,77,250,0.5);
-  border-radius: 12px;
-  padding: 20px 22px;
-  backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  cursor: default;
+.ch-alert-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(5,20,41,0.8); border: 1px solid rgba(255,77,77,0.3);
+  border-radius: 20px; padding: 4px 11px;
+  font-size: 11px; color: rgba(255,255,255,0.75); white-space: nowrap;
 }
-.ov-kpi::after {
-  content: '';
-  position: absolute;
-  top: -100%; left: 0; right: 0; height: 100%;
-  background: linear-gradient(transparent,rgba(0,77,250,0.04),transparent);
-  pointer-events: none;
-}
-.ov-kpi:hover { border-color: rgba(123,47,255,0.5); box-shadow: 0 0 24px rgba(123,47,255,0.15); }
-.ov-kpi:hover::after { animation: ov-scan 0.6s ease-out; }
-@keyframes ov-scan { from{top:-100%;opacity:1;} to{top:100%;opacity:0;} }
-
-.ov-kpi-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 8px;
-}
-.ov-kpi-value {
-  font-family: var(--ov-font2);
-  font-size: 28px;
-  font-weight: 700;
-  color: #fff;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-  margin-bottom: 9px;
-}
-.ov-kpi-delta {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
-  letter-spacing: 0.04em;
-}
-.ov-delta-pos { background: rgba(29,253,61,0.1); color: var(--ov-green); border: 1px solid rgba(29,253,61,0.25); }
-.ov-delta-neg { background: rgba(255,77,77,0.1);  color: #ff4d4d;       border: 1px solid rgba(255,77,77,0.25); }
-.ov-delta-neu { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.12); }
-
-/* ── Sections wrapper ── */
-.ov-sections { padding: 22px 36px 36px; display: flex; flex-direction: column; gap: 18px; }
-
-/* ── Glass card ── */
-.ov-card {
-  background: rgba(5,20,41,0.7);
-  border: 1px solid var(--ov-border);
-  border-top: 1px solid rgba(0,77,250,0.5);
-  border-radius: 14px;
-  overflow: hidden;
-  backdrop-filter: blur(12px);
-  position: relative;
-  transition: all 0.2s ease;
-}
-.ov-card:hover { border-color: rgba(123,47,255,0.4); box-shadow: 0 0 24px rgba(123,47,255,0.12); }
-.ov-card::after {
-  content: '';
-  position: absolute;
-  top: -100%; left: 0; right: 0; height: 100%;
-  background: linear-gradient(transparent,rgba(0,77,250,0.04),transparent);
-  pointer-events: none;
-}
-.ov-card:hover::after { animation: ov-scan 0.6s ease-out; }
-
-/* ── Section header ── */
-.ov-sec-hd {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 22px 14px;
-  border-bottom: 1px solid var(--ov-border);
-}
-.ov-sec-hd::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(0,77,250,0.3), transparent);
-}
-.ov-sec-title {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ov-blue);
-  border-left: 2px solid var(--ov-blue);
-  padding-left: 10px;
-  white-space: nowrap;
-}
-
-/* ── Tables ── */
-.ov-table-wrap { overflow-x: auto; }
-.ov-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12.5px;
-}
-.ov-table th {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.35);
-  padding: 10px 16px;
-  text-align: left;
-  border-bottom: 1px solid var(--ov-border);
-  white-space: nowrap;
-}
-.ov-table td {
-  padding: 11px 16px;
-  border-bottom: 1px solid rgba(0,77,250,0.1);
-  color: rgba(255,255,255,0.82);
-  vertical-align: middle;
-  font-variant-numeric: tabular-nums;
-}
-.ov-table tr:last-child td { border-bottom: none; }
-.ov-table tbody tr { transition: all 0.2s ease; }
-.ov-table tbody tr:hover { background: rgba(0,77,250,0.06); }
-
-/* ── Platform name cell ── */
-.ov-plat {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-.ov-plat-dot {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-}
-
-/* ── Growth / number coloring ── */
-.ov-pos { color: var(--ov-green); font-weight: 600; }
-.ov-neg { color: #ff4d4d;         font-weight: 600; }
-.ov-neu { color: rgba(255,255,255,0.4); }
-.ov-num { font-variant-numeric: tabular-nums; font-weight: 600; }
-
-/* ── Status badges ── */
-.ov-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 3px 9px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.ov-badge-live    { border: 1px solid var(--ov-green); color: var(--ov-green); background: rgba(29,253,61,0.08); }
-.ov-badge-review  { border: 1px solid var(--ov-yellow); color: var(--ov-yellow); background: rgba(255,204,0,0.08); }
-.ov-badge-planned { border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.5); background: transparent; }
-.ov-badge-draft   { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.35); background: transparent; }
-.ov-badge-active  { border: 1px solid var(--ov-green); color: var(--ov-green); background: rgba(29,253,61,0.08); }
-
-/* Pulse dot for live */
-.ov-pulse {
+.ch-alert-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--ov-green);
-  animation: ov-pulse-anim 1.4s ease-in-out infinite;
-  flex-shrink: 0;
+  background: #ff4d4d; flex-shrink: 0;
+  animation: ch-pulse 1.4s ease-in-out infinite;
 }
-@keyframes ov-pulse-anim {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%     { opacity:0.45; transform:scale(1.6); }
-}
-
-/* ── Activity level badges ── */
-.ov-act-high   { color: var(--ov-green); background: rgba(29,253,61,0.08); border: 1px solid rgba(29,253,61,0.3); }
-.ov-act-med    { color: var(--ov-yellow); background: rgba(255,204,0,0.08);  border: 1px solid rgba(255,204,0,0.3); }
-.ov-act-low    { color: #ff4d4d; background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); }
-.ov-act-dot-g  { width:6px;height:6px;border-radius:50%;background:var(--ov-green);display:inline-block;flex-shrink:0; }
-.ov-act-dot-y  { width:6px;height:6px;border-radius:50%;background:var(--ov-yellow);display:inline-block;flex-shrink:0; }
-.ov-act-dot-r  { width:6px;height:6px;border-radius:50%;background:#ff4d4d;display:inline-block;flex-shrink:0; }
-
-/* ── Progress bar (task overview) ── */
-.ov-prog-wrap { display:flex; align-items:center; gap:8px; }
-.ov-prog-track {
-  width: 60px; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; flex-shrink: 0;
-}
-.ov-prog-fill { height: 100%; background: var(--ov-blue); border-radius: 2px; transition: width 0.3s ease; }
-.ov-prog-txt { font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; color: rgba(255,255,255,0.7); }
-
-/* ── Suggestion cards grid ── */
-.ov-sug-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 14px;
-  padding: 18px 22px 22px;
-}
-.ov-sug-card {
-  background: rgba(5,20,41,0.8);
-  border: 1px solid var(--ov-border);
-  border-radius: 11px;
-  padding: 18px 18px 16px;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-.ov-sug-card:hover { box-shadow: 0 0 18px rgba(123,47,255,0.12); }
-.ov-sug-top { height: 2px; width: 100%; border-radius: 2px 2px 0 0; position: absolute; top: 0; left: 0; }
-.ov-sug-label {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 12px;
-}
-.ov-sug-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-.ov-sug-list li {
-  font-size: 11.5px;
-  color: rgba(255,255,255,0.55);
-  padding-left: 14px;
-  position: relative;
-  line-height: 1.45;
-}
-.ov-sug-list li::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 7px;
-  width: 5px; height: 1px;
-  background: rgba(255,255,255,0.3);
+@keyframes ch-pulse {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.45;transform:scale(1.6);}
 }
 
-/* ── opo brand ── */
-.opo-brand { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; }
-.opo-brand-dot { color: var(--ov-blue); }
+/* ── Main wrap ── */
+.ch-wrap { padding: 20px 24px 28px; display: flex; flex-direction: column; gap: 16px; }
+
+/* ── KPI bar ── */
+.ch-kpi-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.ch-kpi-card {
+  background: rgba(5,20,41,0.7); border: 1px solid rgba(0,77,250,0.2);
+  border-radius: 12px; padding: 16px; transition: all 0.2s ease;
+}
+.ch-kpi-card:hover { border-color: rgba(123,47,255,0.4); box-shadow: 0 0 20px rgba(123,47,255,0.1); }
+.ch-kpi-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.09em;
+  text-transform: uppercase; color: rgba(255,255,255,0.45);
+  padding-left: 8px; border-left: 2px solid var(--ch-blue); margin-bottom: 10px;
+}
+.ch-kpi-value {
+  font-size: 26px; font-weight: 700; color: #fff;
+  font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 8px;
+}
+.ch-kpi-delta {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+}
+.ch-delta-pos { background: rgba(29,253,61,0.1);  color: var(--ch-green); }
+.ch-delta-amb { background: rgba(255,204,0,0.1);   color: var(--ch-yellow); }
+
+/* ── Leads goal bar ── */
+.ch-goal-bar   { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.ch-goal-track { height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+.ch-goal-fill  { height: 100%; background: var(--ch-yellow); border-radius: 2px; }
+.ch-goal-label { font-size: 10px; color: rgba(255,255,255,0.4); font-variant-numeric: tabular-nums; }
+
+/* ── Generic card ── */
+.ch-card {
+  background: rgba(5,20,41,0.7); border: 1px solid rgba(0,77,250,0.2);
+  border-radius: 12px; padding: 16px; transition: all 0.2s ease;
+}
+.ch-card:hover { border-color: rgba(123,47,255,0.35); box-shadow: 0 0 20px rgba(123,47,255,0.08); }
+
+/* ── Section title ── */
+.ch-sec-title {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.09em;
+  text-transform: uppercase; color: rgba(255,255,255,0.45);
+  padding-left: 8px; border-left: 2px solid var(--ch-blue);
+  margin-bottom: 12px; display: block;
+}
+
+/* ── Layouts ── */
+.ch-two-col   { display: grid; grid-template-columns: 1fr 1fr;       gap: 14px; }
+.ch-three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+
+/* ── Canvas wrapper ── */
+.ch-canvas-wrap { position: relative; }
+
+/* ── Donut center overlay ── */
+.ch-donut-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%); text-align: center; pointer-events: none;
+}
+.ch-donut-num { font-size: 20px; font-weight: 700; color: #fff; display: block; line-height: 1; }
+.ch-donut-sub { font-size: 10px; color: rgba(255,255,255,0.4); display: block; }
+
+/* ── Custom legend ── */
+.ch-legend      { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.ch-legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: rgba(255,255,255,0.55); }
+.ch-legend-swatch      { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+.ch-legend-swatch-dash { width: 16px; height: 2px;  border-radius: 1px; display: inline-block; flex-shrink: 0; }
+
+/* ── Channel health ── */
+.ch-health-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ch-health-card   { border-radius: 8px; padding: 10px 12px; }
+.ch-health-plat   { font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+.ch-health-status { font-size: 12px; font-weight: 700; }
+.ch-health-green  { background: rgba(29,253,61,0.06);  border: 1px solid rgba(29,253,61,0.3); }
+.ch-health-green .ch-health-status { color: #1dfd3d; }
+.ch-health-amber  { background: rgba(255,204,0,0.06);  border: 1px solid rgba(255,204,0,0.3); }
+.ch-health-amber .ch-health-status { color: #ffcc00; }
+.ch-health-red    { background: rgba(226,75,74,0.06);  border: 1px solid rgba(226,75,74,0.3); }
+.ch-health-red .ch-health-status   { color: #e24b4a; }
+
+/* ── opo brand (sidebar) ── */
+.opo-brand     { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+.opo-brand-dot { color: #004dfa; }
 
 /* ── Responsive ── */
 @media(max-width:1100px) {
-  .ov-hero { grid-template-columns: repeat(2,1fr); }
-  .ov-sug-grid { grid-template-columns: repeat(2,1fr); }
+  .ch-kpi-bar   { grid-template-columns: repeat(2,1fr); }
+  .ch-three-col { grid-template-columns: repeat(2,1fr); }
 }
 @media(max-width:700px) {
-  .ov-hero { grid-template-columns: 1fr; padding: 16px 16px 0; }
-  .ov-sections { padding: 14px 16px 24px; }
-  .ov-sug-grid { grid-template-columns: 1fr; }
-  .ov-kpi-value { font-size: 22px; }
+  .ch-wrap      { padding: 14px 14px 20px; }
+  .ch-kpi-bar   { grid-template-columns: 1fr; }
+  .ch-two-col   { grid-template-columns: 1fr; }
+  .ch-three-col { grid-template-columns: 1fr; }
+  .ch-kpi-value { font-size: 22px; }
 }
   </style>
 </head>
@@ -832,456 +687,161 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
       <div class="content">
         <div id="section-overview" class="dashboard-section">
 
-          <!-- ── KPI Hero Bar ── -->
-          <div class="ov-hero">
-            <div class="ov-kpi">
-              <div class="ov-kpi-label">Total Followers</div>
-              <div class="ov-kpi-value">95,400</div>
-              <span class="ov-kpi-delta ov-delta-pos">&#8593; +2.1K this week</span>
+          <!-- ── S1: Alert Strip ── -->
+          <div class="ch-alert-strip">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,77,77,0.8);white-space:nowrap;margin-right:4px;">Alerts</span>
+            <div class="ch-alert-pill"><span class="ch-alert-dot"></span>3 posts overdue for approval</div>
+            <div class="ch-alert-pill"><span class="ch-alert-dot"></span>MT5 campaign below lead target (32%)</div>
+            <div class="ch-alert-pill"><span class="ch-alert-dot"></span>AR Instagram engagement dropped 1.2%</div>
+            <div class="ch-alert-pill"><span class="ch-alert-dot"></span>2 video projects past due date</div>
+          </div>
+
+          <div class="ch-wrap">
+
+          <!-- ── S2: KPI Hero Bar ── -->
+          <div class="ch-kpi-bar">
+            <div class="ch-kpi-card">
+              <div class="ch-kpi-label">Total Followers</div>
+              <div class="ch-kpi-value">95,400</div>
+              <span class="ch-kpi-delta ch-delta-pos">&#8593; +2.1K this week</span>
             </div>
-            <div class="ov-kpi">
-              <div class="ov-kpi-label">Engagement Rate</div>
-              <div class="ov-kpi-value">5.1%</div>
-              <span class="ov-kpi-delta ov-delta-pos">&#8593; +0.3% this week</span>
+            <div class="ch-kpi-card">
+              <div class="ch-kpi-label">Avg Engagement</div>
+              <div class="ch-kpi-value">5.1%</div>
+              <span class="ch-kpi-delta ch-delta-pos">&#8593; +0.3% vs last month</span>
             </div>
-            <div class="ov-kpi">
-              <div class="ov-kpi-label">Monthly Reach</div>
-              <div class="ov-kpi-value">739K</div>
-              <span class="ov-kpi-delta ov-delta-pos">&#8593; +8.4% this month</span>
+            <div class="ch-kpi-card">
+              <div class="ch-kpi-label">Monthly Reach</div>
+              <div class="ch-kpi-value">739K</div>
+              <span class="ch-kpi-delta ch-delta-pos">&#8593; +8.4% this month</span>
             </div>
-            <div class="ov-kpi">
-              <div class="ov-kpi-label">Active Campaigns</div>
-              <div class="ov-kpi-value">3</div>
-              <span class="ov-kpi-delta ov-delta-neu">Q2 2026</span>
+            <div class="ch-kpi-card">
+              <div class="ch-kpi-label">Leads MTD</div>
+              <div class="ch-kpi-value">192</div>
+              <div class="ch-goal-bar">
+                <div class="ch-goal-track"><div class="ch-goal-fill" style="width:77%;"></div></div>
+                <span class="ch-goal-label">192 / 250 goal &nbsp;&middot;&nbsp; 77%</span>
+              </div>
             </div>
           </div>
 
-          <!-- ── Main Sections ── -->
-          <div class="ov-sections">
-
-            <!-- 1. Social Media Insights -->
-            <div class="ov-card">
-              <div class="ov-sec-hd"><span class="ov-sec-title">Social Media Insights</span></div>
-              <div class="ov-table-wrap">
-                <table class="ov-table">
-                  <thead>
-                    <tr>
-                      <th>Platform</th>
-                      <th>Followers</th>
-                      <th>New Followers</th>
-                      <th>Reach</th>
-                      <th>Eng. Rate</th>
-                      <th>Avg. Likes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#e1306c;"></span>Instagram FA</div></td>
-                      <td class="ov-num">42,800</td>
-                      <td class="ov-pos">+540</td>
-                      <td class="ov-num">210K</td>
-                      <td>5.8%</td>
-                      <td class="ov-num">1,240</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#833ab4;"></span>Instagram EN</div></td>
-                      <td class="ov-num">18,300</td>
-                      <td class="ov-pos">+210</td>
-                      <td class="ov-num">89K</td>
-                      <td>4.2%</td>
-                      <td class="ov-num">768</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#c13584;"></span>Instagram AR</div></td>
-                      <td class="ov-num">11,600</td>
-                      <td class="ov-pos">+130</td>
-                      <td class="ov-num">54K</td>
-                      <td>3.9%</td>
-                      <td class="ov-num">452</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#0077b5;"></span>LinkedIn</div></td>
-                      <td class="ov-num">8,400</td>
-                      <td class="ov-pos">+95</td>
-                      <td class="ov-num">41K</td>
-                      <td>3.1%</td>
-                      <td class="ov-num">312</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#2ca5e0;"></span>Telegram</div></td>
-                      <td class="ov-num">7,200</td>
-                      <td class="ov-pos">+480</td>
-                      <td class="ov-num">148K</td>
-                      <td>6.8%</td>
-                      <td class="ov-neu">&#8212;</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#ff0000;"></span>YouTube</div></td>
-                      <td class="ov-num">5,800</td>
-                      <td class="ov-pos">+62</td>
-                      <td class="ov-num">97K</td>
-                      <td>4.5%</td>
-                      <td class="ov-num">920</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#1da1f2;"></span>Twitter / X</div></td>
-                      <td class="ov-num">1,100</td>
-                      <td class="ov-neg">&#8722;12</td>
-                      <td class="ov-num">23K</td>
-                      <td>1.9%</td>
-                      <td class="ov-num">84</td>
-                    </tr>
-                    <tr>
-                      <td><div class="ov-plat"><span class="ov-plat-dot" style="background:#69c9d0;"></span>TikTok</div></td>
-                      <td class="ov-num">200</td>
-                      <td class="ov-pos">+200</td>
-                      <td class="ov-num">77K</td>
-                      <td>9.3%</td>
-                      <td class="ov-num">3,410</td>
-                    </tr>
-                  </tbody>
-                </table>
+          <!-- ── S3: Two charts side by side ── -->
+          <div class="ch-two-col">
+            <!-- LEFT: Follower growth -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Follower growth &mdash; 6 weeks</div>
+              <div class="ch-legend">
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#004dfa;"></span>IG (FA)</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch-dash" style="background:#7b2fff;"></span>TikTok</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch-dash" style="background:#1dfd3d;"></span>LinkedIn</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch-dash" style="background:#ffcc00;"></span>YouTube</span>
+              </div>
+              <div class="ch-canvas-wrap" style="height:180px;">
+                <canvas id="ch-follower-line" role="img" aria-label="Follower growth over 6 weeks"></canvas>
               </div>
             </div>
-
-            <!-- 2. Monthly Task Overview -->
-            <div class="ov-card">
-              <div class="ov-sec-hd"><span class="ov-sec-title">Monthly Task Overview &#8212; April 2026</span></div>
-              <div class="ov-table-wrap">
-                <table class="ov-table">
-                  <thead>
-                    <tr>
-                      <th>Task Category</th>
-                      <th>Total</th>
-                      <th>Done</th>
-                      <th>In Progress</th>
-                      <th>Remaining</th>
-                      <th>Progress</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Content Planning</td>
-                      <td class="ov-num">20</td>
-                      <td class="ov-pos">16</td>
-                      <td class="ov-num">3</td>
-                      <td class="ov-neu">1</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:80%;"></div></div><span class="ov-prog-txt">80%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Video Production</td>
-                      <td class="ov-num">14</td>
-                      <td class="ov-pos">7</td>
-                      <td class="ov-num">5</td>
-                      <td class="ov-neu">2</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:50%;"></div></div><span class="ov-prog-txt">50%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Graphic Design</td>
-                      <td class="ov-num">18</td>
-                      <td class="ov-pos">14</td>
-                      <td class="ov-num">3</td>
-                      <td class="ov-neu">1</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:78%;"></div></div><span class="ov-prog-txt">78%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Copywriting</td>
-                      <td class="ov-num">24</td>
-                      <td class="ov-pos">19</td>
-                      <td class="ov-num">4</td>
-                      <td class="ov-neu">1</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:79%;"></div></div><span class="ov-prog-txt">79%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Approvals</td>
-                      <td class="ov-num">31</td>
-                      <td class="ov-pos">24</td>
-                      <td class="ov-num">5</td>
-                      <td class="ov-neu">2</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:77%;"></div></div><span class="ov-prog-txt">77%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Publishing</td>
-                      <td class="ov-num">47</td>
-                      <td class="ov-pos">38</td>
-                      <td class="ov-num">9</td>
-                      <td class="ov-neu">0</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:81%;"></div></div><span class="ov-prog-txt">81%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Analytics Review</td>
-                      <td class="ov-num">4</td>
-                      <td class="ov-pos">3</td>
-                      <td class="ov-num">1</td>
-                      <td class="ov-neu">0</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:75%;background:var(--ov-yellow);"></div></div><span class="ov-prog-txt">75%</span></div></td>
-                    </tr>
-                  </tbody>
-                </table>
+            <!-- RIGHT: Leads area -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Leads generated &mdash; weekly trend</div>
+              <div class="ch-legend">
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#1dfd3d;"></span>Leads</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch-dash" style="background:rgba(0,77,250,0.6);"></span>Target</span>
+              </div>
+              <div class="ch-canvas-wrap" style="height:180px;">
+                <canvas id="ch-leads-area" role="img" aria-label="Weekly leads vs target over 6 weeks"></canvas>
               </div>
             </div>
+          </div>
 
-            <!-- 3. Video Production Overview -->
-            <div class="ov-card">
-              <div class="ov-sec-hd"><span class="ov-sec-title">Video Production Overview</span></div>
-              <div class="ov-table-wrap">
-                <table class="ov-table">
-                  <thead>
-                    <tr>
-                      <th>Project</th>
-                      <th>Type</th>
-                      <th>Duration</th>
-                      <th>Status</th>
-                      <th>Editor</th>
-                      <th>Due Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Academy Ep.4 &#8212; Crypto Basics</td>
-                      <td class="ov-neu">YouTube</td>
-                      <td class="ov-num">4:22</td>
-                      <td><span class="ov-badge ov-badge-live"><span class="ov-pulse"></span>Live</span></td>
-                      <td>Reza</td>
-                      <td class="ov-neu">Apr 01</td>
-                    </tr>
-                    <tr>
-                      <td>Forex Weekly Recap</td>
-                      <td class="ov-neu">Reel</td>
-                      <td class="ov-num">0:58</td>
-                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
-                      <td>Kamran</td>
-                      <td class="ov-neu">Apr 14</td>
-                    </tr>
-                    <tr>
-                      <td>MT5 Platform Walkthrough</td>
-                      <td class="ov-neu">YouTube</td>
-                      <td class="ov-num">3:10</td>
-                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
-                      <td>Reza</td>
-                      <td class="ov-neu">Apr 18</td>
-                    </tr>
-                    <tr>
-                      <td>Brand Story &#8212; Q2 2026</td>
-                      <td class="ov-neu">Documentary</td>
-                      <td class="ov-num">2:45</td>
-                      <td><span class="ov-badge ov-badge-draft">Draft</span></td>
-                      <td>Ali</td>
-                      <td class="ov-neu">Apr 30</td>
-                    </tr>
-                    <tr>
-                      <td>Gold Trading Tips Reel</td>
-                      <td class="ov-neu">Reel</td>
-                      <td class="ov-num">0:45</td>
-                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
-                      <td>Kamran</td>
-                      <td class="ov-neu">Apr 20</td>
-                    </tr>
-                    <tr>
-                      <td>Copy Trading Spotlight</td>
-                      <td class="ov-neu">Video</td>
-                      <td class="ov-num">1:30</td>
-                      <td><span class="ov-badge ov-badge-draft">Draft</span></td>
-                      <td>Ali</td>
-                      <td class="ov-neu">Apr 25</td>
-                    </tr>
-                    <tr>
-                      <td>Persian Market Brief</td>
-                      <td class="ov-neu">Reel</td>
-                      <td class="ov-num">0:52</td>
-                      <td><span class="ov-badge ov-badge-planned">Planned</span></td>
-                      <td class="ov-neu">&#8212;</td>
-                      <td class="ov-neu">May 01</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+          <!-- ── S4: Engagement horizontal bar (full width) ── -->
+          <div class="ch-card">
+            <div class="ch-sec-title">Platform engagement rate comparison</div>
+            <div class="ch-legend">
+              <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#1dfd3d;"></span>&ge; 6% Strong</span>
+              <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#ffcc00;"></span>3&ndash;6% Watch</span>
+              <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#ff4d4d;"></span>&lt; 3% At risk</span>
             </div>
-
-            <!-- 4. Campaign Overview -->
-            <div class="ov-card">
-              <div class="ov-sec-hd"><span class="ov-sec-title">Campaign Overview</span></div>
-              <div class="ov-table-wrap">
-                <table class="ov-table">
-                  <thead>
-                    <tr>
-                      <th>Campaign</th>
-                      <th>Platforms</th>
-                      <th>Budget</th>
-                      <th>Status</th>
-                      <th>Start Date</th>
-                      <th>Progress</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Q2 Brand Awareness</td>
-                      <td class="ov-neu">IG &middot; LI &middot; TG</td>
-                      <td class="ov-num">$4,200</td>
-                      <td><span class="ov-badge ov-badge-active"><span class="ov-pulse"></span>Active</span></td>
-                      <td class="ov-neu">Apr 01</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:48%;"></div></div><span class="ov-prog-txt">48%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>MT5 Platform Launch</td>
-                      <td class="ov-neu">YT &middot; IG &middot; LI</td>
-                      <td class="ov-num">$6,800</td>
-                      <td><span class="ov-badge ov-badge-active"><span class="ov-pulse"></span>Active</span></td>
-                      <td class="ov-neu">Apr 08</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:32%;"></div></div><span class="ov-prog-txt">32%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Ramadan Trading Special</td>
-                      <td class="ov-neu">IG &middot; TG</td>
-                      <td class="ov-num">$2,100</td>
-                      <td><span class="ov-badge ov-badge-active"><span class="ov-pulse"></span>Active</span></td>
-                      <td class="ov-neu">Mar 20</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:85%;background:var(--ov-green);"></div></div><span class="ov-prog-txt">85%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Summer Academy Series</td>
-                      <td class="ov-neu">YT &middot; IG</td>
-                      <td class="ov-num">$3,500</td>
-                      <td><span class="ov-badge ov-badge-planned">Planned</span></td>
-                      <td class="ov-neu">Jun 01</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:0%;"></div></div><span class="ov-prog-txt">0%</span></div></td>
-                    </tr>
-                    <tr>
-                      <td>Social Growth Sprint</td>
-                      <td class="ov-neu">IG &middot; TT &middot; X</td>
-                      <td class="ov-num">$1,800</td>
-                      <td><span class="ov-badge ov-badge-review">In Review</span></td>
-                      <td class="ov-neu">Apr 22</td>
-                      <td><div class="ov-prog-wrap"><div class="ov-prog-track"><div class="ov-prog-fill" style="width:10%;background:var(--ov-yellow);"></div></div><span class="ov-prog-txt">10%</span></div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="ch-canvas-wrap" style="height:220px;">
+              <canvas id="ch-engagement-hbar" role="img" aria-label="Platform engagement rate comparison horizontal bar chart"></canvas>
             </div>
+          </div>
 
-            <!-- 5. Team Activity Overview -->
-            <div class="ov-card">
-              <div class="ov-sec-hd"><span class="ov-sec-title">Team Activity Overview</span></div>
-              <div class="ov-table-wrap">
-                <table class="ov-table">
-                  <thead>
-                    <tr>
-                      <th>Member</th>
-                      <th>Role</th>
-                      <th>Posts This Week</th>
-                      <th>Tasks Done</th>
-                      <th>Activity Level</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><strong>Negar</strong></td>
-                      <td class="ov-neu">Manager</td>
-                      <td class="ov-num">12</td>
-                      <td class="ov-num">18</td>
-                      <td><span class="ov-badge ov-act-high"><span class="ov-act-dot-g"></span>High</span></td>
-                    </tr>
-                    <tr>
-                      <td>Ali</td>
-                      <td class="ov-neu">Content Creator</td>
-                      <td class="ov-num">9</td>
-                      <td class="ov-num">14</td>
-                      <td><span class="ov-badge ov-act-high"><span class="ov-act-dot-g"></span>High</span></td>
-                    </tr>
-                    <tr>
-                      <td>Sara</td>
-                      <td class="ov-neu">Graphic Designer</td>
-                      <td class="ov-num">7</td>
-                      <td class="ov-num">11</td>
-                      <td><span class="ov-badge ov-act-med"><span class="ov-act-dot-y"></span>Medium</span></td>
-                    </tr>
-                    <tr>
-                      <td>Reza</td>
-                      <td class="ov-neu">Video Editor</td>
-                      <td class="ov-num">4</td>
-                      <td class="ov-num">6</td>
-                      <td><span class="ov-badge ov-act-med"><span class="ov-act-dot-y"></span>Medium</span></td>
-                    </tr>
-                    <tr>
-                      <td>Kamran</td>
-                      <td class="ov-neu">Social Media Specialist</td>
-                      <td class="ov-num">2</td>
-                      <td class="ov-num">3</td>
-                      <td><span class="ov-badge ov-act-low"><span class="ov-act-dot-r"></span>Low</span></td>
-                    </tr>
-                  </tbody>
-                </table>
+          <!-- ── S5: Three charts ── -->
+          <div class="ch-three-col">
+            <!-- LEFT: Donut -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Content pipeline</div>
+              <div class="ch-legend">
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#7b2fff;"></span>Draft</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#ffcc00;"></span>Review</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#004dfa;"></span>Sched.</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#1dfd3d;"></span>Published</span>
               </div>
-            </div>
-
-            <!-- 6. Dashboard Improvement Suggestions -->
-            <div class="ov-card">
-              <div class="ov-sec-hd"><span class="ov-sec-title">Dashboard Improvement Suggestions</span></div>
-              <div class="ov-sug-grid">
-                <div class="ov-sug-card">
-                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#004dfa,#7b2fff);"></div>
-                  <div class="ov-sug-label" style="color:#1d79fd;">Productivity</div>
-                  <ul class="ov-sug-list">
-                    <li>Daily digest email with top 3 tasks</li>
-                    <li>Calendar sync with Google / Outlook</li>
-                    <li>Quick-action shortcuts for common tasks</li>
-                    <li>Auto-tag posts by platform &amp; language</li>
-                  </ul>
-                </div>
-                <div class="ov-sug-card">
-                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#1dfd3d,#004dfa);"></div>
-                  <div class="ov-sug-label" style="color:#1dfd3d;">Content Performance</div>
-                  <ul class="ov-sug-list">
-                    <li>Best-performing post format per platform</li>
-                    <li>Optimal posting time recommendations</li>
-                    <li>Content fatigue detection alerts</li>
-                    <li>A/B test reporting for captions &amp; visuals</li>
-                  </ul>
-                </div>
-                <div class="ov-sug-card">
-                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#ffcc00,#ff6b00);"></div>
-                  <div class="ov-sug-label" style="color:#ffcc00;">Individual KPIs</div>
-                  <ul class="ov-sug-list">
-                    <li>Personal weekly &amp; monthly scorecards</li>
-                    <li>Goal-setting with milestone tracking</li>
-                    <li>Peer comparison (anonymous) benchmarks</li>
-                    <li>Skill growth timeline visualization</li>
-                  </ul>
-                </div>
-                <div class="ov-sug-card">
-                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#7b2fff,#c13584);"></div>
-                  <div class="ov-sug-label" style="color:#9b59b6;">Workflow Optimization</div>
-                  <ul class="ov-sug-list">
-                    <li>One-click approval routing to reviewers</li>
-                    <li>Recurring content templates library</li>
-                    <li>Dependency linking between tasks</li>
-                    <li>Automated status updates via webhooks</li>
-                  </ul>
-                </div>
-                <div class="ov-sug-card">
-                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#2ca5e0,#004dfa);"></div>
-                  <div class="ov-sug-label" style="color:#2ca5e0;">Smart Notifications</div>
-                  <ul class="ov-sug-list">
-                    <li>Deadline alerts 24h before due date</li>
-                    <li>Engagement spike notifications per post</li>
-                    <li>Campaign budget burn-rate warnings</li>
-                    <li>Mention &amp; comment digest (daily/weekly)</li>
-                  </ul>
-                </div>
-                <div class="ov-sug-card">
-                  <div class="ov-sug-top" style="background:linear-gradient(90deg,#ff6b6b,#ffcc00);"></div>
-                  <div class="ov-sug-label" style="color:#ff6b6b;">Team Gamification</div>
-                  <ul class="ov-sug-list">
-                    <li>Weekly leaderboard for post output</li>
-                    <li>Achievement badges for milestones</li>
-                    <li>Team streak counters for consistency</li>
-                    <li>Spotlight of the week recognition card</li>
-                  </ul>
+              <div class="ch-canvas-wrap" style="height:160px;">
+                <canvas id="ch-pipeline-donut" role="img" aria-label="Content pipeline donut chart"></canvas>
+                <div class="ch-donut-center">
+                  <span class="ch-donut-num">41</span>
+                  <span class="ch-donut-sub">pieces</span>
                 </div>
               </div>
             </div>
+            <!-- MIDDLE: Stacked bar -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Task completion by category</div>
+              <div class="ch-legend">
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#004dfa;"></span>Done</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#ffcc00;"></span>In Progress</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);"></span>Pending</span>
+              </div>
+              <div class="ch-canvas-wrap" style="height:160px;">
+                <canvas id="ch-task-stacked" role="img" aria-label="Stacked bar chart of task completion by category"></canvas>
+              </div>
+            </div>
+            <!-- RIGHT: Grouped bar -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Campaign leads vs goal</div>
+              <div class="ch-legend">
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#1dfd3d;"></span>Leads</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:transparent;border:1.5px solid rgba(0,77,250,0.6);"></span>Goal</span>
+              </div>
+              <div class="ch-canvas-wrap" style="height:160px;">
+                <canvas id="ch-campaign-grouped" role="img" aria-label="Campaign leads vs goal grouped bar chart"></canvas>
+              </div>
+            </div>
+          </div>
 
-          </div><!-- end ov-sections -->
+          <!-- ── S6: Health + Radar ── -->
+          <div class="ch-two-col">
+            <!-- LEFT: Channel health scorecard -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Channel health scorecard</div>
+              <div class="ch-health-grid">
+                <div class="ch-health-card ch-health-green"><div class="ch-health-plat">IG (FA)</div><div class="ch-health-status">Strong</div></div>
+                <div class="ch-health-card ch-health-green"><div class="ch-health-plat">TikTok</div><div class="ch-health-status">Strong</div></div>
+                <div class="ch-health-card ch-health-green"><div class="ch-health-plat">LinkedIn</div><div class="ch-health-status">Strong</div></div>
+                <div class="ch-health-card ch-health-green"><div class="ch-health-plat">YouTube</div><div class="ch-health-status">Strong</div></div>
+                <div class="ch-health-card ch-health-amber"><div class="ch-health-plat">IG (AR)</div><div class="ch-health-status">Watch</div></div>
+                <div class="ch-health-card ch-health-amber"><div class="ch-health-plat">Twitter/X</div><div class="ch-health-status">Watch</div></div>
+                <div class="ch-health-card ch-health-red"><div class="ch-health-plat">IG (EN)</div><div class="ch-health-status">At risk</div></div>
+                <div class="ch-health-card ch-health-red"><div class="ch-health-plat">Facebook</div><div class="ch-health-status">At risk</div></div>
+              </div>
+            </div>
+            <!-- RIGHT: Radar chart -->
+            <div class="ch-card">
+              <div class="ch-sec-title">Team activity this week</div>
+              <div class="ch-legend">
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#004dfa;"></span>Negar</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#1dfd3d;"></span>Ali</span>
+                <span class="ch-legend-item"><span class="ch-legend-swatch" style="background:#ffcc00;"></span>Sara</span>
+              </div>
+              <div class="ch-canvas-wrap" style="height:200px;">
+                <canvas id="ch-radar" role="img" aria-label="Radar chart of team activity metrics this week"></canvas>
+              </div>
+            </div>
+          </div>
+
+          </div><!-- end ch-wrap -->
+
 
         </div><!-- end section-overview -->
 
@@ -2497,6 +2057,261 @@ document.addEventListener('DOMContentLoaded', function() {
   setLang(authLang);
   authAddBlurValidation();
 });
+  </script>
+
+  <!-- ===== Overview Charts (Chart.js) ===== -->
+  <script>
+(function() {
+  if (typeof Chart === 'undefined') return;
+
+  var _chartsReady = false;
+
+  function initOverviewCharts() {
+    if (_chartsReady) return;
+    _chartsReady = true;
+
+    var isDark = true; /* dashboard is always dark */
+    var gridColor = 'rgba(255,255,255,0.06)';
+    var tickColor = 'rgba(255,255,255,0.4)';
+
+    Chart.defaults.color = tickColor;
+    Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+    Chart.defaults.font.size = 11;
+
+    /* ── Plugin: dashed borders on goal bars ── */
+    var dashedBarPlugin = {
+      id: 'dashedBar',
+      afterDatasetsDraw: function(chart) {
+        var ctx = chart.ctx;
+        chart.data.datasets.forEach(function(ds, i) {
+          if (!ds.dashedBorder) return;
+          var meta = chart.getDatasetMeta(i);
+          if (!meta.visible) return;
+          meta.data.forEach(function(bar) {
+            var bw = bar.width, x = bar.x, y = bar.y, base = bar.base;
+            ctx.save();
+            ctx.setLineDash(ds.dashedBorder);
+            ctx.strokeStyle = Array.isArray(ds.borderColor) ? ds.borderColor[0] : ds.borderColor;
+            ctx.lineWidth = ds.borderWidth || 1.5;
+            ctx.strokeRect(x - bw/2, y, bw, base - y);
+            ctx.restore();
+          });
+        });
+      }
+    };
+    Chart.register(dashedBarPlugin);
+
+    /* 1. Follower growth — line */
+    var c1 = document.getElementById('ch-follower-line');
+    if (c1) new Chart(c1, {
+      type: 'line',
+      data: {
+        labels: ['W1','W2','W3','W4','W5','W6'],
+        datasets: [
+          { label:'IG (FA)',  data:[40200,41000,41500,42000,42400,42800],
+            borderColor:'#004dfa', backgroundColor:'rgba(0,77,250,0.08)', fill:true,
+            tension:0.4, pointRadius:3, pointBackgroundColor:'#004dfa' },
+          { label:'TikTok',  data:[5200,5600,6100,6500,6900,7100],
+            borderColor:'#7b2fff', backgroundColor:'transparent', fill:false,
+            tension:0.4, pointRadius:3, pointBackgroundColor:'#7b2fff', borderDash:[4,3] },
+          { label:'LinkedIn',data:[3800,3950,4050,4150,4250,4300],
+            borderColor:'#1dfd3d', backgroundColor:'transparent', fill:false,
+            tension:0.4, pointRadius:3, pointBackgroundColor:'#1dfd3d', borderDash:[4,3] },
+          { label:'YouTube', data:[5500,5580,5650,5700,5760,5800],
+            borderColor:'#ffcc00', backgroundColor:'transparent', fill:false,
+            tension:0.4, pointRadius:3, pointBackgroundColor:'#ffcc00', borderDash:[4,3] }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{
+          x:{ grid:{color:gridColor}, ticks:{color:tickColor} },
+          y:{ grid:{color:gridColor}, ticks:{color:tickColor,
+            callback:function(v){return v>=1000?(v/1000).toFixed(0)+'K':v;} } }
+        }
+      }
+    });
+
+    /* 2. Leads area chart */
+    var c2 = document.getElementById('ch-leads-area');
+    if (c2) new Chart(c2, {
+      type: 'line',
+      data: {
+        labels: ['W1','W2','W3','W4','W5','W6'],
+        datasets: [
+          { label:'Leads',  data:[28,35,42,38,47,52],
+            borderColor:'#1dfd3d', backgroundColor:'rgba(29,253,61,0.1)', fill:true,
+            tension:0.4, pointRadius:3, pointBackgroundColor:'#1dfd3d' },
+          { label:'Target', data:[42,42,42,42,42,42],
+            borderColor:'rgba(0,77,250,0.5)', backgroundColor:'transparent', fill:false,
+            tension:0, pointRadius:0, borderDash:[5,5] }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{
+          x:{ grid:{color:gridColor}, ticks:{color:tickColor} },
+          y:{ grid:{color:gridColor}, ticks:{color:tickColor} }
+        }
+      }
+    });
+
+    /* 3. Engagement horizontal bar */
+    var c3 = document.getElementById('ch-engagement-hbar');
+    if (c3) {
+      var engData = [9.1,7.2,6.3,5.8,4.9,3.7,2.1,1.8];
+      new Chart(c3, {
+        type: 'bar',
+        data: {
+          labels: ['TikTok','LinkedIn','IG (FA)','YouTube','IG (EN)','IG (AR)','Twitter/X','Facebook'],
+          datasets: [{
+            label:'Engagement Rate',
+            data: engData,
+            backgroundColor: engData.map(function(v){
+              return v>=6 ? '#1dfd3d' : v>=3 ? '#ffcc00' : '#ff4d4d';
+            }),
+            borderRadius: 3, borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{display:false} },
+          scales:{
+            x:{ grid:{color:gridColor}, ticks:{color:tickColor,
+              callback:function(v){return v+'%';} } },
+            y:{ grid:{color:'transparent'}, ticks:{color:tickColor} }
+          }
+        }
+      });
+    }
+
+    /* 4. Pipeline donut */
+    var c4 = document.getElementById('ch-pipeline-donut');
+    if (c4) new Chart(c4, {
+      type: 'doughnut',
+      data: {
+        labels: ['Draft','In Review','Scheduled','Published'],
+        datasets: [{
+          data:[14,7,11,9],
+          backgroundColor:['#7b2fff','#ffcc00','#004dfa','#1dfd3d'],
+          borderWidth:0, hoverOffset:4
+        }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false, cutout:'65%',
+        plugins:{ legend:{display:false} }
+      }
+    });
+
+    /* 5. Task stacked bar */
+    var c5 = document.getElementById('ch-task-stacked');
+    if (c5) new Chart(c5, {
+      type: 'bar',
+      data: {
+        labels: ['Content','Design','Video','Strategy','AR Trans.','Sched.'],
+        datasets: [
+          { label:'Done',        data:[18,12,9,8,7,47], backgroundColor:'#004dfa', stack:'s' },
+          { label:'In Progress', data:[4,3,3,1,3,9],   backgroundColor:'#ffcc00', stack:'s' },
+          { label:'Pending',     data:[2,3,2,1,2,0],   backgroundColor:'rgba(255,255,255,0.1)', stack:'s' }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{
+          x:{ stacked:true, grid:{color:'transparent'}, ticks:{color:tickColor,font:{size:10}} },
+          y:{ stacked:true, grid:{color:gridColor},     ticks:{color:tickColor} }
+        }
+      }
+    });
+
+    /* 6. Campaign leads vs goal */
+    var c6 = document.getElementById('ch-campaign-grouped');
+    if (c6) new Chart(c6, {
+      type: 'bar',
+      data: {
+        labels: ['OpoTrade','MT5','Ramadan','LinkedIn Pro'],
+        datasets: [
+          { label:'Leads', data:[142,38,12,0],
+            backgroundColor:['#1dfd3d','#ffcc00','#1dfd3d','rgba(255,255,255,0.1)'],
+            borderRadius:3, borderSkipped:false },
+          { label:'Goal',  data:[250,120,14,50],
+            backgroundColor:'transparent',
+            borderColor:'rgba(0,77,250,0.6)', borderWidth:1.5,
+            borderSkipped:false, borderRadius:2,
+            dashedBorder:[4,3] }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{
+          x:{ grid:{color:'transparent'}, ticks:{color:tickColor,font:{size:10}} },
+          y:{ grid:{color:gridColor},     ticks:{color:tickColor} }
+        }
+      }
+    });
+
+    /* 7. Radar — team activity */
+    var c7 = document.getElementById('ch-radar');
+    if (c7) new Chart(c7, {
+      type: 'radar',
+      data: {
+        labels: ['Posts','Tasks','Collab','Speed','Quality'],
+        datasets: [
+          { label:'Negar', data:[90,88,95,85,92],
+            borderColor:'#004dfa', backgroundColor:'rgba(0,77,250,0.1)',
+            pointRadius:3, pointBackgroundColor:'#004dfa' },
+          { label:'Ali',   data:[75,72,80,78,85],
+            borderColor:'#1dfd3d', backgroundColor:'rgba(29,253,61,0.08)',
+            pointRadius:3, pointBackgroundColor:'#1dfd3d' },
+          { label:'Sara',  data:[60,68,70,72,88],
+            borderColor:'#ffcc00', backgroundColor:'rgba(255,204,0,0.08)',
+            pointRadius:3, pointBackgroundColor:'#ffcc00' }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false} },
+        scales:{
+          r:{
+            ticks:{ display:false },
+            grid:{ color:gridColor },
+            angleLines:{ color:gridColor },
+            pointLabels:{ font:{size:10}, color:tickColor }
+          }
+        }
+      }
+    });
+  }
+
+  /* ── Trigger: init when overview becomes visible ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    var ovSection = document.getElementById('section-overview');
+    if (!ovSection) return;
+
+    /* If overview is already visible on load */
+    if (!ovSection.classList.contains('hidden')) {
+      initOverviewCharts();
+      return;
+    }
+
+    /* Watch for the hidden class being removed */
+    var obs = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.type === 'attributes' && m.attributeName === 'class') {
+          if (!ovSection.classList.contains('hidden')) {
+            initOverviewCharts();
+            obs.disconnect();
+          }
+        }
+      });
+    });
+    obs.observe(ovSection, { attributes: true });
+  });
+})();
   </script>
 </body>
 </html>
