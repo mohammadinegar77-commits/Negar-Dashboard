@@ -1468,6 +1468,25 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
         </div>
         <!-- ====== STUDIO ====== -->
         <div id="section-studio" class="dashboard-section hidden">
+
+          <!-- Studio API key modal -->
+          <div id="st-api-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+            <div style="background:rgba(5,20,41,0.98);border:1px solid rgba(0,77,250,0.35);border-radius:14px;padding:28px 32px;width:min(420px,90vw);box-shadow:0 24px 60px rgba(0,0,0,0.5);font-family:'Space Grotesk',sans-serif;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <span style="width:8px;height:8px;border-radius:50%;background:#7b2fff;display:inline-block;flex-shrink:0;"></span>
+                <span style="font-size:15px;font-weight:700;color:#fff;">Studio API Key</span>
+              </div>
+              <p style="font-size:12px;color:rgba(255,255,255,0.4);margin:0 0 16px;line-height:1.55;">Enter your Anthropic API key to use AI tools in Studio. You can get one at <span style="color:#7b2fff;">console.anthropic.com</span></p>
+              <input type="password" id="st-api-key-inp" placeholder="sk-ant-api03-..." autocomplete="off"
+                style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(0,77,250,0.3);border-radius:8px;padding:10px 14px;color:#fff;font-size:13px;font-family:monospace;margin-bottom:14px;box-sizing:border-box;outline:none;">
+              <div style="display:flex;gap:10px;margin-bottom:12px;">
+                <button onclick="stSaveApiKey()" style="flex:1;padding:10px;border-radius:8px;background:#ffcc00;color:#051429;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;border:none;cursor:pointer;">Save Key</button>
+                <button onclick="document.getElementById('st-api-modal').style.display='none'" style="padding:10px 16px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);cursor:pointer;font-size:12px;font-family:'Space Grotesk',sans-serif;">Cancel</button>
+              </div>
+              <p style="font-size:11px;color:rgba(255,255,255,0.22);margin:0;">Key stored locally in your browser &mdash; never sent anywhere except directly to Anthropic.</p>
+            </div>
+          </div>
+
           <div class="section-pad">
           <!-- Studio tab bar -->
           <div class="studio-tabs" id="studio-tabs">
@@ -2311,6 +2330,139 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     obs.observe(ovSection, { attributes: true });
   });
+})();
+  </script>
+
+  <!-- ===== Studio AI Layer ===== -->
+  <script>
+'use strict';
+
+/* ── AIRouter ── */
+const AIRouter = {
+  providers: {
+    anthropic: {
+      name: 'Claude (Anthropic)',
+      model: 'claude-sonnet-4-6',
+      endpoint: 'https://api.anthropic.com/v1/messages',
+      maxTokens: 1500
+    },
+    openai:    { name: 'GPT-4o (OpenAI)',   model: 'gpt-4o',               endpoint: null },
+    stability: { name: 'Stability AI',       model: 'stable-diffusion-3',   endpoint: null }
+  },
+  active: 'anthropic',
+
+  async call(prompt, systemPrompt = '') {
+    const p = this.providers[this.active];
+    if (!p.endpoint) return { error: `${p.name} is not yet connected.` };
+    const apiKey = localStorage.getItem('opo_api_key');
+    if (!apiKey) { stShowApiModal(); return { error: 'No API key set.' }; }
+
+    try {
+      const res = await fetch(p.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: p.model,
+          max_tokens: p.maxTokens,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await res.json();
+      if (data.error) return { error: data.error.message || JSON.stringify(data.error) };
+      return {
+        text:   data.content[0].text,
+        tokens: (data.usage?.input_tokens || 0) + (data.usage?.output_tokens || 0)
+      };
+    } catch (e) {
+      return { error: 'Network error: ' + e.message };
+    }
+  }
+};
+
+/* ── API key modal ── */
+function stShowApiModal() {
+  const modal = document.getElementById('st-api-modal');
+  if (modal) { modal.style.display = 'flex'; }
+}
+
+function stSaveApiKey() {
+  const inp = document.getElementById('st-api-key-inp');
+  if (!inp) return;
+  const key = inp.value.trim();
+  if (!key) { inp.style.borderColor = '#ff4d4d'; return; }
+  localStorage.setItem('opo_api_key', key);
+  const modal = document.getElementById('st-api-modal');
+  if (modal) modal.style.display = 'none';
+  inp.value = '';
+}
+
+/* ── Model selector renderer ── */
+function renderModelSelector(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;align-items:center;gap:8px;';
+
+  /* purple live dot */
+  const dot = document.createElement('span');
+  dot.style.cssText = 'width:7px;height:7px;border-radius:50%;background:#7b2fff;flex-shrink:0;animation:stPulse 2s ease-in-out infinite;';
+  wrap.appendChild(dot);
+
+  /* dropdown */
+  const sel = document.createElement('select');
+  sel.style.cssText = [
+    'flex:1;padding:8px 10px;border-radius:8px;',
+    'background:rgba(123,47,255,0.07);',
+    'border:1px solid rgba(123,47,255,0.4);',
+    'color:rgba(255,255,255,0.85);font-family:\'Space Grotesk\',sans-serif;',
+    'font-size:12.5px;cursor:pointer;outline:none;'
+  ].join('');
+
+  Object.entries(AIRouter.providers).forEach(([key, p]) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = p.endpoint ? p.name : p.name + ' (coming soon)';
+    opt.disabled = !p.endpoint;
+    if (!p.endpoint) opt.style.cssText = 'color:rgba(255,255,255,0.3);font-style:italic;';
+    if (key === AIRouter.active) opt.selected = true;
+    sel.appendChild(opt);
+  });
+
+  sel.addEventListener('change', () => { AIRouter.active = sel.value; });
+  wrap.appendChild(sel);
+  el.innerHTML = '';
+  el.appendChild(wrap);
+}
+
+/* ── Init: show modal if no key when Studio opens ── */
+(function() {
+  if (!document.getElementById('section-studio')) return;
+  const stSection = document.getElementById('section-studio');
+  const obs = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      if (m.type === 'attributes' && m.attributeName === 'class') {
+        if (!stSection.classList.contains('hidden')) {
+          if (!localStorage.getItem('opo_api_key')) stShowApiModal();
+        }
+      }
+    });
+  });
+  obs.observe(stSection, { attributes: true });
+
+  /* pulse keyframe (injected once) */
+  if (!document.getElementById('st-keyframes')) {
+    const s = document.createElement('style');
+    s.id = 'st-keyframes';
+    s.textContent = '@keyframes stPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}';
+    document.head.appendChild(s);
+  }
 })();
   </script>
 </body>
