@@ -421,6 +421,43 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
   .ch-three-col { grid-template-columns: 1fr; }
   .ch-kpi-value { font-size: 22px; }
 }
+
+/* ── Script Generator (st-*) ── */
+.st-layout{display:flex;min-height:480px;gap:0;}
+.st-sidebar{width:270px;flex-shrink:0;background:rgba(5,20,41,0.5);border-right:1px solid rgba(0,77,250,0.15);padding:16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;}
+.st-main{flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0;}
+.st-lbl{display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+.st-inp,.st-sel,.st-ta{width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(0,77,250,0.2);border-radius:8px;color:#e8eef8;font-family:'Space Grotesk',sans-serif;font-size:.84rem;padding:9px 11px;outline:none;transition:border-color .2s;}
+.st-inp:focus,.st-sel:focus,.st-ta:focus{border-color:rgba(0,77,250,0.55);}
+.st-ta{resize:vertical;min-height:64px;}
+.st-sel option{background:#051429;color:#e8eef8;}
+.st-lang-toggle{display:flex;gap:6px;}
+.st-lang-btn{flex:1;padding:6px 0;border-radius:7px;border:1px solid rgba(0,77,250,0.2);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.45);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .15s;}
+.st-lang-btn.active{background:#004dfa;border-color:#004dfa;color:#fff;}
+.st-gen-btn{width:100%;padding:11px 0;background:#ffcc00;border:none;border-radius:9px;color:#051429;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;cursor:pointer;margin-top:4px;transition:opacity .2s;}
+.st-gen-btn:disabled{opacity:.55;cursor:not-allowed;}
+.st-out-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.st-out-meta{font-size:.78rem;color:rgba(255,255,255,0.45);}
+.st-out-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.st-act-btn{padding:5px 12px;border-radius:7px;border:1px solid rgba(0,77,250,0.3);background:rgba(0,77,250,0.08);color:rgba(255,255,255,0.65);font-size:.75rem;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s;}
+.st-act-btn:hover{background:rgba(0,77,250,0.2);}
+.st-blk{border-radius:10px;padding:14px 16px;background:rgba(5,20,41,0.6);}
+.st-blk-lbl{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+.st-blk-txt{font-size:.88rem;line-height:1.65;color:#d8e4f5;white-space:pre-wrap;word-break:break-word;}
+.st-blk-hook{border-left:3px solid #004dfa;}.st-blk-hook .st-blk-lbl{color:#4d9fff;}
+.st-blk-body{border-left:3px solid #7b2fff;}.st-blk-body .st-blk-lbl{color:#a87fff;}
+.st-blk-cta {border-left:3px solid #1dfd3d;}.st-blk-cta  .st-blk-lbl{color:#1dfd3d;}
+.st-tok-bar{font-size:.72rem;color:rgba(255,255,255,0.4);border-top:1px solid rgba(0,77,250,0.1);padding-top:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.st-tok-dot{width:6px;height:6px;border-radius:50%;background:#1dfd3d;display:inline-block;margin-right:4px;}
+.st-err{background:rgba(255,77,77,0.1);border:1px solid rgba(255,77,77,0.35);border-radius:9px;padding:10px 14px;font-size:.82rem;color:#ff6b6b;display:none;}
+.st-err.show{display:block;}
+.st-skeleton{display:none;flex-direction:column;gap:10px;}
+.st-skeleton.show{display:flex;}
+.st-sk-line{height:13px;border-radius:6px;background:rgba(0,77,250,0.12);animation:st-shim 1.4s ease-in-out infinite;}
+.st-sk-line.w80{width:80%;}.st-sk-line.w60{width:60%;}.st-sk-line.w90{width:90%;}
+@keyframes st-shim{0%,100%{opacity:.4;}50%{opacity:1;}}
+.st-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:300px;color:rgba(255,255,255,0.2);font-size:.88rem;gap:8px;text-align:center;}
+.st-empty-icon{font-size:2rem;opacity:.3;}
   </style>
 </head>
 <body>
@@ -1583,37 +1620,121 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
 
           <!-- TAB 3: SCRIPT -->
           <div class="studio-panel" id="studio-script">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-              <div style="display:flex;gap:8px;align-items:center;">
-                <span id="script-status-badge" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;cursor:pointer;" onclick="cycleScriptStatus(this)">Draft</span>
-                <span id="script-wordcount" style="font-size:.78rem;color:rgba(255,255,255,0.4);">0 words · ~0 sec</span>
+            <div class="st-layout">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="ssg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Topic</label>
+                <textarea id="ssg-topic" class="st-ta" rows="3" placeholder="e.g. Gold price breakout explained in 60 seconds"></textarea>
+
+                <label class="st-lbl">Platform</label>
+                <select id="ssg-platform" class="st-sel">
+                  <option>Instagram Reel</option>
+                  <option>YouTube Short</option>
+                  <option>YouTube Long</option>
+                  <option>TikTok</option>
+                  <option>LinkedIn</option>
+                  <option>Telegram</option>
+                  <option>Twitter/X</option>
+                </select>
+
+                <label class="st-lbl">Tone</label>
+                <select id="ssg-tone" class="st-sel">
+                  <option>Educational</option>
+                  <option>Persuasive</option>
+                  <option>Storytelling</option>
+                  <option>News/Alert</option>
+                  <option>Myth Debunking</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <div class="st-lang-toggle">
+                  <button class="st-lang-btn active" onclick="ssgSetLang(this,'EN')">EN</button>
+                  <button class="st-lang-btn" onclick="ssgSetLang(this,'FA')">FA</button>
+                  <button class="st-lang-btn" onclick="ssgSetLang(this,'AR')">AR</button>
+                </div>
+
+                <label class="st-lbl">Duration</label>
+                <select id="ssg-duration" class="st-sel">
+                  <option>30s</option>
+                  <option>60s</option>
+                  <option>3–5 min</option>
+                  <option>10+ min</option>
+                </select>
+
+                <label class="st-lbl">Product Focus</label>
+                <select id="ssg-product" class="st-sel">
+                  <option>None</option>
+                  <option>OpoTrade</option>
+                  <option>Gold Trading</option>
+                  <option>Copy Trading</option>
+                  <option>MT5</option>
+                  <option>Forex Education</option>
+                </select>
+
+                <button class="st-gen-btn" id="ssg-gen-btn" onclick="ssgGenerate()">Generate Script</button>
               </div>
-              <button style="padding:7px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Presenter</button>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:16px;">
-              <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="background:rgba(255,204,0,0.12);color:#ffcc00;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">HOOK</div><span style="font-size:.72rem;color:rgba(255,255,255,0.35);">First 3 seconds — Must stop the scroll</span></div>
-                <textarea class="brief-textarea" placeholder="Write your hook line here..." oninput="updateWordCount()" id="script-hook"></textarea>
-                <div style="font-size:.72rem;color:rgba(255,255,255,0.35);margin-top:6px;" id="hook-count">0 / 30 chars recommended</div>
-              </div>
-              <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div style="background:rgba(0,77,250,0.12);color:#1d79fd;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">BODY</div></div>
-                <div style="display:flex;flex-direction:column;gap:12px;">
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 1 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 1 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 1 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 2 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 2 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 2 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 3 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 3 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 3 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
+
+              <!-- Main Output Area -->
+              <div class="st-main">
+                <!-- Header -->
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="ssg-out-meta">Generated script · — · —</span>
+                  <div class="st-out-actions">
+                    <button class="st-act-btn" onclick="ssgCopy()">Copy</button>
+                    <button class="st-act-btn" onclick="ssgSave()">Save</button>
+                    <button class="st-act-btn" onclick="ssgExport()">Export .txt</button>
+                    <button class="st-act-btn" onclick="ssgGenerate()">Regenerate</button>
+                  </div>
+                </div>
+
+                <!-- Error banner -->
+                <div class="st-err" id="ssg-err"></div>
+
+                <!-- Skeleton loader -->
+                <div class="st-skeleton" id="ssg-skeleton">
+                  <div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div>
+                  <div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div>
+                  <div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div>
+                </div>
+
+                <!-- Empty state -->
+                <div class="st-empty" id="ssg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Script</strong></span>
+                </div>
+
+                <!-- Output blocks -->
+                <div id="ssg-output" style="display:none;flex-direction:column;gap:10px;">
+                  <div class="st-blk st-blk-hook">
+                    <div class="st-blk-lbl">HOOK</div>
+                    <div class="st-blk-txt" id="ssg-hook-txt"></div>
+                  </div>
+                  <div class="st-blk st-blk-body">
+                    <div class="st-blk-lbl">BODY</div>
+                    <div class="st-blk-txt" id="ssg-body-txt"></div>
+                  </div>
+                  <div class="st-blk st-blk-cta">
+                    <div class="st-blk-lbl">CTA</div>
+                    <div class="st-blk-txt" id="ssg-cta-txt"></div>
+                  </div>
+                </div>
+
+                <!-- Token bar -->
+                <div class="st-tok-bar" id="ssg-tok-bar">
+                  <span>Tokens: <strong id="ssg-tok-count">—</strong></span>
+                  <span>Model: <strong id="ssg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
                 </div>
               </div>
-              <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="background:rgba(29,253,61,0.1);color:#1dfd3d;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">CTA</div></div>
-                <textarea class="brief-textarea" placeholder="Write your call-to-action here..." oninput="updateWordCount()"></textarea>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Follow for more</button>
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Link in bio</button>
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Comment your question</button>
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Share with a trader friend</button>
-                </div>
-              </div>
+
             </div>
           </div>
 
@@ -2463,6 +2584,146 @@ function renderModelSelector(containerId) {
     s.textContent = '@keyframes stPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}';
     document.head.appendChild(s);
   }
+})();
+
+/* ── Script Generator (ssg*) ── */
+(function() {
+  var _ssgLang = 'EN';
+  var _ssgLastResult = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  function ssgSetLang(btn, lang) {
+    _ssgLang = lang;
+    document.querySelectorAll('.st-lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function ssgSetLoading(on) {
+    var btn = $('ssg-gen-btn');
+    var sk  = $('ssg-skeleton');
+    var emp = $('ssg-empty');
+    var out = $('ssg-output');
+    if (on) {
+      btn.disabled = true;
+      btn.textContent = 'Generating…';
+      sk.classList.add('show');
+      emp.style.display = 'none';
+      out.style.display = 'none';
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Generate Script';
+      sk.classList.remove('show');
+    }
+  }
+
+  function ssgShowError(msg) {
+    var el = $('ssg-err');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function ssgHideError() {
+    var el = $('ssg-err');
+    el.classList.remove('show');
+  }
+
+  function ssgParseBlocks(text) {
+    var hook = '', body = '', cta = '';
+    var hookM = text.match(/HOOK[:\s]*([\s\S]*?)(?=BODY|$)/i);
+    var bodyM = text.match(/BODY[:\s]*([\s\S]*?)(?=CTA|$)/i);
+    var ctaM  = text.match(/CTA[:\s]*([\s\S]*?)$/i);
+    if (hookM) hook = hookM[1].trim();
+    if (bodyM) body = bodyM[1].trim();
+    if (ctaM)  cta  = ctaM[1].trim();
+    return { hook: hook, body: body, cta: cta };
+  }
+
+  function ssgRenderBlocks(blocks) {
+    $('ssg-hook-txt').textContent = blocks.hook || '—';
+    $('ssg-body-txt').textContent = blocks.body || '—';
+    $('ssg-cta-txt').textContent  = blocks.cta  || '—';
+    var out = $('ssg-output');
+    out.style.display = 'flex';
+  }
+
+  async function ssgGenerate() {
+    ssgHideError();
+    var topic    = $('ssg-topic').value.trim();
+    var platform = $('ssg-platform').value;
+    var tone     = $('ssg-tone').value;
+    var duration = $('ssg-duration').value;
+    var product  = $('ssg-product').value;
+
+    if (!topic) {
+      $('ssg-topic').focus();
+      ssgShowError('Please enter a topic before generating.');
+      return;
+    }
+
+    ssgSetLoading(true);
+    $('ssg-out-meta').textContent = 'Generated script · ' + platform + ' · ' + _ssgLang;
+
+    var systemPrompt = 'You are a social media script writer for Opofinance, a forex broker. Write in the requested language. Structure output as exactly 3 sections labeled HOOK, BODY, CTA. Be specific, avoid filler phrases.';
+    var userPrompt   = 'Write a ' + duration + ' script for ' + platform + ' about: ' + topic + '.\n' +
+                       'Tone: ' + tone + '. Language: ' + _ssgLang + '.\n' +
+                       (product !== 'None' ? 'Mention ' + product + ' in the CTA.\n' : '') +
+                       'Output only HOOK, BODY, CTA sections.';
+
+    var result = await AIRouter.call(userPrompt, systemPrompt);
+    ssgSetLoading(false);
+
+    if (result.error) {
+      ssgShowError(result.error);
+      $('ssg-empty').style.display = 'flex';
+      return;
+    }
+
+    _ssgLastResult = { topic: topic, platform: platform, language: _ssgLang, text: result.text, timestamp: new Date().toISOString() };
+    var blocks = ssgParseBlocks(result.text);
+    ssgRenderBlocks(blocks);
+
+    var modelName = AIRouter.providers[AIRouter.active].name;
+    $('ssg-tok-count').textContent = result.tokens || '—';
+    $('ssg-tok-model').textContent = modelName;
+  }
+
+  function ssgCopy() {
+    if (!_ssgLastResult) return;
+    navigator.clipboard.writeText(_ssgLastResult.text).catch(function(){});
+  }
+
+  function ssgSave() {
+    if (!_ssgLastResult) return;
+    try {
+      var existing = JSON.parse(localStorage.getItem('studio_scripts') || '[]');
+      existing.push(_ssgLastResult);
+      localStorage.setItem('studio_scripts', JSON.stringify(existing));
+      var btn = event && event.target;
+      if (btn) { btn.textContent = 'Saved!'; setTimeout(function(){ btn.textContent = 'Save'; }, 1500); }
+    } catch(e) {}
+  }
+
+  function ssgExport() {
+    if (!_ssgLastResult) return;
+    var blob = new Blob([_ssgLastResult.text], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'script-' + _ssgLastResult.platform.replace(/\s+/g,'-').toLowerCase() + '-' + _ssgLastResult.language + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  /* expose to onclick handlers */
+  window.ssgSetLang    = ssgSetLang;
+  window.ssgGenerate   = ssgGenerate;
+  window.ssgCopy       = ssgCopy;
+  window.ssgSave       = ssgSave;
+  window.ssgExport     = ssgExport;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('ssg-model');
+  });
 })();
   </script>
 </body>
