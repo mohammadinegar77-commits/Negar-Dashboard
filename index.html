@@ -421,6 +421,43 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
   .ch-three-col { grid-template-columns: 1fr; }
   .ch-kpi-value { font-size: 22px; }
 }
+
+/* ── Script Generator (st-*) ── */
+.st-layout{display:flex;min-height:480px;gap:0;}
+.st-sidebar{width:270px;flex-shrink:0;background:rgba(5,20,41,0.5);border-right:1px solid rgba(0,77,250,0.15);padding:16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;}
+.st-main{flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0;}
+.st-lbl{display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+.st-inp,.st-sel,.st-ta{width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid rgba(0,77,250,0.2);border-radius:8px;color:#e8eef8;font-family:'Space Grotesk',sans-serif;font-size:.84rem;padding:9px 11px;outline:none;transition:border-color .2s;}
+.st-inp:focus,.st-sel:focus,.st-ta:focus{border-color:rgba(0,77,250,0.55);}
+.st-ta{resize:vertical;min-height:64px;}
+.st-sel option{background:#051429;color:#e8eef8;}
+.st-lang-toggle{display:flex;gap:6px;}
+.st-lang-btn{flex:1;padding:6px 0;border-radius:7px;border:1px solid rgba(0,77,250,0.2);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.45);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .15s;}
+.st-lang-btn.active{background:#004dfa;border-color:#004dfa;color:#fff;}
+.st-gen-btn{width:100%;padding:11px 0;background:#ffcc00;border:none;border-radius:9px;color:#051429;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:800;cursor:pointer;margin-top:4px;transition:opacity .2s;}
+.st-gen-btn:disabled{opacity:.55;cursor:not-allowed;}
+.st-out-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.st-out-meta{font-size:.78rem;color:rgba(255,255,255,0.45);}
+.st-out-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.st-act-btn{padding:5px 12px;border-radius:7px;border:1px solid rgba(0,77,250,0.3);background:rgba(0,77,250,0.08);color:rgba(255,255,255,0.65);font-size:.75rem;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s;}
+.st-act-btn:hover{background:rgba(0,77,250,0.2);}
+.st-blk{border-radius:10px;padding:14px 16px;background:rgba(5,20,41,0.6);}
+.st-blk-lbl{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+.st-blk-txt{font-size:.88rem;line-height:1.65;color:#d8e4f5;white-space:pre-wrap;word-break:break-word;}
+.st-blk-hook{border-left:3px solid #004dfa;}.st-blk-hook .st-blk-lbl{color:#4d9fff;}
+.st-blk-body{border-left:3px solid #7b2fff;}.st-blk-body .st-blk-lbl{color:#a87fff;}
+.st-blk-cta {border-left:3px solid #1dfd3d;}.st-blk-cta  .st-blk-lbl{color:#1dfd3d;}
+.st-tok-bar{font-size:.72rem;color:rgba(255,255,255,0.4);border-top:1px solid rgba(0,77,250,0.1);padding-top:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.st-tok-dot{width:6px;height:6px;border-radius:50%;background:#1dfd3d;display:inline-block;margin-right:4px;}
+.st-err{background:rgba(255,77,77,0.1);border:1px solid rgba(255,77,77,0.35);border-radius:9px;padding:10px 14px;font-size:.82rem;color:#ff6b6b;display:none;}
+.st-err.show{display:block;}
+.st-skeleton{display:none;flex-direction:column;gap:10px;}
+.st-skeleton.show{display:flex;}
+.st-sk-line{height:13px;border-radius:6px;background:rgba(0,77,250,0.12);animation:st-shim 1.4s ease-in-out infinite;}
+.st-sk-line.w80{width:80%;}.st-sk-line.w60{width:60%;}.st-sk-line.w90{width:90%;}
+@keyframes st-shim{0%,100%{opacity:.4;}50%{opacity:1;}}
+.st-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:300px;color:rgba(255,255,255,0.2);font-size:.88rem;gap:8px;text-align:center;}
+.st-empty-icon{font-size:2rem;opacity:.3;}
   </style>
 </head>
 <body>
@@ -1501,74 +1538,200 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
 
           <!-- TAB 1: IDEA -->
           <div class="studio-panel active" id="studio-idea">
-            <div class="grid-2">
-              <div style="grid-column:1/-1;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                  <h4 style="font-size:.95rem;">Idea Board</h4>
-                  <button class="btn-small" onclick="addIdeaCard()">+ New Idea</button>
+
+            <!-- AI Idea Generator -->
+            <div class="st-layout" style="margin-bottom:22px;border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="ig-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Topic / Niche</label>
+                <textarea id="ig-topic" class="st-ta" rows="3" placeholder="e.g. gold trading myths, copy trading for beginners, MT5 tips"></textarea>
+
+                <label class="st-lbl">Platform</label>
+                <select id="ig-platform" class="st-sel">
+                  <option>Instagram Reel</option>
+                  <option>YouTube Short</option>
+                  <option>YouTube Long</option>
+                  <option>TikTok</option>
+                  <option>LinkedIn</option>
+                  <option>Telegram</option>
+                  <option>Twitter/X</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <div class="st-lang-toggle">
+                  <button class="st-lang-btn active" onclick="igSetLang(this,'EN')">EN</button>
+                  <button class="st-lang-btn" onclick="igSetLang(this,'FA')">FA</button>
+                  <button class="st-lang-btn" onclick="igSetLang(this,'AR')">AR</button>
                 </div>
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;" id="idea-board">
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Gold Market Myths Debunked</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "Everything you thought you knew about gold trading is wrong"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(0,77,250,0.15);color:#1d79fd;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Selected</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.closest('.card').querySelector('span[style*=\"Selected\"]').textContent='Developing'">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Copy Trading Explained Simply</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "You don't need to be an expert to trade like one"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Short</span><span style="background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Developing</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Behind the Screens at Opofinance</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "A day in the life of our trading platform team"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Video</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.parentElement.previousElementSibling.querySelector('span:last-child').textContent='Developing';this.parentElement.previousElementSibling.querySelector('span:last-child').style.cssText='background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;'">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">نصائح الذهب الأسبوعية</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "كل أسبوع نكشف سراً عن سوق الذهب"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                </div>
+
+                <label class="st-lbl">Number of Ideas</label>
+                <select id="ig-count" class="st-sel">
+                  <option value="3">3 ideas</option>
+                  <option value="5" selected>5 ideas</option>
+                  <option value="10">10 ideas</option>
+                </select>
+
+                <button class="st-gen-btn" id="ig-gen-btn" onclick="igGenerate()">Generate Ideas</button>
               </div>
-              <div class="card">
-                <div class="card-header"><h3 style="color:#9b59b6;">Brainstorm Prompts</h3></div>
-                <div style="display:flex;flex-direction:column;gap:10px;">
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What's happening in the market this week?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What question does our audience ask most?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What myth can we debunk about forex?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What's a behind-the-scenes story we can tell?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What trending audio/format fits our brand?</div>
+
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="ig-out-meta">AI-generated ideas · — · —</span>
+                </div>
+                <div class="st-err" id="ig-err"></div>
+                <div class="st-skeleton" id="ig-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div>
+                </div>
+                <div class="st-empty" id="ig-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Enter a topic and hit <strong>Generate Ideas</strong></span>
+                </div>
+                <div id="ig-output" style="display:none;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;"></div>
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="ig-tok-count">—</strong></span>
+                  <span>Model: <strong id="ig-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
                 </div>
               </div>
             </div>
+
+            <!-- Saved Idea Board -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <h4 style="font-size:.95rem;">Idea Board</h4>
+              <button class="btn-small" onclick="addIdeaCard()">+ New Idea</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;" id="idea-board">
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Gold Market Myths Debunked</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "Everything you thought you knew about gold trading is wrong"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(0,77,250,0.15);color:#1d79fd;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Selected</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.closest('.card').querySelector('span[style*=&quot;Selected&quot;]').textContent='Developing'">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Copy Trading Explained Simply</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "You don't need to be an expert to trade like one"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Short</span><span style="background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Developing</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Behind the Screens at Opofinance</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "A day in the life of our trading platform team"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Video</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">نصائح الذهب الأسبوعية</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "كل أسبوع نكشف سراً عن سوق الذهب"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- TAB 2: CONTENT BRIEF -->
           <div class="studio-panel" id="studio-brief">
+            <div class="st-layout" style="margin-bottom:22px;border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="bg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Topic / Title</label>
+                <textarea id="bg-topic" class="st-ta" rows="3" placeholder="e.g. Gold Market Weekly Recap — what drove prices this week"></textarea>
+
+                <label class="st-lbl">Platform</label>
+                <select id="bg-platform" class="st-sel">
+                  <option>Instagram Reel</option>
+                  <option>YouTube Short</option>
+                  <option>YouTube Long</option>
+                  <option>TikTok</option>
+                  <option>LinkedIn</option>
+                  <option>Telegram</option>
+                  <option>Twitter/X</option>
+                </select>
+
+                <label class="st-lbl">Objective</label>
+                <select id="bg-objective" class="st-sel">
+                  <option>Educate</option>
+                  <option>Promote</option>
+                  <option>Entertain</option>
+                  <option>Build Trust</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <div class="st-lang-toggle">
+                  <button class="st-lang-btn active" onclick="bgSetLang(this,'EN')">EN</button>
+                  <button class="st-lang-btn" onclick="bgSetLang(this,'FA')">FA</button>
+                  <button class="st-lang-btn" onclick="bgSetLang(this,'AR')">AR</button>
+                </div>
+
+                <label class="st-lbl">Target Audience</label>
+                <input id="bg-audience" type="text" class="st-inp" placeholder="e.g. Retail traders aged 25–45">
+
+                <button class="st-gen-btn" id="bg-gen-btn" onclick="bgGenerate()">Generate Brief</button>
+              </div>
+
+              <!-- Main output -->
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="bg-out-meta">Content brief · — · —</span>
+                  <div class="st-out-actions">
+                    <button class="st-act-btn" onclick="bgCopy()">Copy</button>
+                    <button class="st-act-btn" onclick="bgExport()">Export .txt</button>
+                  </div>
+                </div>
+
+                <div class="st-err" id="bg-err"></div>
+
+                <div class="st-skeleton" id="bg-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div><div class="st-sk-line w90"></div>
+                </div>
+
+                <div class="st-empty" id="bg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Brief</strong></span>
+                </div>
+
+                <div id="bg-output" style="display:none;grid-template-columns:1fr 1fr;gap:10px;"></div>
+
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="bg-tok-count">—</strong></span>
+                  <span>Model: <strong id="bg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Manual Form -->
             <div class="card">
-              <div class="card-header"><h3>Content Brief</h3><div style="display:flex;gap:8px;"><button class="btn-small">Save Brief</button><button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Team</button></div></div>
+              <div class="card-header"><h3>Manual Override</h3><div style="display:flex;gap:8px;"><button class="btn-small">Save Brief</button><button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Team</button></div></div>
               <div class="grid-2" style="gap:14px;">
-                <div class="input-group"><label>Video Title</label><input type="text" placeholder="e.g. Gold Market Weekly Recap"></div>
+                <div class="input-group"><label>Video Title</label><input id="bf-title" type="text" placeholder="e.g. Gold Market Weekly Recap"></div>
                 <div class="input-group"><label>Platform</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Instagram Reel FA</option><option>Instagram Reel EN</option><option>Instagram Reel AR</option><option>YouTube</option><option>LinkedIn</option></select></div>
                 <div class="input-group"><label>Objective</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Educate</option><option>Promote</option><option>Entertain</option><option>Build Trust</option></select></div>
                 <div class="input-group"><label>Target Audience</label><input type="text" placeholder="e.g. Retail traders aged 25–45"></div>
@@ -1577,82 +1740,261 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
                 <div class="input-group"><label>Assigned Presenter</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Negar (EN/FA Host)</option><option>AR Presenter (TBD)</option><option>AI Avatar</option></select></div>
                 <div class="input-group"><label>Reference Content</label><input type="text" placeholder="Links or notes..."></div>
               </div>
-              <div class="input-group" style="margin-top:12px;"><label>Key Message</label><textarea class="brief-textarea" placeholder="What is the single most important message the viewer should remember?"></textarea></div>
+              <div class="input-group" style="margin-top:12px;"><label>Key Message</label><textarea id="bf-key-msg" class="brief-textarea" placeholder="What is the single most important message the viewer should remember?"></textarea></div>
             </div>
+
+          </div>
           </div>
 
           <!-- TAB 3: SCRIPT -->
           <div class="studio-panel" id="studio-script">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-              <div style="display:flex;gap:8px;align-items:center;">
-                <span id="script-status-badge" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;cursor:pointer;" onclick="cycleScriptStatus(this)">Draft</span>
-                <span id="script-wordcount" style="font-size:.78rem;color:rgba(255,255,255,0.4);">0 words · ~0 sec</span>
+            <div class="st-layout">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="ssg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Topic</label>
+                <textarea id="ssg-topic" class="st-ta" rows="3" placeholder="e.g. Gold price breakout explained in 60 seconds"></textarea>
+
+                <label class="st-lbl">Platform</label>
+                <select id="ssg-platform" class="st-sel">
+                  <option>Instagram Reel</option>
+                  <option>YouTube Short</option>
+                  <option>YouTube Long</option>
+                  <option>TikTok</option>
+                  <option>LinkedIn</option>
+                  <option>Telegram</option>
+                  <option>Twitter/X</option>
+                </select>
+
+                <label class="st-lbl">Tone</label>
+                <select id="ssg-tone" class="st-sel">
+                  <option>Educational</option>
+                  <option>Persuasive</option>
+                  <option>Storytelling</option>
+                  <option>News/Alert</option>
+                  <option>Myth Debunking</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <div class="st-lang-toggle">
+                  <button class="st-lang-btn active" onclick="ssgSetLang(this,'EN')">EN</button>
+                  <button class="st-lang-btn" onclick="ssgSetLang(this,'FA')">FA</button>
+                  <button class="st-lang-btn" onclick="ssgSetLang(this,'AR')">AR</button>
+                </div>
+
+                <label class="st-lbl">Duration</label>
+                <select id="ssg-duration" class="st-sel">
+                  <option>30s</option>
+                  <option>60s</option>
+                  <option>3–5 min</option>
+                  <option>10+ min</option>
+                </select>
+
+                <label class="st-lbl">Product Focus</label>
+                <select id="ssg-product" class="st-sel">
+                  <option>None</option>
+                  <option>OpoTrade</option>
+                  <option>Gold Trading</option>
+                  <option>Copy Trading</option>
+                  <option>MT5</option>
+                  <option>Forex Education</option>
+                </select>
+
+                <button class="st-gen-btn" id="ssg-gen-btn" onclick="ssgGenerate()">Generate Script</button>
               </div>
-              <button style="padding:7px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Presenter</button>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:16px;">
-              <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="background:rgba(255,204,0,0.12);color:#ffcc00;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">HOOK</div><span style="font-size:.72rem;color:rgba(255,255,255,0.35);">First 3 seconds — Must stop the scroll</span></div>
-                <textarea class="brief-textarea" placeholder="Write your hook line here..." oninput="updateWordCount()" id="script-hook"></textarea>
-                <div style="font-size:.72rem;color:rgba(255,255,255,0.35);margin-top:6px;" id="hook-count">0 / 30 chars recommended</div>
-              </div>
-              <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;"><div style="background:rgba(0,77,250,0.12);color:#1d79fd;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">BODY</div></div>
-                <div style="display:flex;flex-direction:column;gap:12px;">
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 1 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 1 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 1 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 2 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 2 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 2 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 3 — Text</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="Scene 3 script..." oninput="updateWordCount()"></textarea></div><div><div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,0.35);margin-bottom:6px;">SCENE 3 — Visual Note</div><textarea class="brief-textarea" style="min-height:60px;" placeholder="What the viewer sees..."></textarea></div></div>
+
+              <!-- Main Output Area -->
+              <div class="st-main">
+                <!-- Header -->
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="ssg-out-meta">Generated script · — · —</span>
+                  <div class="st-out-actions">
+                    <button class="st-act-btn" onclick="ssgCopy()">Copy</button>
+                    <button class="st-act-btn" onclick="ssgSave()">Save</button>
+                    <button class="st-act-btn" onclick="ssgExport()">Export .txt</button>
+                    <button class="st-act-btn" onclick="ssgGenerate()">Regenerate</button>
+                  </div>
+                </div>
+
+                <!-- Error banner -->
+                <div class="st-err" id="ssg-err"></div>
+
+                <!-- Skeleton loader -->
+                <div class="st-skeleton" id="ssg-skeleton">
+                  <div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div>
+                  <div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div>
+                  <div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div>
+                </div>
+
+                <!-- Empty state -->
+                <div class="st-empty" id="ssg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Script</strong></span>
+                </div>
+
+                <!-- Output blocks -->
+                <div id="ssg-output" style="display:none;flex-direction:column;gap:10px;">
+                  <div class="st-blk st-blk-hook">
+                    <div class="st-blk-lbl">HOOK</div>
+                    <div class="st-blk-txt" id="ssg-hook-txt"></div>
+                  </div>
+                  <div class="st-blk st-blk-body">
+                    <div class="st-blk-lbl">BODY</div>
+                    <div class="st-blk-txt" id="ssg-body-txt"></div>
+                  </div>
+                  <div class="st-blk st-blk-cta">
+                    <div class="st-blk-lbl">CTA</div>
+                    <div class="st-blk-txt" id="ssg-cta-txt"></div>
+                  </div>
+                </div>
+
+                <!-- Token bar -->
+                <div class="st-tok-bar" id="ssg-tok-bar">
+                  <span>Tokens: <strong id="ssg-tok-count">—</strong></span>
+                  <span>Model: <strong id="ssg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
                 </div>
               </div>
-              <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="background:rgba(29,253,61,0.1);color:#1dfd3d;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;">CTA</div></div>
-                <textarea class="brief-textarea" placeholder="Write your call-to-action here..." oninput="updateWordCount()"></textarea>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Follow for more</button>
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Link in bio</button>
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Comment your question</button>
-                  <button onclick="insertCTA(this)" style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.3);color:#9b59b6;padding:5px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;">Share with a trader friend</button>
-                </div>
-              </div>
+
             </div>
           </div>
 
           <!-- TAB 4: CHARACTERS -->
           <div class="studio-panel" id="studio-chars">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h4 style="font-size:.95rem;">Characters &amp; Presenters</h4><button class="btn-small" onclick="addCharCard()">+ Add Character</button></div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;" id="char-board">
-              <div class="card" style="padding:16px;">
-                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9b59b6,#004dfa);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;margin-bottom:12px;">N</div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" value="Negar" style="padding:8px 10px;font-size:.84rem;"></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>Host</option><option>Expert</option><option>Narrator</option><option>On-screen talent</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>EN / FA</option><option>AR</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Professional</option><option selected>Friendly</option><option>Authoritative</option><option>Conversational</option></select></div>
-                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">Strategy lead host — primary face of EN & FA channels</textarea></div>
+            <div class="st-layout" style="border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="cg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Character Name</label>
+                <input id="cg-name" type="text" class="st-inp" placeholder="e.g. Aria, Max, Nour">
+
+                <label class="st-lbl">Visual Style</label>
+                <select id="cg-style" class="st-sel">
+                  <option>Realistic presenter</option>
+                  <option>Animated avatar</option>
+                  <option>Illustrated mascot</option>
+                  <option>Brand voice persona</option>
+                </select>
+
+                <label class="st-lbl">Role</label>
+                <select id="cg-role" class="st-sel">
+                  <option>Educator</option>
+                  <option>Analyst</option>
+                  <option>Host</option>
+                  <option>Storyteller</option>
+                  <option>News anchor</option>
+                </select>
+
+                <label class="st-lbl">Niche</label>
+                <select id="cg-niche" class="st-sel">
+                  <option>Forex &amp; trading</option>
+                  <option>Gold</option>
+                  <option>Crypto</option>
+                  <option>Personal finance</option>
+                  <option>Economic news</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <select id="cg-lang" class="st-sel">
+                  <option>English</option>
+                  <option>Persian FA</option>
+                  <option>Arabic AR</option>
+                  <option>Multilingual</option>
+                </select>
+
+                <label class="st-lbl">Personality Notes <span style="font-weight:400;text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);">(optional)</span></label>
+                <textarea id="cg-notes" class="st-ta" rows="2" placeholder="e.g. calm, analytical, uses simple analogies..."></textarea>
+
+                <button class="st-gen-btn" id="cg-gen-btn" onclick="cgGenerate()">Generate Character</button>
               </div>
-              <div class="card" style="padding:16px;">
-                <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,204,0,0.2);border:2px dashed #ffcc00;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#ffcc00;margin-bottom:12px;">AR</div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" placeholder="AR Presenter TBD" style="padding:8px 10px;font-size:.84rem;"></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Host</option><option selected>Expert</option><option>Narrator</option><option>On-screen talent</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>EN / FA</option><option selected>AR</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Professional</option><option>Friendly</option><option selected>Authoritative</option><option>Conversational</option></select></div>
-                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">Arabic channel presenter — recruitment in progress</textarea></div>
+
+              <!-- Main output -->
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="cg-out-meta">Character profile · — · —</span>
+                </div>
+
+                <div class="st-err" id="cg-err"></div>
+
+                <div class="st-skeleton" id="cg-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w80"></div>
+                </div>
+
+                <div class="st-empty" id="cg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Character</strong></span>
+                </div>
+
+                <!-- Two-column output -->
+                <div id="cg-output" style="display:none;grid-template-columns:1fr 1fr;gap:12px;">
+
+                  <!-- LEFT: Profile card -->
+                  <div style="background:rgba(5,20,41,0.7);border:1px solid rgba(0,77,250,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;">
+                    <div>
+                      <div id="cg-prof-name" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:8px;">—</div>
+                      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <span id="cg-prof-role-badge" style="background:rgba(0,77,250,0.18);color:#4d9fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;">—</span>
+                        <span id="cg-prof-lang-badge" style="background:rgba(123,47,255,0.18);color:#a87fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;">—</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:6px;">Traits</div>
+                      <ul id="cg-prof-traits" style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font-size:.84rem;color:#d8e4f5;line-height:1.5;"></ul>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:4px;">Voice Style</div>
+                      <div id="cg-prof-voice" style="font-size:.84rem;color:rgba(255,255,255,0.6);line-height:1.55;"></div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:6px;">Content Formats</div>
+                      <div id="cg-prof-formats" style="display:flex;flex-direction:column;gap:4px;"></div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:4px;">Sample Hook</div>
+                      <div id="cg-prof-hook" style="font-size:.84rem;color:#ffcc00;font-style:italic;line-height:1.5;"></div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:6px;">Platforms</div>
+                      <div id="cg-prof-platforms" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+                    </div>
+                  </div>
+
+                  <!-- RIGHT: Image prompt card -->
+                  <div style="background:rgba(5,20,41,0.7);border:1px solid rgba(123,47,255,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                      <div class="st-lbl" style="margin:0;">Image Generation Prompt</div>
+                      <button class="st-act-btn" id="cg-copy-btn" onclick="cgCopyPrompt()" style="font-size:.7rem;padding:4px 10px;">Copy</button>
+                    </div>
+                    <div id="cg-img-prompt" style="font-family:'Space Mono',monospace,sans-serif;font-size:.77rem;line-height:1.65;color:#a87fff;background:rgba(123,47,255,0.06);border:1px solid rgba(123,47,255,0.15);border-radius:8px;padding:12px;flex:1;white-space:pre-wrap;word-break:break-word;">—</div>
+                    <div style="font-size:.7rem;color:rgba(255,255,255,0.28);border-top:1px solid rgba(0,77,250,0.1);padding-top:10px;">Paste into <strong style="color:rgba(255,255,255,0.45);">OpenArt</strong>, <strong style="color:rgba(255,255,255,0.45);">InVideo AI</strong>, or <strong style="color:rgba(255,255,255,0.45);">Midjourney</strong></div>
+                  </div>
+                </div>
+
+                <!-- Save row + chips -->
+                <div id="cg-save-area" style="display:none;border-top:1px solid rgba(0,77,250,0.1);padding-top:12px;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <button class="st-act-btn" onclick="cgSave()" style="background:rgba(255,204,0,0.1);border-color:rgba(255,204,0,0.35);color:#ffcc00;">Save Character</button>
+                  <div id="cg-chips" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+                </div>
+
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="cg-tok-count">—</strong></span>
+                  <span>Model: <strong id="cg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
+                </div>
               </div>
-              <div class="card" style="padding:16px;">
-                <div style="width:44px;height:44px;border-radius:50%;background:rgba(29,253,61,0.1);border:2px solid #1dfd3d;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#1dfd3d;margin-bottom:12px;">AI</div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" value="AI Avatar" style="padding:8px 10px;font-size:.84rem;"></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Host</option><option>Expert</option><option selected>Narrator</option><option>On-screen talent</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>EN / FA</option><option>AR</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>Professional</option><option>Friendly</option><option>Authoritative</option><option>Conversational</option></select></div>
-                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">AI-generated avatar for evergreen / automated content</textarea></div>
-              </div>
-            </div>
-            <div class="card" style="margin-top:18px;">
-              <div class="card-header"><h3>AI Avatar Settings</h3></div>
-              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
-                <div class="input-group"><label>Style</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Realistic</option><option>Animated</option><option>Illustrated</option></select></div>
-                <div class="input-group"><label>Background</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Studio Dark</option><option>Office</option><option>Abstract Brand</option><option>Green Screen</option></select></div>
-                <div class="input-group"><label>Clothing Style</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Business Casual</option><option>Formal</option><option>Smart Casual</option></select></div>
-              </div>
+
             </div>
           </div>
 
@@ -2463,6 +2805,531 @@ function renderModelSelector(containerId) {
     s.textContent = '@keyframes stPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}';
     document.head.appendChild(s);
   }
+})();
+
+/* ── Character Generator (cg*) ── */
+(function() {
+  var _cgLastData = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  function cgSetLoading(on) {
+    var btn = $('cg-gen-btn'), sk = $('cg-skeleton'), emp = $('cg-empty');
+    var out = $('cg-output'), sa = $('cg-save-area');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none';
+      out.style.display = 'none'; sa.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Character';
+      sk.classList.remove('show');
+    }
+  }
+
+  function cgRender(data) {
+    $('cg-prof-name').textContent       = data.name     || '—';
+    $('cg-prof-role-badge').textContent = data.role     || '—';
+    $('cg-prof-lang-badge').textContent = data.language || '—';
+
+    var traitsEl = $('cg-prof-traits');
+    traitsEl.innerHTML = '';
+    (data.traits || []).forEach(function(t) {
+      var li = document.createElement('li'); li.textContent = t; traitsEl.appendChild(li);
+    });
+
+    $('cg-prof-voice').textContent = data.voiceStyle || '—';
+
+    var fmtEl = $('cg-prof-formats');
+    fmtEl.innerHTML = '';
+    (data.contentFormats || []).forEach(function(f) {
+      var d = document.createElement('div');
+      d.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:.82rem;color:#d8e4f5;';
+      d.innerHTML = '<span style="color:#7b2fff;font-size:.7rem;">&#9658;</span>' + f;
+      fmtEl.appendChild(d);
+    });
+
+    $('cg-prof-hook').textContent = '“' + (data.sampleHook || '—') + '”';
+
+    var platEl = $('cg-prof-platforms');
+    platEl.innerHTML = '';
+    (data.platforms || []).forEach(function(p) {
+      var s = document.createElement('span');
+      s.style.cssText = 'background:rgba(0,77,250,0.1);border:1px solid rgba(0,77,250,0.25);color:#4d9fff;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:20px;';
+      s.textContent = p; platEl.appendChild(s);
+    });
+
+    $('cg-img-prompt').textContent = data.imagePrompt || '—';
+
+    $('cg-output').style.display    = 'grid';
+    $('cg-save-area').style.display = 'flex';
+  }
+
+  function cgLoadChips() {
+    var chips = $('cg-chips'); chips.innerHTML = '';
+    var saved = [];
+    try { saved = JSON.parse(localStorage.getItem('studio_characters') || '[]'); } catch(e) {}
+    saved.slice(-5).forEach(function(c) {
+      var chip = document.createElement('span');
+      chip.style.cssText = 'background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);font-size:.72rem;padding:4px 10px;border-radius:20px;cursor:pointer;';
+      chip.textContent = c.name || 'Unnamed';
+      chip.title = (c.role || '') + ' · ' + (c.language || '');
+      chip.onclick = function() { cgRender(c); };
+      chips.appendChild(chip);
+    });
+  }
+
+  function cgSave() {
+    if (!_cgLastData) return;
+    var existing = [];
+    try { existing = JSON.parse(localStorage.getItem('studio_characters') || '[]'); } catch(e) {}
+    existing.push(_cgLastData);
+    if (existing.length > 5) existing = existing.slice(-5);
+    localStorage.setItem('studio_characters', JSON.stringify(existing));
+    cgLoadChips();
+    var btn = event && event.target;
+    if (btn) { btn.textContent = 'Saved!'; setTimeout(function(){ btn.textContent = 'Save Character'; }, 1500); }
+  }
+
+  function cgCopyPrompt() {
+    if (_cgLastData && _cgLastData.imagePrompt)
+      navigator.clipboard.writeText(_cgLastData.imagePrompt).catch(function(){});
+    var btn = $('cg-copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1500); }
+  }
+
+  async function cgGenerate() {
+    var err = $('cg-err'); err.classList.remove('show');
+    var name  = $('cg-name').value.trim();
+    var style = $('cg-style').value;
+    var role  = $('cg-role').value;
+    var niche = $('cg-niche').value;
+    var lang  = $('cg-lang').value;
+    var notes = $('cg-notes').value.trim();
+
+    if (!name) { $('cg-name').focus(); err.textContent = 'Please enter a character name.'; err.classList.add('show'); return; }
+
+    cgSetLoading(true);
+    $('cg-out-meta').textContent = 'Character profile · ' + name + ' · ' + role;
+
+    var sys  = 'You are a creative director for Opofinance fintech brand.\nOutput ONLY valid JSON, no other text, with this schema:\n{"name":string,"role":string,"language":string,"traits":[4 strings],"voiceStyle":string,"contentFormats":[3 strings],"sampleHook":string,"platforms":[strings],"imagePrompt":string}';
+    var user = 'Create a character profile for Opofinance social media.\nName: ' + name + '\nVisual style: ' + style + '\nRole: ' + role + '\nNiche: ' + niche + '\nLanguage: ' + lang + (notes ? '\nPersonality notes: ' + notes : '') + '\nOutput only valid JSON.';
+
+    var result = await AIRouter.call(user, sys);
+    cgSetLoading(false);
+
+    if (result.error) { err.textContent = result.error; err.classList.add('show'); $('cg-empty').style.display = 'flex'; return; }
+
+    var data;
+    try {
+      var raw = result.text.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+      data = JSON.parse(raw);
+    } catch(e) {
+      err.textContent = 'JSON parse error — the AI returned unexpected output. Try again.';
+      err.classList.add('show'); $('cg-empty').style.display = 'flex'; return;
+    }
+
+    _cgLastData = data;
+    cgRender(data);
+    cgLoadChips();
+    $('cg-tok-count').textContent = result.tokens || '—';
+    $('cg-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  window.cgGenerate    = cgGenerate;
+  window.cgSave        = cgSave;
+  window.cgCopyPrompt  = cgCopyPrompt;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('cg-model');
+    cgLoadChips();
+  });
+})();
+
+/* ── Brief Generator (bg*) ── */
+(function() {
+  var _bgLang = 'EN';
+  var _bgLastText = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  function bgSetLang(btn, lang) {
+    _bgLang = lang;
+    document.querySelectorAll('#studio-brief .st-lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function bgSetLoading(on) {
+    var btn = $('bg-gen-btn');
+    var sk  = $('bg-skeleton');
+    var emp = $('bg-empty');
+    var out = $('bg-output');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none'; out.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Brief';
+      sk.classList.remove('show');
+    }
+  }
+
+  var BG_SECTIONS = [
+    { key: 'OBJECTIVE',        label: 'Objective',        color: '#4d9fff', bg: 'rgba(0,77,250,0.08)'   },
+    { key: 'KEY MESSAGE',      label: 'Key Message',      color: '#ffcc00', bg: 'rgba(255,204,0,0.07)'  },
+    { key: 'TALKING POINTS',   label: 'Talking Points',   color: '#a87fff', bg: 'rgba(123,47,255,0.08)' },
+    { key: 'HOOK',             label: 'Hook Suggestion',  color: '#4d9fff', bg: 'rgba(0,77,250,0.08)'   },
+    { key: 'CTA',              label: 'CTA',              color: '#1dfd3d', bg: 'rgba(29,253,61,0.07)'  },
+    { key: 'VISUAL DIRECTION', label: 'Visual Direction', color: '#ff9d4d', bg: 'rgba(255,157,77,0.07)' }
+  ];
+
+  function bgParseSection(text, key) {
+    var pattern = new RegExp(key.replace(/\s+/g,'\\s+') + '[:\\s]*((?:.|\\n)*?)(?=OBJECTIVE|KEY MESSAGE|TALKING POINTS|HOOK|CTA|VISUAL DIRECTION|$)', 'i');
+    var m = text.match(pattern);
+    return m ? m[1].replace(/^\*+|\*+$/g,'').trim() : '';
+  }
+
+  function bgRender(text) {
+    var out = $('bg-output');
+    out.innerHTML = '';
+    BG_SECTIONS.forEach(function(sec) {
+      var content = bgParseSection(text, sec.key);
+      if (!content) return;
+      var div = document.createElement('div');
+      div.style.cssText = 'background:' + sec.bg + ';border:1px solid ' + sec.color.replace(')',',0.25)').replace('rgb','rgba') + ';border-radius:10px;padding:12px 14px;';
+      div.innerHTML = '<div style="font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:' + sec.color + ';margin-bottom:6px;">' + sec.label + '</div>' +
+        '<div style="font-size:.84rem;line-height:1.6;color:#d8e4f5;white-space:pre-wrap;">' + content + '</div>';
+      out.appendChild(div);
+    });
+    if (out.children.length) out.style.display = 'grid';
+  }
+
+  async function bgGenerate() {
+    var err = $('bg-err');
+    err.classList.remove('show');
+    var topic     = $('bg-topic').value.trim();
+    var platform  = $('bg-platform').value;
+    var objective = $('bg-objective').value;
+    var audience  = $('bg-audience').value.trim() || 'retail forex traders';
+    if (!topic) { $('bg-topic').focus(); err.textContent = 'Please enter a topic.'; err.classList.add('show'); return; }
+
+    bgSetLoading(true);
+    $('bg-out-meta').textContent = 'Content brief · ' + platform + ' · ' + _bgLang;
+
+    var sys  = 'You are a content brief writer for Opofinance, a forex broker. Create concise, production-ready content briefs. Output exactly 6 labeled sections: OBJECTIVE, KEY MESSAGE, TALKING POINTS, HOOK, CTA, VISUAL DIRECTION. Each section: 1–4 lines. Write in the requested language.';
+    var user = 'Write a content brief for a ' + platform + ' video.\nTopic: ' + topic + '\nObjective: ' + objective + '\nLanguage: ' + _bgLang + '\nTarget audience: ' + audience + '\nOutput sections: OBJECTIVE, KEY MESSAGE, TALKING POINTS, HOOK, CTA, VISUAL DIRECTION.';
+
+    var result = await AIRouter.call(user, sys);
+    bgSetLoading(false);
+
+    if (result.error) { err.textContent = result.error; err.classList.add('show'); $('bg-empty').style.display = 'flex'; return; }
+
+    _bgLastText = result.text;
+    bgRender(result.text);
+
+    /* auto-fill manual form */
+    var titleEl = $('bf-title');
+    if (titleEl && !titleEl.value) titleEl.value = topic;
+    var msgEl = $('bf-key-msg');
+    if (msgEl && !msgEl.value) { var km = bgParseSection(result.text, 'KEY MESSAGE'); if (km) msgEl.value = km; }
+
+    $('bg-tok-count').textContent = result.tokens || '—';
+    $('bg-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  function bgCopy() {
+    if (_bgLastText) navigator.clipboard.writeText(_bgLastText).catch(function(){});
+  }
+
+  function bgExport() {
+    if (!_bgLastText) return;
+    var blob = new Blob([_bgLastText], { type: 'text/plain' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'content-brief.txt'; a.click(); URL.revokeObjectURL(a.href);
+  }
+
+  window.bgSetLang  = bgSetLang;
+  window.bgGenerate = bgGenerate;
+  window.bgCopy     = bgCopy;
+  window.bgExport   = bgExport;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('bg-model');
+  });
+})();
+
+/* ── Idea Generator (ig*) ── */
+(function() {
+  var _igLang = 'EN';
+
+  function $(id) { return document.getElementById(id); }
+
+  function igSetLang(btn, lang) {
+    _igLang = lang;
+    document.querySelectorAll('#studio-idea .st-lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function igSetLoading(on) {
+    var btn = $('ig-gen-btn');
+    var sk  = $('ig-skeleton');
+    var emp = $('ig-empty');
+    var out = $('ig-output');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none'; out.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Ideas';
+      sk.classList.remove('show');
+    }
+  }
+
+  function igParseIdeas(text) {
+    var ideas = [];
+    var lines = text.split(/\n/);
+    var cur = null;
+    lines.forEach(function(line) {
+      var numMatch = line.match(/^\s*\d+[\.\)]\s*(.+)/);
+      if (numMatch) {
+        if (cur) ideas.push(cur);
+        cur = { title: numMatch[1].replace(/\*\*/g,'').trim(), hook: '', tags: [] };
+      } else if (cur) {
+        var hookMatch = line.match(/Hook:\s*["\u201C]?(.+?)["\u201D]?\s*$/i);
+        var tagMatch  = line.match(/Tags?:\s*(.+)/i);
+        if (hookMatch) cur.hook = hookMatch[1].trim();
+        if (tagMatch)  cur.tags = tagMatch[1].split(',').map(function(t){ return t.trim(); });
+        var pipeMatch = line.match(/\|\s*Hook:\s*["\u201C]?(.+?)["\u201D]?\s*(?:\|.*)?$/i);
+        if (pipeMatch && !cur.hook) cur.hook = pipeMatch[1].trim();
+        var pipeTags = line.match(/\|\s*Tags?:\s*(.+)$/i);
+        if (pipeTags && !cur.tags.length) cur.tags = pipeTags[1].split(',').map(function(t){ return t.trim(); });
+      }
+    });
+    if (cur) ideas.push(cur);
+    return ideas;
+  }
+
+  function igAddToBoard(title, hook, tags) {
+    var board = $('idea-board');
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'padding:16px;';
+    var tagSpans = tags.slice(0,3).map(function(t){
+      return '<span class="tag tag-instagram" style="font-size:.65rem;">' + t + '</span>';
+    }).join('');
+    card.innerHTML =
+      '<div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">' + title + '</div>' +
+      '<div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "' + hook + '"</div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">' + tagSpans + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">' +
+        '<span class="type-pill">AI</span>' +
+        '<span style="background:rgba(123,47,255,0.15);color:#a87fff;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+        '<button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>' +
+        '<button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>' +
+      '</div>';
+    board.insertBefore(card, board.firstChild);
+  }
+
+  function igRenderIdeas(ideas) {
+    var out = $('ig-output');
+    out.innerHTML = '';
+    ideas.forEach(function(idea) {
+      var card = document.createElement('div');
+      card.style.cssText = 'background:rgba(5,20,41,0.7);border:1px solid rgba(123,47,255,0.2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;';
+      var tagSpans = idea.tags.slice(0,3).map(function(t){
+        return '<span style="background:rgba(123,47,255,0.12);color:#a87fff;border-radius:20px;padding:2px 7px;font-size:.65rem;">' + t + '</span>';
+      }).join('');
+      card.innerHTML =
+        '<div style="font-size:.84rem;font-weight:700;line-height:1.35;">' + idea.title + '</div>' +
+        '<div style="font-size:.74rem;color:rgba(255,255,255,0.5);line-height:1.4;">"' + (idea.hook||'—') + '"</div>' +
+        '<div style="display:flex;gap:4px;flex-wrap:wrap;">' + tagSpans + '</div>' +
+        '<button style="margin-top:auto;padding:5px 0;border-radius:7px;border:1px solid rgba(0,77,250,0.35);background:rgba(0,77,250,0.08);color:rgba(255,255,255,0.65);font-size:.72rem;font-weight:600;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;" onclick="igAddToBoard(' +
+          JSON.stringify(idea.title) + ',' + JSON.stringify(idea.hook) + ',' + JSON.stringify(idea.tags) +
+        ')">+ Add to Board</button>';
+      out.appendChild(card);
+    });
+    out.style.display = 'grid';
+  }
+
+  async function igGenerate() {
+    var err = $('ig-err');
+    err.classList.remove('show');
+    var topic    = $('ig-topic').value.trim();
+    var platform = $('ig-platform').value;
+    var count    = $('ig-count').value;
+    if (!topic) { $('ig-topic').focus(); err.textContent='Please enter a topic.'; err.classList.add('show'); return; }
+
+    igSetLoading(true);
+    $('ig-out-meta').textContent = 'AI-generated ideas · ' + platform + ' · ' + _igLang;
+
+    var sys  = 'You are a creative content strategist for Opofinance, a forex broker. Generate content ideas. For each idea output: [number]. [title] | Hook: "[hook line]" | Tags: [tag1, tag2, tag3]. Write titles and hooks in the requested language.';
+    var user = 'Generate ' + count + ' fresh content ideas for ' + platform + ' in ' + _igLang + ' about: ' + topic + '. Ideas must be scroll-stopping and platform-native. Format: 1. [title] | Hook: "[hook]" | Tags: [tags]';
+
+    var result = await AIRouter.call(user, sys);
+    igSetLoading(false);
+
+    if (result.error) {
+      err.textContent = result.error; err.classList.add('show');
+      $('ig-empty').style.display = 'flex'; return;
+    }
+
+    var ideas = igParseIdeas(result.text);
+    if (!ideas.length) {
+      err.textContent = 'Could not parse ideas from response. Try again.'; err.classList.add('show');
+      $('ig-empty').style.display = 'flex'; return;
+    }
+
+    igRenderIdeas(ideas);
+    $('ig-tok-count').textContent = result.tokens || '—';
+    $('ig-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  window.igSetLang   = igSetLang;
+  window.igGenerate  = igGenerate;
+  window.igAddToBoard = igAddToBoard;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('ig-model');
+  });
+})();
+
+/* ── Script Generator (ssg*) ── */
+(function() {
+  var _ssgLang = 'EN';
+  var _ssgLastResult = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  function ssgSetLang(btn, lang) {
+    _ssgLang = lang;
+    document.querySelectorAll('.st-lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function ssgSetLoading(on) {
+    var btn = $('ssg-gen-btn');
+    var sk  = $('ssg-skeleton');
+    var emp = $('ssg-empty');
+    var out = $('ssg-output');
+    if (on) {
+      btn.disabled = true;
+      btn.textContent = 'Generating…';
+      sk.classList.add('show');
+      emp.style.display = 'none';
+      out.style.display = 'none';
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Generate Script';
+      sk.classList.remove('show');
+    }
+  }
+
+  function ssgShowError(msg) {
+    var el = $('ssg-err');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function ssgHideError() {
+    var el = $('ssg-err');
+    el.classList.remove('show');
+  }
+
+  function ssgParseBlocks(text) {
+    var hook = '', body = '', cta = '';
+    var hookM = text.match(/HOOK[:\s]*([\s\S]*?)(?=BODY|$)/i);
+    var bodyM = text.match(/BODY[:\s]*([\s\S]*?)(?=CTA|$)/i);
+    var ctaM  = text.match(/CTA[:\s]*([\s\S]*?)$/i);
+    if (hookM) hook = hookM[1].trim();
+    if (bodyM) body = bodyM[1].trim();
+    if (ctaM)  cta  = ctaM[1].trim();
+    return { hook: hook, body: body, cta: cta };
+  }
+
+  function ssgRenderBlocks(blocks) {
+    $('ssg-hook-txt').textContent = blocks.hook || '—';
+    $('ssg-body-txt').textContent = blocks.body || '—';
+    $('ssg-cta-txt').textContent  = blocks.cta  || '—';
+    var out = $('ssg-output');
+    out.style.display = 'flex';
+  }
+
+  async function ssgGenerate() {
+    ssgHideError();
+    var topic    = $('ssg-topic').value.trim();
+    var platform = $('ssg-platform').value;
+    var tone     = $('ssg-tone').value;
+    var duration = $('ssg-duration').value;
+    var product  = $('ssg-product').value;
+
+    if (!topic) {
+      $('ssg-topic').focus();
+      ssgShowError('Please enter a topic before generating.');
+      return;
+    }
+
+    ssgSetLoading(true);
+    $('ssg-out-meta').textContent = 'Generated script · ' + platform + ' · ' + _ssgLang;
+
+    var systemPrompt = 'You are a social media script writer for Opofinance, a forex broker. Write in the requested language. Structure output as exactly 3 sections labeled HOOK, BODY, CTA. Be specific, avoid filler phrases.';
+    var userPrompt   = 'Write a ' + duration + ' script for ' + platform + ' about: ' + topic + '.\n' +
+                       'Tone: ' + tone + '. Language: ' + _ssgLang + '.\n' +
+                       (product !== 'None' ? 'Mention ' + product + ' in the CTA.\n' : '') +
+                       'Output only HOOK, BODY, CTA sections.';
+
+    var result = await AIRouter.call(userPrompt, systemPrompt);
+    ssgSetLoading(false);
+
+    if (result.error) {
+      ssgShowError(result.error);
+      $('ssg-empty').style.display = 'flex';
+      return;
+    }
+
+    _ssgLastResult = { topic: topic, platform: platform, language: _ssgLang, text: result.text, timestamp: new Date().toISOString() };
+    var blocks = ssgParseBlocks(result.text);
+    ssgRenderBlocks(blocks);
+
+    var modelName = AIRouter.providers[AIRouter.active].name;
+    $('ssg-tok-count').textContent = result.tokens || '—';
+    $('ssg-tok-model').textContent = modelName;
+  }
+
+  function ssgCopy() {
+    if (!_ssgLastResult) return;
+    navigator.clipboard.writeText(_ssgLastResult.text).catch(function(){});
+  }
+
+  function ssgSave() {
+    if (!_ssgLastResult) return;
+    try {
+      var existing = JSON.parse(localStorage.getItem('studio_scripts') || '[]');
+      existing.push(_ssgLastResult);
+      localStorage.setItem('studio_scripts', JSON.stringify(existing));
+      var btn = event && event.target;
+      if (btn) { btn.textContent = 'Saved!'; setTimeout(function(){ btn.textContent = 'Save'; }, 1500); }
+    } catch(e) {}
+  }
+
+  function ssgExport() {
+    if (!_ssgLastResult) return;
+    var blob = new Blob([_ssgLastResult.text], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'script-' + _ssgLastResult.platform.replace(/\s+/g,'-').toLowerCase() + '-' + _ssgLastResult.language + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  /* expose to onclick handlers */
+  window.ssgSetLang    = ssgSetLang;
+  window.ssgGenerate   = ssgGenerate;
+  window.ssgCopy       = ssgCopy;
+  window.ssgSave       = ssgSave;
+  window.ssgExport     = ssgExport;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('ssg-model');
+  });
 })();
   </script>
 </body>
