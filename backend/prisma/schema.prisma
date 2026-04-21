@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("member")
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  title       String
+  platform    String
+  status      String    @default("draft")
+  scheduledAt DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model Campaign {
+  id        Int      @id @default(autoincrement())
+  name      String
+  platform  String
+  goal      String
+  status    String   @default("active")
+  budget    Float    @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Task {
+  id         Int       @id @default(autoincrement())
+  title      String
+  category   String
+  status     String    @default("todo")
+  assignedTo String?
+  dueDate    DateTime?
+  createdAt  DateTime  @default(now())
+}

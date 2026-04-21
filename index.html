@@ -458,6 +458,32 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
 @keyframes st-shim{0%,100%{opacity:.4;}50%{opacity:1;}}
 .st-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:300px;color:rgba(255,255,255,0.2);font-size:.88rem;gap:8px;text-align:center;}
 .st-empty-icon{font-size:2rem;opacity:.3;}
+/* ── Brief Gen AI tab badge ── */
+.ai-tab-badge{display:inline-block;background:#7b2fff;color:#fff;font-size:.52rem;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:5px;vertical-align:middle;letter-spacing:.03em;line-height:1.4;}
+/* ── Saved outputs toggle & slide panel ── */
+#st-saved-toggle{position:absolute;right:0;top:132px;z-index:60;writing-mode:vertical-rl;background:rgba(123,47,255,0.82);color:#fff;border:none;border-radius:8px 0 0 8px;padding:14px 8px;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer;letter-spacing:.1em;backdrop-filter:blur(6px);transition:background .15s;}
+#st-saved-toggle:hover{background:rgba(123,47,255,1);}
+#st-saved-panel{position:absolute;right:0;top:0;bottom:0;width:260px;background:rgba(5,18,38,0.98);border-left:1px solid rgba(123,47,255,0.3);z-index:55;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;font-family:'Space Grotesk',sans-serif;backdrop-filter:blur(10px);}
+#st-saved-panel.open{transform:translateX(0);}
+.svp-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(123,47,255,0.2);flex-shrink:0;}
+.svp-hdr-title{font-size:.88rem;font-weight:700;color:#fff;}
+.svp-hdr-close{background:none;border:none;color:rgba(255,255,255,0.45);font-size:1.2rem;cursor:pointer;padding:0;line-height:1;}
+.svp-list{flex:1;overflow-y:auto;padding:10px;}
+.svp-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;display:flex;flex-direction:column;gap:3px;}
+.svp-item:hover{border-color:rgba(123,47,255,0.4);}
+.svp-pill{display:inline-block;font-size:.58rem;font-weight:700;padding:1px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;}
+.svp-pill-script{background:rgba(0,77,250,0.2);color:#4d9fff;}
+.svp-pill-character{background:rgba(123,47,255,0.2);color:#a87fff;}
+.svp-label{font-size:.82rem;font-weight:600;color:#e8eef8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.svp-sub{font-size:.72rem;color:rgba(255,255,255,0.38);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.svp-row{display:flex;justify-content:space-between;align-items:center;margin-top:2px;}
+.svp-ts{font-size:.65rem;color:rgba(255,255,255,0.24);}
+.svp-del{background:none;border:none;color:rgba(255,77,77,0.45);cursor:pointer;font-size:.92rem;padding:0 2px;line-height:1;}
+.svp-del:hover{color:#ff4d4d;}
+.svp-empty-msg{text-align:center;padding:34px 0;font-size:.82rem;color:rgba(255,255,255,0.2);}
+.svp-footer{padding:12px 16px;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;}
+.svp-clear-btn{width:100%;padding:8px;background:rgba(255,77,77,0.07);border:1px solid rgba(255,77,77,0.18);border-radius:7px;color:rgba(255,77,77,0.65);font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;}
+.svp-clear-btn:hover{background:rgba(255,77,77,0.14);}
   </style>
 </head>
 <body>
@@ -1504,7 +1530,7 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
           </div><!-- end section-pad -->
         </div>
         <!-- ====== STUDIO ====== -->
-        <div id="section-studio" class="dashboard-section hidden">
+        <div id="section-studio" class="dashboard-section hidden" style="position:relative;overflow-x:hidden;">
 
           <!-- Studio API key modal -->
           <div id="st-api-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
@@ -1524,6 +1550,21 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
             </div>
           </div>
 
+          <!-- Saved outputs toggle -->
+          <button id="st-saved-toggle" onclick="stSavedToggle()">SAVED</button>
+
+          <!-- Saved outputs slide panel -->
+          <div id="st-saved-panel">
+            <div class="svp-hdr">
+              <span class="svp-hdr-title">Saved Outputs</span>
+              <button class="svp-hdr-close" onclick="stSavedToggle()">&#215;</button>
+            </div>
+            <div class="svp-list" id="svp-list"></div>
+            <div class="svp-footer">
+              <button class="svp-clear-btn" onclick="svpClearAll()">Clear all</button>
+            </div>
+          </div>
+
           <div class="section-pad">
           <!-- Studio tab bar -->
           <div class="studio-tabs" id="studio-tabs">
@@ -1534,6 +1575,7 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
             <button class="studio-tab" onclick="switchStudio(this,'shots')">Angles &amp; Shots</button>
             <button class="studio-tab" onclick="switchStudio(this,'editing')">Editing</button>
             <button class="studio-tab" onclick="switchStudio(this,'export')">Export</button>
+            <button class="studio-tab" onclick="switchStudio(this,'briefgen')">Brief Gen <span class="ai-tab-badge">AI</span></button>
           </div>
 
           <!-- TAB 1: IDEA -->
@@ -2131,6 +2173,91 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
               </div>
             </div>
           </div>
+
+          <!-- TAB 8: BRIEF GEN -->
+          <div class="studio-panel" id="studio-briefgen">
+            <div class="st-layout" style="border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="pbg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Content Type</label>
+                <select id="pbg-type" class="st-sel">
+                  <option>Reel</option>
+                  <option>Carousel</option>
+                  <option>YouTube video</option>
+                  <option>Static post</option>
+                  <option>Story</option>
+                  <option>LinkedIn article</option>
+                </select>
+
+                <label class="st-lbl">Platform &amp; Language</label>
+                <select id="pbg-platform" class="st-sel">
+                  <option>Instagram FA</option>
+                  <option>Instagram EN</option>
+                  <option>Instagram AR</option>
+                  <option>YouTube FA</option>
+                  <option>YouTube EN</option>
+                  <option>LinkedIn</option>
+                  <option>TikTok</option>
+                  <option>Telegram</option>
+                </select>
+
+                <label class="st-lbl">Campaign or Topic</label>
+                <input id="pbg-topic" type="text" class="st-inp" placeholder="e.g. Gold breakout week, Copy trading launch">
+
+                <label class="st-lbl">Goal</label>
+                <select id="pbg-goal" class="st-sel">
+                  <option>Lead generation</option>
+                  <option>Brand awareness</option>
+                  <option>Education</option>
+                  <option>Retention</option>
+                  <option>Engagement</option>
+                </select>
+
+                <label class="st-lbl">Target Audience</label>
+                <input id="pbg-audience" type="text" class="st-inp" placeholder="e.g. Persian retail traders">
+
+                <button class="st-gen-btn" id="pbg-gen-btn" onclick="pbgGenerate()">Generate Brief</button>
+              </div>
+
+              <!-- Output area -->
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="pbg-out-meta">Production brief · — · —</span>
+                  <div class="st-out-actions">
+                    <button class="st-act-btn" onclick="pbgSave()">Save</button>
+                    <button class="st-act-btn" onclick="pbgExport()">Export .txt</button>
+                  </div>
+                </div>
+
+                <div class="st-err" id="pbg-err"></div>
+
+                <div class="st-skeleton" id="pbg-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div><div class="st-sk-line w90"></div>
+                </div>
+
+                <div class="st-empty" id="pbg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Brief</strong></span>
+                </div>
+
+                <div id="pbg-output" style="display:none;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;"></div>
+
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="pbg-tok-count">—</strong></span>
+                  <span>Model: <strong id="pbg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           </div><!-- end section-pad -->
         </div>
 
@@ -3326,10 +3453,200 @@ function renderModelSelector(containerId) {
   window.ssgCopy       = ssgCopy;
   window.ssgSave       = ssgSave;
   window.ssgExport     = ssgExport;
+  window.ssgLoadSaved  = function(item) {
+    $('ssg-out-meta').textContent = 'Generated script \xb7 ' + (item.platform || '—') + ' \xb7 ' + (item.language || '—');
+    $('ssg-empty').style.display  = 'none';
+    $('ssg-output').style.display = 'none';
+    var blocks = ssgParseBlocks(item.text || '');
+    ssgRenderBlocks(blocks);
+    if (item.topic) $('ssg-topic').value = item.topic;
+    _ssgLastResult = item;
+  };
 
   document.addEventListener('DOMContentLoaded', function() {
     renderModelSelector('ssg-model');
   });
+})();
+
+/* ── Production Brief Generator (pbg*) ── */
+(function() {
+  var _pbgLastText = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  var PBG_SECTIONS = [
+    { key:'OBJECTIVE',          label:'Objective',          color:'#4d9fff', bg:'rgba(0,77,250,0.08)'   },
+    { key:'AUDIENCE',           label:'Audience',           color:'#a87fff', bg:'rgba(123,47,255,0.08)' },
+    { key:'KEY MESSAGE',        label:'Key Message',        color:'#ffcc00', bg:'rgba(255,204,0,0.07)'  },
+    { key:'FORMAT & DURATION',  label:'Format & Duration',  color:'#1dfd3d', bg:'rgba(29,253,61,0.07)'  },
+    { key:'HOOK SUGGESTION',    label:'Hook Suggestion',    color:'#4d9fff', bg:'rgba(0,77,250,0.07)'   },
+    { key:'VISUAL DIRECTION',   label:'Visual Direction',   color:'#ff9d4d', bg:'rgba(255,157,77,0.07)' },
+    { key:'CTA',                label:'CTA',                color:'#1dfd3d', bg:'rgba(29,253,61,0.07)'  },
+    { key:'HASHTAGS',           label:'Hashtags',           color:'rgba(255,255,255,0.5)', bg:'rgba(255,255,255,0.04)' },
+    { key:'NOTES',              label:'Notes',              color:'rgba(255,255,255,0.4)', bg:'rgba(255,255,255,0.03)' }
+  ];
+
+  function pbgParseSection(text, key) {
+    var escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+    var allKeys = PBG_SECTIONS.map(function(s){ return s.key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\s+/g,'\\s+'); }).join('|');
+    var pattern = new RegExp(escaped + '[:\\s]*((?:.|\\n)*?)(?=' + allKeys + '|$)', 'i');
+    var m = text.match(pattern);
+    return m ? m[1].replace(/^\*+|\*+$/gm,'').trim() : '';
+  }
+
+  function pbgSetLoading(on) {
+    var btn = $('pbg-gen-btn'), sk = $('pbg-skeleton'), emp = $('pbg-empty'), out = $('pbg-output');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none'; out.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Brief';
+      sk.classList.remove('show');
+    }
+  }
+
+  function pbgRender(text) {
+    var out = $('pbg-output'); out.innerHTML = '';
+    PBG_SECTIONS.forEach(function(sec) {
+      var content = pbgParseSection(text, sec.key);
+      if (!content) return;
+      var div = document.createElement('div');
+      div.style.cssText = 'background:' + sec.bg + ';border:1px solid ' + sec.color + '44;border-radius:10px;padding:12px 14px;';
+      div.innerHTML = '<div style="font-size:.63rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:' + sec.color + ';margin-bottom:6px;">' + sec.label + '</div>' +
+        '<div style="font-size:.83rem;line-height:1.6;color:#d8e4f5;white-space:pre-wrap;">' + content + '</div>';
+      out.appendChild(div);
+    });
+    if (out.children.length) out.style.display = 'grid';
+  }
+
+  async function pbgGenerate() {
+    var err = $('pbg-err'); err.classList.remove('show');
+    var type     = $('pbg-type').value;
+    var platform = $('pbg-platform').value;
+    var topic    = $('pbg-topic').value.trim();
+    var goal     = $('pbg-goal').value;
+    var audience = $('pbg-audience').value.trim();
+    if (!topic) { $('pbg-topic').focus(); err.textContent = 'Please enter a campaign or topic.'; err.classList.add('show'); return; }
+
+    pbgSetLoading(true);
+    $('pbg-out-meta').textContent = 'Production brief · ' + platform + ' · ' + type;
+
+    var sys  = 'You are a production content strategist for Opofinance, a forex fintech broker. Write detailed production content briefs. Output exactly these 9 labeled sections on separate lines: OBJECTIVE, AUDIENCE, KEY MESSAGE, FORMAT & DURATION, HOOK SUGGESTION, VISUAL DIRECTION, CTA, HASHTAGS, NOTES. Each section: 1–4 lines. Be specific and actionable.';
+    var user = 'Write a production content brief for:\nContent type: ' + type + '\nPlatform & language: ' + platform + '\nCampaign or topic: ' + topic + '\nGoal: ' + goal + '\nTarget audience: ' + (audience || 'retail forex traders') + '\nOutput sections: OBJECTIVE, AUDIENCE, KEY MESSAGE, FORMAT & DURATION, HOOK SUGGESTION, VISUAL DIRECTION, CTA, HASHTAGS, NOTES.';
+
+    var result = await AIRouter.call(user, sys);
+    pbgSetLoading(false);
+
+    if (result.error) { err.textContent = result.error; err.classList.add('show'); $('pbg-empty').style.display = 'flex'; return; }
+    _pbgLastText = result.text;
+    pbgRender(result.text);
+    $('pbg-tok-count').textContent = result.tokens || '—';
+    $('pbg-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  function pbgSave() {
+    if (!_pbgLastText) return;
+    var existing = [];
+    try { existing = JSON.parse(localStorage.getItem('studio_briefs') || '[]'); } catch(e) {}
+    existing.push({ topic: $('pbg-topic').value.trim(), platform: $('pbg-platform').value, text: _pbgLastText, timestamp: new Date().toISOString() });
+    localStorage.setItem('studio_briefs', JSON.stringify(existing));
+    var btn = event && event.target;
+    if (btn) { btn.textContent = 'Saved!'; setTimeout(function(){ btn.textContent = 'Save'; }, 1500); }
+  }
+
+  function pbgExport() {
+    if (!_pbgLastText) return;
+    var blob = new Blob([_pbgLastText], { type:'text/plain' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'brief-' + ($('pbg-platform').value || 'opofinance').replace(/\s+/g,'-').toLowerCase() + '.txt';
+    a.click(); URL.revokeObjectURL(a.href);
+  }
+
+  window.pbgGenerate = pbgGenerate;
+  window.pbgSave     = pbgSave;
+  window.pbgExport   = pbgExport;
+
+  document.addEventListener('DOMContentLoaded', function() { renderModelSelector('pbg-model'); });
+})();
+
+/* ── Saved outputs panel (svp*) ── */
+(function() {
+  function stSavedToggle() {
+    var panel = document.getElementById('st-saved-panel');
+    var isOpen = panel.classList.toggle('open');
+    if (isOpen) svpRefresh();
+  }
+
+  function svpFormatTs(ts) {
+    if (!ts) return '';
+    try { return new Date(ts).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'2-digit' }); } catch(e) { return ''; }
+  }
+
+  function svpRefresh() {
+    var list = document.getElementById('svp-list');
+    list.innerHTML = '';
+    var scripts = [], chars = [];
+    try { scripts = JSON.parse(localStorage.getItem('studio_scripts')    || '[]'); } catch(e) {}
+    try { chars   = JSON.parse(localStorage.getItem('studio_characters') || '[]'); } catch(e) {}
+
+    var all = [];
+    scripts.forEach(function(s, i) { all.push({ type:'Script',    pillClass:'svp-pill-script',    key:'studio_scripts',    idx:i, label:s.topic||'Untitled', sub:(s.platform||'')+(s.language?' · '+s.language:''), ts:s.timestamp||'', data:s }); });
+    chars.forEach(function(c, i)   { all.push({ type:'Character', pillClass:'svp-pill-character', key:'studio_characters', idx:i, label:c.name||'Unnamed',  sub:(c.role||'')+(c.language?' · '+c.language:''),  ts:c.timestamp||'',  data:c }); });
+
+    if (!all.length) {
+      list.innerHTML = '<div class="svp-empty-msg">No saved items yet.<br>Generate a script or character<br>and hit Save.</div>';
+      return;
+    }
+
+    all.sort(function(a, b) { return (b.ts > a.ts) ? 1 : -1; });
+
+    all.forEach(function(item) {
+      var row = document.createElement('div');
+      row.className = 'svp-item';
+      row.innerHTML =
+        '<span class="svp-pill ' + item.pillClass + '">' + item.type + '</span>' +
+        '<div class="svp-label">' + item.label + '</div>' +
+        '<div class="svp-sub">'  + item.sub   + '</div>' +
+        '<div class="svp-row">' +
+          '<span class="svp-ts">' + svpFormatTs(item.ts) + '</span>' +
+          '<button class="svp-del" title="Delete" onclick="event.stopPropagation();svpDelete(\'' + item.key + '\',' + item.idx + ')">&#215;</button>' +
+        '</div>';
+      row.addEventListener('click', function() { svpLoad(item); });
+      list.appendChild(row);
+    });
+  }
+
+  function svpLoad(item) {
+    stSavedToggle();
+    if (item.type === 'Script') {
+      var tab = document.querySelector('.studio-tab[onclick*="script"]');
+      if (tab) switchStudio(tab, 'script');
+      if (item.data && typeof window.ssgLoadSaved === 'function') window.ssgLoadSaved(item.data);
+    } else if (item.type === 'Character') {
+      var tab = document.querySelector('.studio-tab[onclick*="chars"]');
+      if (tab) switchStudio(tab, 'chars');
+      if (item.data && typeof cgRender === 'function') cgRender(item.data);
+    }
+  }
+
+  function svpDelete(key, idx) {
+    var arr = [];
+    try { arr = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    arr.splice(idx, 1);
+    localStorage.setItem(key, JSON.stringify(arr));
+    svpRefresh();
+  }
+
+  function svpClearAll() {
+    if (!confirm('Delete all saved scripts and characters?')) return;
+    localStorage.removeItem('studio_scripts');
+    localStorage.removeItem('studio_characters');
+    svpRefresh();
+  }
+
+  window.stSavedToggle = stSavedToggle;
+  window.svpDelete     = svpDelete;
+  window.svpClearAll   = svpClearAll;
 })();
   </script>
 </body>
