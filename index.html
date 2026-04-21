@@ -1651,10 +1651,87 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
 
           <!-- TAB 2: CONTENT BRIEF -->
           <div class="studio-panel" id="studio-brief">
+            <div class="st-layout" style="margin-bottom:22px;border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="bg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Topic / Title</label>
+                <textarea id="bg-topic" class="st-ta" rows="3" placeholder="e.g. Gold Market Weekly Recap — what drove prices this week"></textarea>
+
+                <label class="st-lbl">Platform</label>
+                <select id="bg-platform" class="st-sel">
+                  <option>Instagram Reel</option>
+                  <option>YouTube Short</option>
+                  <option>YouTube Long</option>
+                  <option>TikTok</option>
+                  <option>LinkedIn</option>
+                  <option>Telegram</option>
+                  <option>Twitter/X</option>
+                </select>
+
+                <label class="st-lbl">Objective</label>
+                <select id="bg-objective" class="st-sel">
+                  <option>Educate</option>
+                  <option>Promote</option>
+                  <option>Entertain</option>
+                  <option>Build Trust</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <div class="st-lang-toggle">
+                  <button class="st-lang-btn active" onclick="bgSetLang(this,'EN')">EN</button>
+                  <button class="st-lang-btn" onclick="bgSetLang(this,'FA')">FA</button>
+                  <button class="st-lang-btn" onclick="bgSetLang(this,'AR')">AR</button>
+                </div>
+
+                <label class="st-lbl">Target Audience</label>
+                <input id="bg-audience" type="text" class="st-inp" placeholder="e.g. Retail traders aged 25–45">
+
+                <button class="st-gen-btn" id="bg-gen-btn" onclick="bgGenerate()">Generate Brief</button>
+              </div>
+
+              <!-- Main output -->
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="bg-out-meta">Content brief · — · —</span>
+                  <div class="st-out-actions">
+                    <button class="st-act-btn" onclick="bgCopy()">Copy</button>
+                    <button class="st-act-btn" onclick="bgExport()">Export .txt</button>
+                  </div>
+                </div>
+
+                <div class="st-err" id="bg-err"></div>
+
+                <div class="st-skeleton" id="bg-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div><div class="st-sk-line w90"></div>
+                </div>
+
+                <div class="st-empty" id="bg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Brief</strong></span>
+                </div>
+
+                <div id="bg-output" style="display:none;grid-template-columns:1fr 1fr;gap:10px;"></div>
+
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="bg-tok-count">—</strong></span>
+                  <span>Model: <strong id="bg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Manual Form -->
             <div class="card">
-              <div class="card-header"><h3>Content Brief</h3><div style="display:flex;gap:8px;"><button class="btn-small">Save Brief</button><button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Team</button></div></div>
+              <div class="card-header"><h3>Manual Override</h3><div style="display:flex;gap:8px;"><button class="btn-small">Save Brief</button><button style="padding:6px 16px;border-radius:8px;font-size:.82rem;font-weight:700;background:rgba(155,89,182,0.15);border:1px solid #9b59b6;color:#9b59b6;cursor:pointer;">Send to Team</button></div></div>
               <div class="grid-2" style="gap:14px;">
-                <div class="input-group"><label>Video Title</label><input type="text" placeholder="e.g. Gold Market Weekly Recap"></div>
+                <div class="input-group"><label>Video Title</label><input id="bf-title" type="text" placeholder="e.g. Gold Market Weekly Recap"></div>
                 <div class="input-group"><label>Platform</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Instagram Reel FA</option><option>Instagram Reel EN</option><option>Instagram Reel AR</option><option>YouTube</option><option>LinkedIn</option></select></div>
                 <div class="input-group"><label>Objective</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Educate</option><option>Promote</option><option>Entertain</option><option>Build Trust</option></select></div>
                 <div class="input-group"><label>Target Audience</label><input type="text" placeholder="e.g. Retail traders aged 25–45"></div>
@@ -1663,8 +1740,10 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
                 <div class="input-group"><label>Assigned Presenter</label><select class="card-select" style="width:100%;padding:12px 14px;"><option>Negar (EN/FA Host)</option><option>AR Presenter (TBD)</option><option>AI Avatar</option></select></div>
                 <div class="input-group"><label>Reference Content</label><input type="text" placeholder="Links or notes..."></div>
               </div>
-              <div class="input-group" style="margin-top:12px;"><label>Key Message</label><textarea class="brief-textarea" placeholder="What is the single most important message the viewer should remember?"></textarea></div>
+              <div class="input-group" style="margin-top:12px;"><label>Key Message</label><textarea id="bf-key-msg" class="brief-textarea" placeholder="What is the single most important message the viewer should remember?"></textarea></div>
             </div>
+
+          </div>
           </div>
 
           <!-- TAB 3: SCRIPT -->
@@ -2633,6 +2712,117 @@ function renderModelSelector(containerId) {
     s.textContent = '@keyframes stPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}';
     document.head.appendChild(s);
   }
+})();
+
+/* ── Brief Generator (bg*) ── */
+(function() {
+  var _bgLang = 'EN';
+  var _bgLastText = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  function bgSetLang(btn, lang) {
+    _bgLang = lang;
+    document.querySelectorAll('#studio-brief .st-lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function bgSetLoading(on) {
+    var btn = $('bg-gen-btn');
+    var sk  = $('bg-skeleton');
+    var emp = $('bg-empty');
+    var out = $('bg-output');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none'; out.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Brief';
+      sk.classList.remove('show');
+    }
+  }
+
+  var BG_SECTIONS = [
+    { key: 'OBJECTIVE',        label: 'Objective',        color: '#4d9fff', bg: 'rgba(0,77,250,0.08)'   },
+    { key: 'KEY MESSAGE',      label: 'Key Message',      color: '#ffcc00', bg: 'rgba(255,204,0,0.07)'  },
+    { key: 'TALKING POINTS',   label: 'Talking Points',   color: '#a87fff', bg: 'rgba(123,47,255,0.08)' },
+    { key: 'HOOK',             label: 'Hook Suggestion',  color: '#4d9fff', bg: 'rgba(0,77,250,0.08)'   },
+    { key: 'CTA',              label: 'CTA',              color: '#1dfd3d', bg: 'rgba(29,253,61,0.07)'  },
+    { key: 'VISUAL DIRECTION', label: 'Visual Direction', color: '#ff9d4d', bg: 'rgba(255,157,77,0.07)' }
+  ];
+
+  function bgParseSection(text, key) {
+    var pattern = new RegExp(key.replace(/\s+/g,'\\s+') + '[:\\s]*((?:.|\\n)*?)(?=OBJECTIVE|KEY MESSAGE|TALKING POINTS|HOOK|CTA|VISUAL DIRECTION|$)', 'i');
+    var m = text.match(pattern);
+    return m ? m[1].replace(/^\*+|\*+$/g,'').trim() : '';
+  }
+
+  function bgRender(text) {
+    var out = $('bg-output');
+    out.innerHTML = '';
+    BG_SECTIONS.forEach(function(sec) {
+      var content = bgParseSection(text, sec.key);
+      if (!content) return;
+      var div = document.createElement('div');
+      div.style.cssText = 'background:' + sec.bg + ';border:1px solid ' + sec.color.replace(')',',0.25)').replace('rgb','rgba') + ';border-radius:10px;padding:12px 14px;';
+      div.innerHTML = '<div style="font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:' + sec.color + ';margin-bottom:6px;">' + sec.label + '</div>' +
+        '<div style="font-size:.84rem;line-height:1.6;color:#d8e4f5;white-space:pre-wrap;">' + content + '</div>';
+      out.appendChild(div);
+    });
+    if (out.children.length) out.style.display = 'grid';
+  }
+
+  async function bgGenerate() {
+    var err = $('bg-err');
+    err.classList.remove('show');
+    var topic     = $('bg-topic').value.trim();
+    var platform  = $('bg-platform').value;
+    var objective = $('bg-objective').value;
+    var audience  = $('bg-audience').value.trim() || 'retail forex traders';
+    if (!topic) { $('bg-topic').focus(); err.textContent = 'Please enter a topic.'; err.classList.add('show'); return; }
+
+    bgSetLoading(true);
+    $('bg-out-meta').textContent = 'Content brief · ' + platform + ' · ' + _bgLang;
+
+    var sys  = 'You are a content brief writer for Opofinance, a forex broker. Create concise, production-ready content briefs. Output exactly 6 labeled sections: OBJECTIVE, KEY MESSAGE, TALKING POINTS, HOOK, CTA, VISUAL DIRECTION. Each section: 1–4 lines. Write in the requested language.';
+    var user = 'Write a content brief for a ' + platform + ' video.\nTopic: ' + topic + '\nObjective: ' + objective + '\nLanguage: ' + _bgLang + '\nTarget audience: ' + audience + '\nOutput sections: OBJECTIVE, KEY MESSAGE, TALKING POINTS, HOOK, CTA, VISUAL DIRECTION.';
+
+    var result = await AIRouter.call(user, sys);
+    bgSetLoading(false);
+
+    if (result.error) { err.textContent = result.error; err.classList.add('show'); $('bg-empty').style.display = 'flex'; return; }
+
+    _bgLastText = result.text;
+    bgRender(result.text);
+
+    /* auto-fill manual form */
+    var titleEl = $('bf-title');
+    if (titleEl && !titleEl.value) titleEl.value = topic;
+    var msgEl = $('bf-key-msg');
+    if (msgEl && !msgEl.value) { var km = bgParseSection(result.text, 'KEY MESSAGE'); if (km) msgEl.value = km; }
+
+    $('bg-tok-count').textContent = result.tokens || '—';
+    $('bg-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  function bgCopy() {
+    if (_bgLastText) navigator.clipboard.writeText(_bgLastText).catch(function(){});
+  }
+
+  function bgExport() {
+    if (!_bgLastText) return;
+    var blob = new Blob([_bgLastText], { type: 'text/plain' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'content-brief.txt'; a.click(); URL.revokeObjectURL(a.href);
+  }
+
+  window.bgSetLang  = bgSetLang;
+  window.bgGenerate = bgGenerate;
+  window.bgCopy     = bgCopy;
+  window.bgExport   = bgExport;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('bg-model');
+  });
 })();
 
 /* ── Idea Generator (ig*) ── */
