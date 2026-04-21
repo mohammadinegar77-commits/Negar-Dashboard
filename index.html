@@ -1538,66 +1538,115 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
 
           <!-- TAB 1: IDEA -->
           <div class="studio-panel active" id="studio-idea">
-            <div class="grid-2">
-              <div style="grid-column:1/-1;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                  <h4 style="font-size:.95rem;">Idea Board</h4>
-                  <button class="btn-small" onclick="addIdeaCard()">+ New Idea</button>
+
+            <!-- AI Idea Generator -->
+            <div class="st-layout" style="margin-bottom:22px;border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="ig-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Topic / Niche</label>
+                <textarea id="ig-topic" class="st-ta" rows="3" placeholder="e.g. gold trading myths, copy trading for beginners, MT5 tips"></textarea>
+
+                <label class="st-lbl">Platform</label>
+                <select id="ig-platform" class="st-sel">
+                  <option>Instagram Reel</option>
+                  <option>YouTube Short</option>
+                  <option>YouTube Long</option>
+                  <option>TikTok</option>
+                  <option>LinkedIn</option>
+                  <option>Telegram</option>
+                  <option>Twitter/X</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <div class="st-lang-toggle">
+                  <button class="st-lang-btn active" onclick="igSetLang(this,'EN')">EN</button>
+                  <button class="st-lang-btn" onclick="igSetLang(this,'FA')">FA</button>
+                  <button class="st-lang-btn" onclick="igSetLang(this,'AR')">AR</button>
                 </div>
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;" id="idea-board">
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Gold Market Myths Debunked</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "Everything you thought you knew about gold trading is wrong"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(0,77,250,0.15);color:#1d79fd;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Selected</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.closest('.card').querySelector('span[style*=\"Selected\"]').textContent='Developing'">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Copy Trading Explained Simply</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "You don't need to be an expert to trade like one"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Short</span><span style="background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Developing</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Behind the Screens at Opofinance</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "A day in the life of our trading platform team"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Video</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.parentElement.previousElementSibling.querySelector('span:last-child').textContent='Developing';this.parentElement.previousElementSibling.querySelector('span:last-child').style.cssText='background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;'">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                  <div class="card" style="padding:16px;">
-                    <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">نصائح الذهب الأسبوعية</div>
-                    <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "كل أسبوع نكشف سراً عن سوق الذهب"</div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
-                      <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
-                    </div>
-                  </div>
-                </div>
+
+                <label class="st-lbl">Number of Ideas</label>
+                <select id="ig-count" class="st-sel">
+                  <option value="3">3 ideas</option>
+                  <option value="5" selected>5 ideas</option>
+                  <option value="10">10 ideas</option>
+                </select>
+
+                <button class="st-gen-btn" id="ig-gen-btn" onclick="igGenerate()">Generate Ideas</button>
               </div>
-              <div class="card">
-                <div class="card-header"><h3 style="color:#9b59b6;">Brainstorm Prompts</h3></div>
-                <div style="display:flex;flex-direction:column;gap:10px;">
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What's happening in the market this week?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What question does our audience ask most?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What myth can we debunk about forex?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What's a behind-the-scenes story we can tell?</div>
-                  <div style="background:rgba(155,89,182,0.08);border:1px solid rgba(155,89,182,0.2);border-radius:8px;padding:12px;font-size:.84rem;cursor:pointer;" onclick="copyPrompt(this)">What trending audio/format fits our brand?</div>
+
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="ig-out-meta">AI-generated ideas · — · —</span>
+                </div>
+                <div class="st-err" id="ig-err"></div>
+                <div class="st-skeleton" id="ig-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w80"></div>
+                  <div class="st-sk-line w60"></div>
+                </div>
+                <div class="st-empty" id="ig-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Enter a topic and hit <strong>Generate Ideas</strong></span>
+                </div>
+                <div id="ig-output" style="display:none;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;"></div>
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="ig-tok-count">—</strong></span>
+                  <span>Model: <strong id="ig-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
                 </div>
               </div>
             </div>
+
+            <!-- Saved Idea Board -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <h4 style="font-size:.95rem;">Idea Board</h4>
+              <button class="btn-small" onclick="addIdeaCard()">+ New Idea</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;" id="idea-board">
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Gold Market Myths Debunked</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "Everything you thought you knew about gold trading is wrong"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span><span class="tag tag-youtube" style="font-size:.65rem;">YT</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(0,77,250,0.15);color:#1d79fd;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Selected</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;" onclick="this.closest('.card').querySelector('span[style*=&quot;Selected&quot;]').textContent='Developing'">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Copy Trading Explained Simply</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "You don't need to be an expert to trade like one"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Short</span><span style="background:rgba(255,204,0,0.12);color:#ffcc00;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">Developing</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">Behind the Screens at Opofinance</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "A day in the life of our trading platform team"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst EN</span><span class="tag tag-instagram" style="font-size:.65rem;">Inst FA</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Video</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">نصائح الذهب الأسبوعية</div>
+                <div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "كل أسبوع نكشف سراً عن سوق الذهب"</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span class="tag tag-instagram" style="font-size:.65rem;">Inst AR</span><span class="tag tag-telegram" style="font-size:.65rem;">TG</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="type-pill">Reel</span><span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>
+                  <button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- TAB 2: CONTENT BRIEF -->
@@ -2584,6 +2633,142 @@ function renderModelSelector(containerId) {
     s.textContent = '@keyframes stPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}';
     document.head.appendChild(s);
   }
+})();
+
+/* ── Idea Generator (ig*) ── */
+(function() {
+  var _igLang = 'EN';
+
+  function $(id) { return document.getElementById(id); }
+
+  function igSetLang(btn, lang) {
+    _igLang = lang;
+    document.querySelectorAll('#studio-idea .st-lang-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function igSetLoading(on) {
+    var btn = $('ig-gen-btn');
+    var sk  = $('ig-skeleton');
+    var emp = $('ig-empty');
+    var out = $('ig-output');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none'; out.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Ideas';
+      sk.classList.remove('show');
+    }
+  }
+
+  function igParseIdeas(text) {
+    var ideas = [];
+    var lines = text.split(/\n/);
+    var cur = null;
+    lines.forEach(function(line) {
+      var numMatch = line.match(/^\s*\d+[\.\)]\s*(.+)/);
+      if (numMatch) {
+        if (cur) ideas.push(cur);
+        cur = { title: numMatch[1].replace(/\*\*/g,'').trim(), hook: '', tags: [] };
+      } else if (cur) {
+        var hookMatch = line.match(/Hook:\s*["\u201C]?(.+?)["\u201D]?\s*$/i);
+        var tagMatch  = line.match(/Tags?:\s*(.+)/i);
+        if (hookMatch) cur.hook = hookMatch[1].trim();
+        if (tagMatch)  cur.tags = tagMatch[1].split(',').map(function(t){ return t.trim(); });
+        var pipeMatch = line.match(/\|\s*Hook:\s*["\u201C]?(.+?)["\u201D]?\s*(?:\|.*)?$/i);
+        if (pipeMatch && !cur.hook) cur.hook = pipeMatch[1].trim();
+        var pipeTags = line.match(/\|\s*Tags?:\s*(.+)$/i);
+        if (pipeTags && !cur.tags.length) cur.tags = pipeTags[1].split(',').map(function(t){ return t.trim(); });
+      }
+    });
+    if (cur) ideas.push(cur);
+    return ideas;
+  }
+
+  function igAddToBoard(title, hook, tags) {
+    var board = $('idea-board');
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'padding:16px;';
+    var tagSpans = tags.slice(0,3).map(function(t){
+      return '<span class="tag tag-instagram" style="font-size:.65rem;">' + t + '</span>';
+    }).join('');
+    card.innerHTML =
+      '<div style="font-size:.88rem;font-weight:700;margin-bottom:6px;">' + title + '</div>' +
+      '<div style="font-size:.76rem;color:rgba(255,255,255,0.45);margin-bottom:8px;">Hook: "' + hook + '"</div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">' + tagSpans + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">' +
+        '<span class="type-pill">AI</span>' +
+        '<span style="background:rgba(123,47,255,0.15);color:#a87fff;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;">New</span>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+        '<button class="action-btn" style="border:1px solid #004dfa;color:#1d79fd;font-size:.72rem;padding:5px 10px;">Develop</button>' +
+        '<button class="action-btn" style="border:1px solid #1dfd3d;color:#1dfd3d;font-size:.72rem;padding:5px 10px;">Select for Production</button>' +
+      '</div>';
+    board.insertBefore(card, board.firstChild);
+  }
+
+  function igRenderIdeas(ideas) {
+    var out = $('ig-output');
+    out.innerHTML = '';
+    ideas.forEach(function(idea) {
+      var card = document.createElement('div');
+      card.style.cssText = 'background:rgba(5,20,41,0.7);border:1px solid rgba(123,47,255,0.2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;';
+      var tagSpans = idea.tags.slice(0,3).map(function(t){
+        return '<span style="background:rgba(123,47,255,0.12);color:#a87fff;border-radius:20px;padding:2px 7px;font-size:.65rem;">' + t + '</span>';
+      }).join('');
+      card.innerHTML =
+        '<div style="font-size:.84rem;font-weight:700;line-height:1.35;">' + idea.title + '</div>' +
+        '<div style="font-size:.74rem;color:rgba(255,255,255,0.5);line-height:1.4;">"' + (idea.hook||'—') + '"</div>' +
+        '<div style="display:flex;gap:4px;flex-wrap:wrap;">' + tagSpans + '</div>' +
+        '<button style="margin-top:auto;padding:5px 0;border-radius:7px;border:1px solid rgba(0,77,250,0.35);background:rgba(0,77,250,0.08);color:rgba(255,255,255,0.65);font-size:.72rem;font-weight:600;cursor:pointer;font-family:\'Space Grotesk\',sans-serif;" onclick="igAddToBoard(' +
+          JSON.stringify(idea.title) + ',' + JSON.stringify(idea.hook) + ',' + JSON.stringify(idea.tags) +
+        ')">+ Add to Board</button>';
+      out.appendChild(card);
+    });
+    out.style.display = 'grid';
+  }
+
+  async function igGenerate() {
+    var err = $('ig-err');
+    err.classList.remove('show');
+    var topic    = $('ig-topic').value.trim();
+    var platform = $('ig-platform').value;
+    var count    = $('ig-count').value;
+    if (!topic) { $('ig-topic').focus(); err.textContent='Please enter a topic.'; err.classList.add('show'); return; }
+
+    igSetLoading(true);
+    $('ig-out-meta').textContent = 'AI-generated ideas · ' + platform + ' · ' + _igLang;
+
+    var sys  = 'You are a creative content strategist for Opofinance, a forex broker. Generate content ideas. For each idea output: [number]. [title] | Hook: "[hook line]" | Tags: [tag1, tag2, tag3]. Write titles and hooks in the requested language.';
+    var user = 'Generate ' + count + ' fresh content ideas for ' + platform + ' in ' + _igLang + ' about: ' + topic + '. Ideas must be scroll-stopping and platform-native. Format: 1. [title] | Hook: "[hook]" | Tags: [tags]';
+
+    var result = await AIRouter.call(user, sys);
+    igSetLoading(false);
+
+    if (result.error) {
+      err.textContent = result.error; err.classList.add('show');
+      $('ig-empty').style.display = 'flex'; return;
+    }
+
+    var ideas = igParseIdeas(result.text);
+    if (!ideas.length) {
+      err.textContent = 'Could not parse ideas from response. Try again.'; err.classList.add('show');
+      $('ig-empty').style.display = 'flex'; return;
+    }
+
+    igRenderIdeas(ideas);
+    $('ig-tok-count').textContent = result.tokens || '—';
+    $('ig-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  window.igSetLang   = igSetLang;
+  window.igGenerate  = igGenerate;
+  window.igAddToBoard = igAddToBoard;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('ig-model');
+  });
 })();
 
 /* ── Script Generator (ssg*) ── */
