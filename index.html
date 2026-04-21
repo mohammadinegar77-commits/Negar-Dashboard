@@ -1868,40 +1868,133 @@ html[dir="rtl"] .auth-switch a{margin-left:0;margin-right:4px;}
 
           <!-- TAB 4: CHARACTERS -->
           <div class="studio-panel" id="studio-chars">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h4 style="font-size:.95rem;">Characters &amp; Presenters</h4><button class="btn-small" onclick="addCharCard()">+ Add Character</button></div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;" id="char-board">
-              <div class="card" style="padding:16px;">
-                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#9b59b6,#004dfa);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;margin-bottom:12px;">N</div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" value="Negar" style="padding:8px 10px;font-size:.84rem;"></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>Host</option><option>Expert</option><option>Narrator</option><option>On-screen talent</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>EN / FA</option><option>AR</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Professional</option><option selected>Friendly</option><option>Authoritative</option><option>Conversational</option></select></div>
-                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">Strategy lead host — primary face of EN & FA channels</textarea></div>
+            <div class="st-layout" style="border:1px solid rgba(0,77,250,0.15);border-radius:12px;overflow:hidden;">
+
+              <!-- Sidebar -->
+              <div class="st-sidebar">
+                <label class="st-lbl">AI Model</label>
+                <div id="cg-model"></div>
+
+                <label class="st-lbl" style="margin-top:6px;">Character Name</label>
+                <input id="cg-name" type="text" class="st-inp" placeholder="e.g. Aria, Max, Nour">
+
+                <label class="st-lbl">Visual Style</label>
+                <select id="cg-style" class="st-sel">
+                  <option>Realistic presenter</option>
+                  <option>Animated avatar</option>
+                  <option>Illustrated mascot</option>
+                  <option>Brand voice persona</option>
+                </select>
+
+                <label class="st-lbl">Role</label>
+                <select id="cg-role" class="st-sel">
+                  <option>Educator</option>
+                  <option>Analyst</option>
+                  <option>Host</option>
+                  <option>Storyteller</option>
+                  <option>News anchor</option>
+                </select>
+
+                <label class="st-lbl">Niche</label>
+                <select id="cg-niche" class="st-sel">
+                  <option>Forex &amp; trading</option>
+                  <option>Gold</option>
+                  <option>Crypto</option>
+                  <option>Personal finance</option>
+                  <option>Economic news</option>
+                </select>
+
+                <label class="st-lbl">Language</label>
+                <select id="cg-lang" class="st-sel">
+                  <option>English</option>
+                  <option>Persian FA</option>
+                  <option>Arabic AR</option>
+                  <option>Multilingual</option>
+                </select>
+
+                <label class="st-lbl">Personality Notes <span style="font-weight:400;text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.25);">(optional)</span></label>
+                <textarea id="cg-notes" class="st-ta" rows="2" placeholder="e.g. calm, analytical, uses simple analogies..."></textarea>
+
+                <button class="st-gen-btn" id="cg-gen-btn" onclick="cgGenerate()">Generate Character</button>
               </div>
-              <div class="card" style="padding:16px;">
-                <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,204,0,0.2);border:2px dashed #ffcc00;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#ffcc00;margin-bottom:12px;">AR</div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" placeholder="AR Presenter TBD" style="padding:8px 10px;font-size:.84rem;"></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Host</option><option selected>Expert</option><option>Narrator</option><option>On-screen talent</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>EN / FA</option><option selected>AR</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Professional</option><option>Friendly</option><option selected>Authoritative</option><option>Conversational</option></select></div>
-                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">Arabic channel presenter — recruitment in progress</textarea></div>
+
+              <!-- Main output -->
+              <div class="st-main">
+                <div class="st-out-header">
+                  <span class="st-out-meta" id="cg-out-meta">Character profile · — · —</span>
+                </div>
+
+                <div class="st-err" id="cg-err"></div>
+
+                <div class="st-skeleton" id="cg-skeleton">
+                  <div class="st-sk-line w80"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w90"></div><div class="st-sk-line w60"></div>
+                  <div class="st-sk-line w80"></div>
+                </div>
+
+                <div class="st-empty" id="cg-empty">
+                  <span class="st-empty-icon">✦</span>
+                  <span>Fill in the sidebar and hit <strong>Generate Character</strong></span>
+                </div>
+
+                <!-- Two-column output -->
+                <div id="cg-output" style="display:none;grid-template-columns:1fr 1fr;gap:12px;">
+
+                  <!-- LEFT: Profile card -->
+                  <div style="background:rgba(5,20,41,0.7);border:1px solid rgba(0,77,250,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;">
+                    <div>
+                      <div id="cg-prof-name" style="font-size:20px;font-weight:800;color:#fff;margin-bottom:8px;">—</div>
+                      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <span id="cg-prof-role-badge" style="background:rgba(0,77,250,0.18);color:#4d9fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;">—</span>
+                        <span id="cg-prof-lang-badge" style="background:rgba(123,47,255,0.18);color:#a87fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;">—</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:6px;">Traits</div>
+                      <ul id="cg-prof-traits" style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font-size:.84rem;color:#d8e4f5;line-height:1.5;"></ul>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:4px;">Voice Style</div>
+                      <div id="cg-prof-voice" style="font-size:.84rem;color:rgba(255,255,255,0.6);line-height:1.55;"></div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:6px;">Content Formats</div>
+                      <div id="cg-prof-formats" style="display:flex;flex-direction:column;gap:4px;"></div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:4px;">Sample Hook</div>
+                      <div id="cg-prof-hook" style="font-size:.84rem;color:#ffcc00;font-style:italic;line-height:1.5;"></div>
+                    </div>
+                    <div>
+                      <div class="st-lbl" style="margin-bottom:6px;">Platforms</div>
+                      <div id="cg-prof-platforms" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+                    </div>
+                  </div>
+
+                  <!-- RIGHT: Image prompt card -->
+                  <div style="background:rgba(5,20,41,0.7);border:1px solid rgba(123,47,255,0.2);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                      <div class="st-lbl" style="margin:0;">Image Generation Prompt</div>
+                      <button class="st-act-btn" id="cg-copy-btn" onclick="cgCopyPrompt()" style="font-size:.7rem;padding:4px 10px;">Copy</button>
+                    </div>
+                    <div id="cg-img-prompt" style="font-family:'Space Mono',monospace,sans-serif;font-size:.77rem;line-height:1.65;color:#a87fff;background:rgba(123,47,255,0.06);border:1px solid rgba(123,47,255,0.15);border-radius:8px;padding:12px;flex:1;white-space:pre-wrap;word-break:break-word;">—</div>
+                    <div style="font-size:.7rem;color:rgba(255,255,255,0.28);border-top:1px solid rgba(0,77,250,0.1);padding-top:10px;">Paste into <strong style="color:rgba(255,255,255,0.45);">OpenArt</strong>, <strong style="color:rgba(255,255,255,0.45);">InVideo AI</strong>, or <strong style="color:rgba(255,255,255,0.45);">Midjourney</strong></div>
+                  </div>
+                </div>
+
+                <!-- Save row + chips -->
+                <div id="cg-save-area" style="display:none;border-top:1px solid rgba(0,77,250,0.1);padding-top:12px;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <button class="st-act-btn" onclick="cgSave()" style="background:rgba(255,204,0,0.1);border-color:rgba(255,204,0,0.35);color:#ffcc00;">Save Character</button>
+                  <div id="cg-chips" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+                </div>
+
+                <div class="st-tok-bar">
+                  <span>Tokens: <strong id="cg-tok-count">—</strong></span>
+                  <span>Model: <strong id="cg-tok-model">—</strong></span>
+                  <span><span class="st-tok-dot"></span>Ready</span>
+                </div>
               </div>
-              <div class="card" style="padding:16px;">
-                <div style="width:44px;height:44px;border-radius:50%;background:rgba(29,253,61,0.1);border:2px solid #1dfd3d;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#1dfd3d;margin-bottom:12px;">AI</div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Name</label><input type="text" value="AI Avatar" style="padding:8px 10px;font-size:.84rem;"></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Role</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option>Host</option><option>Expert</option><option selected>Narrator</option><option>On-screen talent</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Language</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>EN / FA</option><option>AR</option></select></div>
-                <div class="input-group" style="margin-bottom:8px;"><label style="font-size:.7rem;">Voice Style</label><select class="card-select" style="width:100%;padding:8px 10px;font-size:.84rem;"><option selected>Professional</option><option>Friendly</option><option>Authoritative</option><option>Conversational</option></select></div>
-                <div class="input-group"><label style="font-size:.7rem;">Notes</label><textarea class="brief-textarea" style="min-height:50px;">AI-generated avatar for evergreen / automated content</textarea></div>
-              </div>
-            </div>
-            <div class="card" style="margin-top:18px;">
-              <div class="card-header"><h3>AI Avatar Settings</h3></div>
-              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
-                <div class="input-group"><label>Style</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Realistic</option><option>Animated</option><option>Illustrated</option></select></div>
-                <div class="input-group"><label>Background</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Studio Dark</option><option>Office</option><option>Abstract Brand</option><option>Green Screen</option></select></div>
-                <div class="input-group"><label>Clothing Style</label><select class="card-select" style="width:100%;padding:10px 12px;"><option>Business Casual</option><option>Formal</option><option>Smart Casual</option></select></div>
-              </div>
+
             </div>
           </div>
 
@@ -2712,6 +2805,144 @@ function renderModelSelector(containerId) {
     s.textContent = '@keyframes stPulse{0%,100%{opacity:1;}50%{opacity:0.4;}}';
     document.head.appendChild(s);
   }
+})();
+
+/* ── Character Generator (cg*) ── */
+(function() {
+  var _cgLastData = null;
+
+  function $(id) { return document.getElementById(id); }
+
+  function cgSetLoading(on) {
+    var btn = $('cg-gen-btn'), sk = $('cg-skeleton'), emp = $('cg-empty');
+    var out = $('cg-output'), sa = $('cg-save-area');
+    if (on) {
+      btn.disabled = true; btn.textContent = 'Generating…';
+      sk.classList.add('show'); emp.style.display = 'none';
+      out.style.display = 'none'; sa.style.display = 'none';
+    } else {
+      btn.disabled = false; btn.textContent = 'Generate Character';
+      sk.classList.remove('show');
+    }
+  }
+
+  function cgRender(data) {
+    $('cg-prof-name').textContent       = data.name     || '—';
+    $('cg-prof-role-badge').textContent = data.role     || '—';
+    $('cg-prof-lang-badge').textContent = data.language || '—';
+
+    var traitsEl = $('cg-prof-traits');
+    traitsEl.innerHTML = '';
+    (data.traits || []).forEach(function(t) {
+      var li = document.createElement('li'); li.textContent = t; traitsEl.appendChild(li);
+    });
+
+    $('cg-prof-voice').textContent = data.voiceStyle || '—';
+
+    var fmtEl = $('cg-prof-formats');
+    fmtEl.innerHTML = '';
+    (data.contentFormats || []).forEach(function(f) {
+      var d = document.createElement('div');
+      d.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:.82rem;color:#d8e4f5;';
+      d.innerHTML = '<span style="color:#7b2fff;font-size:.7rem;">&#9658;</span>' + f;
+      fmtEl.appendChild(d);
+    });
+
+    $('cg-prof-hook').textContent = '“' + (data.sampleHook || '—') + '”';
+
+    var platEl = $('cg-prof-platforms');
+    platEl.innerHTML = '';
+    (data.platforms || []).forEach(function(p) {
+      var s = document.createElement('span');
+      s.style.cssText = 'background:rgba(0,77,250,0.1);border:1px solid rgba(0,77,250,0.25);color:#4d9fff;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:20px;';
+      s.textContent = p; platEl.appendChild(s);
+    });
+
+    $('cg-img-prompt').textContent = data.imagePrompt || '—';
+
+    $('cg-output').style.display    = 'grid';
+    $('cg-save-area').style.display = 'flex';
+  }
+
+  function cgLoadChips() {
+    var chips = $('cg-chips'); chips.innerHTML = '';
+    var saved = [];
+    try { saved = JSON.parse(localStorage.getItem('studio_characters') || '[]'); } catch(e) {}
+    saved.slice(-5).forEach(function(c) {
+      var chip = document.createElement('span');
+      chip.style.cssText = 'background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);font-size:.72rem;padding:4px 10px;border-radius:20px;cursor:pointer;';
+      chip.textContent = c.name || 'Unnamed';
+      chip.title = (c.role || '') + ' · ' + (c.language || '');
+      chip.onclick = function() { cgRender(c); };
+      chips.appendChild(chip);
+    });
+  }
+
+  function cgSave() {
+    if (!_cgLastData) return;
+    var existing = [];
+    try { existing = JSON.parse(localStorage.getItem('studio_characters') || '[]'); } catch(e) {}
+    existing.push(_cgLastData);
+    if (existing.length > 5) existing = existing.slice(-5);
+    localStorage.setItem('studio_characters', JSON.stringify(existing));
+    cgLoadChips();
+    var btn = event && event.target;
+    if (btn) { btn.textContent = 'Saved!'; setTimeout(function(){ btn.textContent = 'Save Character'; }, 1500); }
+  }
+
+  function cgCopyPrompt() {
+    if (_cgLastData && _cgLastData.imagePrompt)
+      navigator.clipboard.writeText(_cgLastData.imagePrompt).catch(function(){});
+    var btn = $('cg-copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1500); }
+  }
+
+  async function cgGenerate() {
+    var err = $('cg-err'); err.classList.remove('show');
+    var name  = $('cg-name').value.trim();
+    var style = $('cg-style').value;
+    var role  = $('cg-role').value;
+    var niche = $('cg-niche').value;
+    var lang  = $('cg-lang').value;
+    var notes = $('cg-notes').value.trim();
+
+    if (!name) { $('cg-name').focus(); err.textContent = 'Please enter a character name.'; err.classList.add('show'); return; }
+
+    cgSetLoading(true);
+    $('cg-out-meta').textContent = 'Character profile · ' + name + ' · ' + role;
+
+    var sys  = 'You are a creative director for Opofinance fintech brand.\nOutput ONLY valid JSON, no other text, with this schema:\n{"name":string,"role":string,"language":string,"traits":[4 strings],"voiceStyle":string,"contentFormats":[3 strings],"sampleHook":string,"platforms":[strings],"imagePrompt":string}';
+    var user = 'Create a character profile for Opofinance social media.\nName: ' + name + '\nVisual style: ' + style + '\nRole: ' + role + '\nNiche: ' + niche + '\nLanguage: ' + lang + (notes ? '\nPersonality notes: ' + notes : '') + '\nOutput only valid JSON.';
+
+    var result = await AIRouter.call(user, sys);
+    cgSetLoading(false);
+
+    if (result.error) { err.textContent = result.error; err.classList.add('show'); $('cg-empty').style.display = 'flex'; return; }
+
+    var data;
+    try {
+      var raw = result.text.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+      data = JSON.parse(raw);
+    } catch(e) {
+      err.textContent = 'JSON parse error — the AI returned unexpected output. Try again.';
+      err.classList.add('show'); $('cg-empty').style.display = 'flex'; return;
+    }
+
+    _cgLastData = data;
+    cgRender(data);
+    cgLoadChips();
+    $('cg-tok-count').textContent = result.tokens || '—';
+    $('cg-tok-model').textContent = AIRouter.providers[AIRouter.active].name;
+  }
+
+  window.cgGenerate    = cgGenerate;
+  window.cgSave        = cgSave;
+  window.cgCopyPrompt  = cgCopyPrompt;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    renderModelSelector('cg-model');
+    cgLoadChips();
+  });
 })();
 
 /* ── Brief Generator (bg*) ── */
